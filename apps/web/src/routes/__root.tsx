@@ -62,7 +62,7 @@ function RootComponent() {
             <Header />
             {isFetching ? <Loader /> : <Outlet />}
           </div>
-          <Toaster richColors />
+          <Toaster richColors position="top-center" />
         </ThemeProvider>
       </ORPCContext.Provider>
       <TanStackRouterDevtools position="bottom-left" />

@@ -1,6 +1,6 @@
 import { authClient } from "@/lib/auth-client";
 import { useForm } from "@tanstack/react-form";
-import { Link, Navigate, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { z } from "zod";
 import Loader from "./loader";
@@ -11,47 +11,42 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
-export default function SignUpForm({
+export default function ResetPasswordForm({
+  token,
+  invalidToken,
   className,
-  callbackURL,
   ...props
 }: React.ComponentPropsWithoutRef<"form"> & {
   className?: string;
-  callbackURL?: string;
+  token?: string;
+  invalidToken?: string;
 }) {
   const navigate = useNavigate({
     from: "/",
   });
-  const { isPending, data: session } = authClient.useSession();
+  const { isPending } = authClient.useSession();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const googleSignIn = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-      errorCallbackURL: `${window.location.origin}/error`,
-      callbackURL: callbackURL
-        ? `${window.location.origin}${callbackURL}`
-        : `${window.location.origin}/dashboard`,
-    });
-  };
+
   const form = useForm({
     defaultValues: {
-      email: "",
       password: "",
-      name: "",
       confirmPassword: "",
     },
     onSubmit: async ({ value }) => {
-      await authClient.signUp.email(
+      if (invalidToken || !token) {
+        toast.error("Invalid Token");
+        return;
+      }
+      await authClient.resetPassword(
         {
-          email: value.email,
-          password: value.password,
-          name: value.name,
+          token: token,
+          newPassword: value.password,
         },
         {
           onSuccess: () => {
             navigate({
-              to: callbackURL || "/dashboard",
+              to: "/dashboard",
             });
             toast.success("Sign up successful");
           },
@@ -64,8 +59,6 @@ export default function SignUpForm({
     validators: {
       onSubmit: z
         .object({
-          name: z.string().min(2, "Name must be at least 2 characters"),
-          email: z.string().email("Invalid email address"),
           password: z
             .string()
             .min(6, "Password must be at least 6 characters long")
@@ -95,10 +88,6 @@ export default function SignUpForm({
     return <Loader />;
   }
 
-  if (session) {
-    return <Navigate to={callbackURL || "/dashboard"} />;
-  }
-
   return (
     <form
       onSubmit={(e) => {
@@ -113,54 +102,12 @@ export default function SignUpForm({
       {...props}
     >
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold">Create an account</h1>
+        <h1 className="text-2xl font-bold">Create new password</h1>
+        <p className="text-balance text-sm text-muted-foreground">
+          Please enter your new password.
+        </p>
       </div>
       <div className="grid gap-6">
-        <form.Field name="name">
-          {(field) => (
-            <div className="grid gap-2">
-              <Label htmlFor={field.name}>Name</Label>
-              <Input
-                id={field.name}
-                name={field.name}
-                value={field.state.value}
-                onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(e.target.value)}
-                placeholder="Your Name"
-                required
-              />
-              {field.state.meta.errors.map((error) => (
-                <p key={error?.message} className="text-red-500 text-sm">
-                  {error?.message}
-                </p>
-              ))}
-            </div>
-          )}
-        </form.Field>
-
-        <form.Field name="email">
-          {(field) => (
-            <div className="grid gap-2">
-              <Label htmlFor={field.name}>Email</Label>
-              <Input
-                id={field.name}
-                name={field.name}
-                type="email"
-                value={field.state.value}
-                onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(e.target.value)}
-                placeholder="m@example.com"
-                required
-              />
-              {field.state.meta.errors.map((error) => (
-                <p key={error?.message} className="text-red-500 text-sm">
-                  {error?.message}
-                </p>
-              ))}
-            </div>
-          )}
-        </form.Field>
-
         <form.Field name="password">
           {(field) => (
             <div className="grid gap-2">
@@ -236,28 +183,15 @@ export default function SignUpForm({
               className="w-full"
               disabled={!state.canSubmit || state.isSubmitting}
             >
-              {state.isSubmitting ? "Submitting..." : "Sign Up"}
+              {state.isSubmitting ? "Submitting..." : "Reset Password"}
             </Button>
           )}
         </form.Subscribe>
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
           <span className="relative z-10 bg-background px-2 text-muted-foreground">
-            Or continue with
+            Or
           </span>
         </div>
-        <Button
-          variant="outline"
-          className="w-full"
-          onClick={() => googleSignIn()}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path
-              d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
-              fill="currentColor"
-            />
-          </svg>
-          Login with Google
-        </Button>
       </div>
 
       <div className="text-center text-sm">

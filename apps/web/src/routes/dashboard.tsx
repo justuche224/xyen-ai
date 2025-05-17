@@ -18,7 +18,7 @@ function RouteComponent() {
   useEffect(() => {
     if (!session && !isPending) {
       navigate({
-        to: "/login",
+        to: "/sign-in",
       });
     }
   }, [session, isPending]);
@@ -32,6 +32,7 @@ function RouteComponent() {
       <h1>Dashboard</h1>
       <p>Welcome {session?.user.name}</p>
       <p>privateData: {privateData.data?.message}</p>
+      <div>{JSON.stringify(privateData.data?.user, null, 2)}</div>
     </div>
   );
 }
