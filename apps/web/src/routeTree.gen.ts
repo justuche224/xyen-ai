@@ -15,6 +15,8 @@ import { Route as TodosImport } from './routes/todos'
 import { Route as ErrorImport } from './routes/error'
 import { Route as DashboardImport } from './routes/dashboard'
 import { Route as IndexImport } from './routes/index'
+import { Route as QuizesIndexImport } from './routes/quizes/index'
+import { Route as QuizesNewImport } from './routes/quizes/new'
 import { Route as authSignUpImport } from './routes/(auth)/sign-up'
 import { Route as authSignInImport } from './routes/(auth)/sign-in'
 import { Route as authResetPasswordImport } from './routes/(auth)/reset-password'
@@ -43,6 +45,18 @@ const DashboardRoute = DashboardImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const QuizesIndexRoute = QuizesIndexImport.update({
+  id: '/quizes/',
+  path: '/quizes/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const QuizesNewRoute = QuizesNewImport.update({
+  id: '/quizes/new',
+  path: '/quizes/new',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -130,6 +144,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authSignUpImport
       parentRoute: typeof rootRoute
     }
+    '/quizes/new': {
+      id: '/quizes/new'
+      path: '/quizes/new'
+      fullPath: '/quizes/new'
+      preLoaderRoute: typeof QuizesNewImport
+      parentRoute: typeof rootRoute
+    }
+    '/quizes/': {
+      id: '/quizes/'
+      path: '/quizes'
+      fullPath: '/quizes'
+      preLoaderRoute: typeof QuizesIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -144,6 +172,8 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof authResetPasswordRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
+  '/quizes/new': typeof QuizesNewRoute
+  '/quizes': typeof QuizesIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -155,6 +185,8 @@ export interface FileRoutesByTo {
   '/reset-password': typeof authResetPasswordRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
+  '/quizes/new': typeof QuizesNewRoute
+  '/quizes': typeof QuizesIndexRoute
 }
 
 export interface FileRoutesById {
@@ -167,6 +199,8 @@ export interface FileRoutesById {
   '/(auth)/reset-password': typeof authResetPasswordRoute
   '/(auth)/sign-in': typeof authSignInRoute
   '/(auth)/sign-up': typeof authSignUpRoute
+  '/quizes/new': typeof QuizesNewRoute
+  '/quizes/': typeof QuizesIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -180,6 +214,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/quizes/new'
+    | '/quizes'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -190,6 +226,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/quizes/new'
+    | '/quizes'
   id:
     | '__root__'
     | '/'
@@ -200,6 +238,8 @@ export interface FileRouteTypes {
     | '/(auth)/reset-password'
     | '/(auth)/sign-in'
     | '/(auth)/sign-up'
+    | '/quizes/new'
+    | '/quizes/'
   fileRoutesById: FileRoutesById
 }
 
@@ -212,6 +252,8 @@ export interface RootRouteChildren {
   authResetPasswordRoute: typeof authResetPasswordRoute
   authSignInRoute: typeof authSignInRoute
   authSignUpRoute: typeof authSignUpRoute
+  QuizesNewRoute: typeof QuizesNewRoute
+  QuizesIndexRoute: typeof QuizesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -223,6 +265,8 @@ const rootRouteChildren: RootRouteChildren = {
   authResetPasswordRoute: authResetPasswordRoute,
   authSignInRoute: authSignInRoute,
   authSignUpRoute: authSignUpRoute,
+  QuizesNewRoute: QuizesNewRoute,
+  QuizesIndexRoute: QuizesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -242,7 +286,9 @@ export const routeTree = rootRoute
         "/(auth)/forgot-password",
         "/(auth)/reset-password",
         "/(auth)/sign-in",
-        "/(auth)/sign-up"
+        "/(auth)/sign-up",
+        "/quizes/new",
+        "/quizes/"
       ]
     },
     "/": {
@@ -268,6 +314,12 @@ export const routeTree = rootRoute
     },
     "/(auth)/sign-up": {
       "filePath": "(auth)/sign-up.tsx"
+    },
+    "/quizes/new": {
+      "filePath": "quizes/new.tsx"
+    },
+    "/quizes/": {
+      "filePath": "quizes/index.tsx"
     }
   }
 }
