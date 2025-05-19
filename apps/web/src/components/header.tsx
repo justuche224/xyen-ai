@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "@tanstack/react-router";
-import { SidebarTrigger } from "./ui/sidebar";
 import { ModeToggle } from "./mode-toggle";
 import UserMenu from "./user-menu";
 import {
@@ -60,7 +59,7 @@ export default function Header() {
     <div>
       <div className="flex flex-row items-center justify-between px-2 py-1 bg-sidebar">
         <div className="flex items-center gap-2 px-4">
-          <SidebarTrigger />
+          <p className="text-lg font-bold">Xyen AI</p>
           <Separator orientation="vertical" className="mr-2 h-4" />
           <Breadcrumb>
             <BreadcrumbList>
