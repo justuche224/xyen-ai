@@ -10,7 +10,16 @@ export const quizRouter = {
     .input(z.object({ userId: z.string() }))
     .handler(async ({ input }) => {
       return await db
-        .select()
+        .select({
+          id: quiz.id,
+          title: quiz.title,
+          quizType: quiz.quizType,
+          documentLink: quiz.documentLink,
+          createdAt: quiz.createdAt,
+          updatedAt: quiz.updatedAt,
+          status: jobs.status,
+          error: jobs.error,
+        })
         .from(quiz)
         .where(eq(quiz.userId, input.userId))
         .orderBy(desc(quiz.createdAt))
