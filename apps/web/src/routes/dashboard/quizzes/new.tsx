@@ -3,7 +3,7 @@ import CreateQuiz from "@/components/create-quiz";
 import { useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
 import Loader from "@/components/loader";
-export const Route = createFileRoute("/quizes/new")({
+export const Route = createFileRoute("/dashboard/quizzes/new")({
   component: RouteComponent,
 });
 

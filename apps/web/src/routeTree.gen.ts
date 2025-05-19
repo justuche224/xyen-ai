@@ -13,14 +13,15 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as TodosImport } from './routes/todos'
 import { Route as ErrorImport } from './routes/error'
-import { Route as DashboardImport } from './routes/dashboard'
+import { Route as DashboardRouteImport } from './routes/dashboard/route'
 import { Route as IndexImport } from './routes/index'
-import { Route as QuizesIndexImport } from './routes/quizes/index'
-import { Route as QuizesNewImport } from './routes/quizes/new'
+import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as authSignUpImport } from './routes/(auth)/sign-up'
 import { Route as authSignInImport } from './routes/(auth)/sign-in'
 import { Route as authResetPasswordImport } from './routes/(auth)/reset-password'
 import { Route as authForgotPasswordImport } from './routes/(auth)/forgot-password'
+import { Route as DashboardQuizzesIndexImport } from './routes/dashboard/quizzes/index'
+import { Route as DashboardQuizzesNewImport } from './routes/dashboard/quizzes/new'
 
 // Create/Update Routes
 
@@ -36,7 +37,7 @@ const ErrorRoute = ErrorImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardRoute = DashboardImport.update({
+const DashboardRouteRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => rootRoute,
@@ -48,16 +49,10 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const QuizesIndexRoute = QuizesIndexImport.update({
-  id: '/quizes/',
-  path: '/quizes/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const QuizesNewRoute = QuizesNewImport.update({
-  id: '/quizes/new',
-  path: '/quizes/new',
-  getParentRoute: () => rootRoute,
+const DashboardIndexRoute = DashboardIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
 
 const authSignUpRoute = authSignUpImport.update({
@@ -84,6 +79,18 @@ const authForgotPasswordRoute = authForgotPasswordImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const DashboardQuizzesIndexRoute = DashboardQuizzesIndexImport.update({
+  id: '/quizzes/',
+  path: '/quizzes/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+
+const DashboardQuizzesNewRoute = DashboardQuizzesNewImport.update({
+  id: '/quizzes/new',
+  path: '/quizzes/new',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -99,7 +106,7 @@ declare module '@tanstack/react-router' {
       id: '/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardImport
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRoute
     }
     '/error': {
@@ -144,63 +151,88 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authSignUpImport
       parentRoute: typeof rootRoute
     }
-    '/quizes/new': {
-      id: '/quizes/new'
-      path: '/quizes/new'
-      fullPath: '/quizes/new'
-      preLoaderRoute: typeof QuizesNewImport
-      parentRoute: typeof rootRoute
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexImport
+      parentRoute: typeof DashboardRouteImport
     }
-    '/quizes/': {
-      id: '/quizes/'
-      path: '/quizes'
-      fullPath: '/quizes'
-      preLoaderRoute: typeof QuizesIndexImport
-      parentRoute: typeof rootRoute
+    '/dashboard/quizzes/new': {
+      id: '/dashboard/quizzes/new'
+      path: '/quizzes/new'
+      fullPath: '/dashboard/quizzes/new'
+      preLoaderRoute: typeof DashboardQuizzesNewImport
+      parentRoute: typeof DashboardRouteImport
+    }
+    '/dashboard/quizzes/': {
+      id: '/dashboard/quizzes/'
+      path: '/quizzes'
+      fullPath: '/dashboard/quizzes'
+      preLoaderRoute: typeof DashboardQuizzesIndexImport
+      parentRoute: typeof DashboardRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface DashboardRouteRouteChildren {
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardQuizzesNewRoute: typeof DashboardQuizzesNewRoute
+  DashboardQuizzesIndexRoute: typeof DashboardQuizzesIndexRoute
+}
+
+const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardQuizzesNewRoute: DashboardQuizzesNewRoute,
+  DashboardQuizzesIndexRoute: DashboardQuizzesIndexRoute,
+}
+
+const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
+  DashboardRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/error': typeof ErrorRoute
   '/todos': typeof TodosRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/reset-password': typeof authResetPasswordRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
-  '/quizes/new': typeof QuizesNewRoute
-  '/quizes': typeof QuizesIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/quizzes/new': typeof DashboardQuizzesNewRoute
+  '/dashboard/quizzes': typeof DashboardQuizzesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
   '/error': typeof ErrorRoute
   '/todos': typeof TodosRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/reset-password': typeof authResetPasswordRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
-  '/quizes/new': typeof QuizesNewRoute
-  '/quizes': typeof QuizesIndexRoute
+  '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/quizzes/new': typeof DashboardQuizzesNewRoute
+  '/dashboard/quizzes': typeof DashboardQuizzesIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/error': typeof ErrorRoute
   '/todos': typeof TodosRoute
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/reset-password': typeof authResetPasswordRoute
   '/(auth)/sign-in': typeof authSignInRoute
   '/(auth)/sign-up': typeof authSignUpRoute
-  '/quizes/new': typeof QuizesNewRoute
-  '/quizes/': typeof QuizesIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/quizzes/new': typeof DashboardQuizzesNewRoute
+  '/dashboard/quizzes/': typeof DashboardQuizzesIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -214,20 +246,21 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
-    | '/quizes/new'
-    | '/quizes'
+    | '/dashboard/'
+    | '/dashboard/quizzes/new'
+    | '/dashboard/quizzes'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/dashboard'
     | '/error'
     | '/todos'
     | '/forgot-password'
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
-    | '/quizes/new'
-    | '/quizes'
+    | '/dashboard'
+    | '/dashboard/quizzes/new'
+    | '/dashboard/quizzes'
   id:
     | '__root__'
     | '/'
@@ -238,35 +271,32 @@ export interface FileRouteTypes {
     | '/(auth)/reset-password'
     | '/(auth)/sign-in'
     | '/(auth)/sign-up'
-    | '/quizes/new'
-    | '/quizes/'
+    | '/dashboard/'
+    | '/dashboard/quizzes/new'
+    | '/dashboard/quizzes/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
+  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   ErrorRoute: typeof ErrorRoute
   TodosRoute: typeof TodosRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authResetPasswordRoute: typeof authResetPasswordRoute
   authSignInRoute: typeof authSignInRoute
   authSignUpRoute: typeof authSignUpRoute
-  QuizesNewRoute: typeof QuizesNewRoute
-  QuizesIndexRoute: typeof QuizesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
+  DashboardRouteRoute: DashboardRouteRouteWithChildren,
   ErrorRoute: ErrorRoute,
   TodosRoute: TodosRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authResetPasswordRoute: authResetPasswordRoute,
   authSignInRoute: authSignInRoute,
   authSignUpRoute: authSignUpRoute,
-  QuizesNewRoute: QuizesNewRoute,
-  QuizesIndexRoute: QuizesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -286,16 +316,19 @@ export const routeTree = rootRoute
         "/(auth)/forgot-password",
         "/(auth)/reset-password",
         "/(auth)/sign-in",
-        "/(auth)/sign-up",
-        "/quizes/new",
-        "/quizes/"
+        "/(auth)/sign-up"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
     "/dashboard": {
-      "filePath": "dashboard.tsx"
+      "filePath": "dashboard/route.tsx",
+      "children": [
+        "/dashboard/",
+        "/dashboard/quizzes/new",
+        "/dashboard/quizzes/"
+      ]
     },
     "/error": {
       "filePath": "error.tsx"
@@ -315,11 +348,17 @@ export const routeTree = rootRoute
     "/(auth)/sign-up": {
       "filePath": "(auth)/sign-up.tsx"
     },
-    "/quizes/new": {
-      "filePath": "quizes/new.tsx"
+    "/dashboard/": {
+      "filePath": "dashboard/index.tsx",
+      "parent": "/dashboard"
     },
-    "/quizes/": {
-      "filePath": "quizes/index.tsx"
+    "/dashboard/quizzes/new": {
+      "filePath": "dashboard/quizzes/new.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/quizzes/": {
+      "filePath": "dashboard/quizzes/index.tsx",
+      "parent": "/dashboard"
     }
   }
 }

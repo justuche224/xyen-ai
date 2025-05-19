@@ -3,10 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 const QuizList = ({ userId }: { userId: string }) => {
-  const quizes = useQuery(orpc.quiz.getAll.queryOptions({ input: { userId } }));
+  const quizzes = useQuery(orpc.quiz.getAll.queryOptions({ input: { userId } }));
   return (
     <div>
-      {quizes.data?.map((quiz) => (
+      {quizzes.data?.map((quiz) => (
         <div key={quiz.quiz.id}>
           <div>{quiz.quiz.title}</div>
           <div>{quiz?.jobs?.status}</div>
@@ -18,7 +18,7 @@ const QuizList = ({ userId }: { userId: string }) => {
                 userId,
               });
               toast.success("Quiz deleted");
-              quizes.refetch();
+              quizzes.refetch();
             }}
           >
             Delete

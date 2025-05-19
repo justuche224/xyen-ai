@@ -1,4 +1,3 @@
-import Header from "@/components/header";
 import Loader from "@/components/loader";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
@@ -59,13 +58,12 @@ function RootComponent() {
       <ORPCContext.Provider value={orpcUtils}>
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
           <div className="grid grid-rows-[auto_1fr] h-svh">
-            <Header />
             {isFetching ? <Loader /> : <Outlet />}
           </div>
           <Toaster richColors position="top-center" />
         </ThemeProvider>
       </ORPCContext.Provider>
-      <TanStackRouterDevtools position="bottom-left" />
+      <TanStackRouterDevtools position="bottom-right" />
       <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
     </>
   );
