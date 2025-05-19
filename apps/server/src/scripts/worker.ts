@@ -114,6 +114,7 @@ async function main() {
         await processJob(job);
       } else {
         await new Promise((r) => setTimeout(r, 2000));
+        console.log("No job found, sleeping for 2 seconds");
       }
     } catch (err) {
       console.error("Worker loop error:", err);

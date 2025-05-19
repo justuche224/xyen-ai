@@ -32,7 +32,7 @@ async function generateQuiz(
       model: "gemini-2.0-flash",
       contents: contents,
       config: {
-        systemInstruction: `You are an expert quiz generator. Your task is to output a quiz in valid JSON format only—do not include any extra text or commentary, Generate a quiz with 5 ${
+        systemInstruction: `You are an expert quiz generator. Your task is to output a quiz in valid JSON format only—do not include any extra text or commentary, Generate a quiz with 20 ${
           quiztype === "multiple-choice" ? "multiple choice" : "yes or no"
         } question. The JSON should follow this structure:
         JSON:
