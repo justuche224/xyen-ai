@@ -71,9 +71,20 @@ export const quizRouter = {
     .input(z.object({ quizId: z.string(), userId: z.string() }))
     .handler(async ({ input }) => {
       return await db
-        .select()
+        .select({
+          id: quiz.id,
+          quizData: quiz.data,
+          title: quiz.title,
+          quizType: quiz.quizType,
+          documentLink: quiz.documentLink,
+          createdAt: quiz.createdAt,
+          updatedAt: quiz.updatedAt,
+          status: jobs.status,
+          error: jobs.error,
+        })
         .from(quiz)
-        .where(and(eq(quiz.id, input.quizId), eq(quiz.userId, input.userId)));
+        .where(and(eq(quiz.id, input.quizId), eq(quiz.userId, input.userId)))
+        .leftJoin(jobs, eq(quiz.id, jobs.quizId));
     }),
   delete: protectedProcedure
     .input(z.object({ quizId: z.string(), userId: z.string() }))

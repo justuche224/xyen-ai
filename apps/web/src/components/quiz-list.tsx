@@ -244,14 +244,13 @@ const QuizList = ({ userId }: { userId: string }) => {
                 )}
               </CardContent>
               <CardFooter className="flex justify-between">
-                <Button
-                  variant="default"
-                  className="gap-1"
-                  onClick={() =>
-                    (window.location.href = `/dashboard/quizzes/${quiz.id}`)
-                  }
-                >
-                  <span>View Quiz</span>
+                <Button asChild variant="default" className="gap-1">
+                  <Link
+                    to="/dashboard/quizzes/$quizId"
+                    params={{ quizId: quiz.id }}
+                  >
+                    <span>View Quiz</span>
+                  </Link>
                 </Button>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>

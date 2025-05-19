@@ -22,6 +22,7 @@ import { Route as authResetPasswordImport } from './routes/(auth)/reset-password
 import { Route as authForgotPasswordImport } from './routes/(auth)/forgot-password'
 import { Route as DashboardQuizzesIndexImport } from './routes/dashboard/quizzes/index'
 import { Route as DashboardQuizzesNewImport } from './routes/dashboard/quizzes/new'
+import { Route as DashboardQuizzesQuizIdImport } from './routes/dashboard/quizzes/$quizId'
 
 // Create/Update Routes
 
@@ -88,6 +89,12 @@ const DashboardQuizzesIndexRoute = DashboardQuizzesIndexImport.update({
 const DashboardQuizzesNewRoute = DashboardQuizzesNewImport.update({
   id: '/quizzes/new',
   path: '/quizzes/new',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+
+const DashboardQuizzesQuizIdRoute = DashboardQuizzesQuizIdImport.update({
+  id: '/quizzes/$quizId',
+  path: '/quizzes/$quizId',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 
@@ -158,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof DashboardRouteImport
     }
+    '/dashboard/quizzes/$quizId': {
+      id: '/dashboard/quizzes/$quizId'
+      path: '/quizzes/$quizId'
+      fullPath: '/dashboard/quizzes/$quizId'
+      preLoaderRoute: typeof DashboardQuizzesQuizIdImport
+      parentRoute: typeof DashboardRouteImport
+    }
     '/dashboard/quizzes/new': {
       id: '/dashboard/quizzes/new'
       path: '/quizzes/new'
@@ -179,12 +193,14 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardQuizzesQuizIdRoute: typeof DashboardQuizzesQuizIdRoute
   DashboardQuizzesNewRoute: typeof DashboardQuizzesNewRoute
   DashboardQuizzesIndexRoute: typeof DashboardQuizzesIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardQuizzesQuizIdRoute: DashboardQuizzesQuizIdRoute,
   DashboardQuizzesNewRoute: DashboardQuizzesNewRoute,
   DashboardQuizzesIndexRoute: DashboardQuizzesIndexRoute,
 }
@@ -203,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/quizzes/$quizId': typeof DashboardQuizzesQuizIdRoute
   '/dashboard/quizzes/new': typeof DashboardQuizzesNewRoute
   '/dashboard/quizzes': typeof DashboardQuizzesIndexRoute
 }
@@ -216,6 +233,7 @@ export interface FileRoutesByTo {
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/quizzes/$quizId': typeof DashboardQuizzesQuizIdRoute
   '/dashboard/quizzes/new': typeof DashboardQuizzesNewRoute
   '/dashboard/quizzes': typeof DashboardQuizzesIndexRoute
 }
@@ -231,6 +249,7 @@ export interface FileRoutesById {
   '/(auth)/sign-in': typeof authSignInRoute
   '/(auth)/sign-up': typeof authSignUpRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/quizzes/$quizId': typeof DashboardQuizzesQuizIdRoute
   '/dashboard/quizzes/new': typeof DashboardQuizzesNewRoute
   '/dashboard/quizzes/': typeof DashboardQuizzesIndexRoute
 }
@@ -247,6 +266,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/dashboard/'
+    | '/dashboard/quizzes/$quizId'
     | '/dashboard/quizzes/new'
     | '/dashboard/quizzes'
   fileRoutesByTo: FileRoutesByTo
@@ -259,6 +279,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/dashboard'
+    | '/dashboard/quizzes/$quizId'
     | '/dashboard/quizzes/new'
     | '/dashboard/quizzes'
   id:
@@ -272,6 +293,7 @@ export interface FileRouteTypes {
     | '/(auth)/sign-in'
     | '/(auth)/sign-up'
     | '/dashboard/'
+    | '/dashboard/quizzes/$quizId'
     | '/dashboard/quizzes/new'
     | '/dashboard/quizzes/'
   fileRoutesById: FileRoutesById
@@ -326,6 +348,7 @@ export const routeTree = rootRoute
       "filePath": "dashboard/route.tsx",
       "children": [
         "/dashboard/",
+        "/dashboard/quizzes/$quizId",
         "/dashboard/quizzes/new",
         "/dashboard/quizzes/"
       ]
@@ -350,6 +373,10 @@ export const routeTree = rootRoute
     },
     "/dashboard/": {
       "filePath": "dashboard/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/quizzes/$quizId": {
+      "filePath": "dashboard/quizzes/$quizId.tsx",
       "parent": "/dashboard"
     },
     "/dashboard/quizzes/new": {

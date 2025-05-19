@@ -25,6 +25,20 @@ export default function Header() {
     if (segments.length === 0) return [];
 
     return segments.map((segment, index) => {
+      // Special handling for UUIDs in quiz paths
+      if (
+        segments[index - 1] === "quizzes" &&
+        segment.match(
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+        )
+      ) {
+        return {
+          text: "Quiz Details",
+          href: "/" + segments.slice(0, index + 1).join("/"),
+          isLast: index === segments.length - 1,
+        };
+      }
+
       const formattedSegment = segment
         .split("-")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
