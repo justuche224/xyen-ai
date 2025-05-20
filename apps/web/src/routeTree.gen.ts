@@ -13,6 +13,9 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as TodosImport } from './routes/todos'
 import { Route as ErrorImport } from './routes/error'
+import { Route as DemoImport } from './routes/demo'
+import { Route as ContactImport } from './routes/contact'
+import { Route as AboutImport } from './routes/about'
 import { Route as DashboardRouteImport } from './routes/dashboard/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
@@ -37,6 +40,24 @@ const TodosRoute = TodosImport.update({
 const ErrorRoute = ErrorImport.update({
   id: '/error',
   path: '/error',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DemoRoute = DemoImport.update({
+  id: '/demo',
+  path: '/demo',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ContactRoute = ContactImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AboutRoute = AboutImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -128,6 +149,27 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutImport
+      parentRoute: typeof rootRoute
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactImport
+      parentRoute: typeof rootRoute
+    }
+    '/demo': {
+      id: '/demo'
+      path: '/demo'
+      fullPath: '/demo'
+      preLoaderRoute: typeof DemoImport
       parentRoute: typeof rootRoute
     }
     '/error': {
@@ -244,6 +286,9 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/demo': typeof DemoRoute
   '/error': typeof ErrorRoute
   '/todos': typeof TodosRoute
   '/forgot-password': typeof authForgotPasswordRoute
@@ -260,6 +305,9 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/demo': typeof DemoRoute
   '/error': typeof ErrorRoute
   '/todos': typeof TodosRoute
   '/forgot-password': typeof authForgotPasswordRoute
@@ -278,6 +326,9 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/demo': typeof DemoRoute
   '/error': typeof ErrorRoute
   '/todos': typeof TodosRoute
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
@@ -297,6 +348,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/about'
+    | '/contact'
+    | '/demo'
     | '/error'
     | '/todos'
     | '/forgot-password'
@@ -312,6 +366,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
+    | '/contact'
+    | '/demo'
     | '/error'
     | '/todos'
     | '/forgot-password'
@@ -328,6 +385,9 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/about'
+    | '/contact'
+    | '/demo'
     | '/error'
     | '/todos'
     | '/(auth)/forgot-password'
@@ -346,6 +406,9 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  DemoRoute: typeof DemoRoute
   ErrorRoute: typeof ErrorRoute
   TodosRoute: typeof TodosRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
@@ -357,6 +420,9 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  DemoRoute: DemoRoute,
   ErrorRoute: ErrorRoute,
   TodosRoute: TodosRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
@@ -377,6 +443,9 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/dashboard",
+        "/about",
+        "/contact",
+        "/demo",
         "/error",
         "/todos",
         "/(auth)/forgot-password",
@@ -398,6 +467,15 @@ export const routeTree = rootRoute
         "/dashboard/quizzes/new",
         "/dashboard/quizzes/"
       ]
+    },
+    "/about": {
+      "filePath": "about.tsx"
+    },
+    "/contact": {
+      "filePath": "contact.tsx"
+    },
+    "/demo": {
+      "filePath": "demo.tsx"
     },
     "/error": {
       "filePath": "error.tsx"
