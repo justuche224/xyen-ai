@@ -10,11 +10,11 @@
 
 html,
 body {
-  @apply bg-background;
+  /* @apply bg-background;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
-  }
+  } */
 }
 
 :root {

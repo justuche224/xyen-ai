@@ -7,14 +7,7 @@ import { googleSignIn } from "@/lib/google-sign-in";
 
 const Hero = () => {
   return (
-    <section className="relative overflow-hidden max-w-7xl mx-auto">
-      {/* Background decoration */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-primary/10 to-transparent" />
-        <div className="absolute -top-[30%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute top-[20%] right-[5%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-3xl" />
-      </div>
-
+    <section className="overflow-hidden max-w-7xl mx-auto min-h-screen">
       <div className="container mx-auto pt-24 lg:pt-32 px-6 lg:px-10">
         <div className="flex flex-col gap-8 lg:gap-16 lg:flex-row lg:items-center">
           <motion.div
