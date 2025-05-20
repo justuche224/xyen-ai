@@ -455,7 +455,7 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
             </RadioGroup>
           </div>
 
-          <div className="flex justify-between mt-8">
+          <div className="flex justify-between mt-8 mb-6">
             <Button
               onClick={goToPreviousQuestion}
               disabled={currentQuestionIndex === 0}
@@ -471,6 +471,69 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
             ) : (
               <Button onClick={handleSubmit}>Submit Quiz</Button>
             )}
+          </div>
+
+          {/* Mobile Question Navigator */}
+          <div className="md:hidden bg-muted/30 p-4 rounded-lg mt-4">
+            <h3 className="text-sm font-medium mb-3">Question Navigator</h3>
+            <div className="grid grid-cols-5 gap-2">
+              {quizData.map((question, index) => {
+                const isAnswered = answers[question.id] !== undefined;
+                const isFlagged = flaggedQuestions.includes(question.id);
+                const isCurrent = index === currentQuestionIndex;
+
+                return (
+                  <Button
+                    key={question.id}
+                    variant="outline"
+                    size="sm"
+                    className={`h-8 w-8 p-0 relative ${
+                      isCurrent
+                        ? "bg-primary/20 border-primary/70 dark:bg-primary/40 dark:border-primary"
+                        : isAnswered
+                        ? "border-green-500 bg-green-50 dark:border-green-500 dark:bg-green-900/10"
+                        : ""
+                    }`}
+                    onClick={() => setCurrentQuestionIndex(index)}
+                  >
+                    {index + 1}
+                    {isFlagged && (
+                      <span className="absolute -top-1 -right-1 h-2 w-2 bg-amber-500 rounded-full"></span>
+                    )}
+                  </Button>
+                );
+              })}
+            </div>
+
+            <div className="mt-4 flex justify-between text-xs">
+              <div className="flex items-center gap-1">
+                <div className="h-3 w-3 bg-primary/5 border rounded"></div>
+                <span>Answered: {answeredQuestionsCount}</span>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div className="h-3 w-3 border rounded"></div>
+                <span>
+                  Unanswered: {totalQuestions - answeredQuestionsCount}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <div className="h-3 w-3 border rounded relative">
+                  <span className="absolute -top-1 -right-1 h-2 w-2 bg-amber-500 rounded-full"></span>
+                </div>
+                <span>Flagged: {flaggedQuestions.length}</span>
+              </div>
+            </div>
+
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full mt-4"
+              onClick={handleSubmit}
+            >
+              Submit Quiz
+            </Button>
           </div>
         </div>
 
@@ -489,9 +552,9 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
                   size="sm"
                   className={`h-8 w-8 p-0 relative ${
                     isCurrent
-                    ? "bg-primary/20 border-primary/70 dark:bg-primary/40 dark:border-primary"
-                    : isAnswered
-                    ? "border-green-500 bg-green-50 dark:border-green-500 dark:bg-green-900/10"
+                      ? "bg-primary/20 border-primary/70 dark:bg-primary/40 dark:border-primary"
+                      : isAnswered
+                      ? "border-green-500 bg-green-50 dark:border-green-500 dark:bg-green-900/10"
                       : ""
                   }`}
                   onClick={() => setCurrentQuestionIndex(index)}
