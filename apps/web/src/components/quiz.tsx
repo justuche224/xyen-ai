@@ -489,9 +489,9 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
                   size="sm"
                   className={`h-8 w-8 p-0 relative ${
                     isCurrent
-                      ? "border-secondary bg-secondary/10 dark:border-secondary dark:bg-secondary/30"
-                      : isAnswered
-                      ? "bg-primary/20 border-primary/70 dark:bg-primary/40 dark:border-primary"
+                    ? "bg-primary/20 border-primary/70 dark:bg-primary/40 dark:border-primary"
+                    : isAnswered
+                    ? "border-green-500 bg-green-50 dark:border-green-500 dark:bg-green-900/10"
                       : ""
                   }`}
                   onClick={() => setCurrentQuestionIndex(index)}
