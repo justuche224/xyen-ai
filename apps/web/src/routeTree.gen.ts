@@ -16,6 +16,8 @@ import { Route as ErrorImport } from './routes/error'
 import { Route as DashboardRouteImport } from './routes/dashboard/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as DashboardSettingsImport } from './routes/dashboard/settings'
+import { Route as DashboardAccountImport } from './routes/dashboard/account'
 import { Route as authSignUpImport } from './routes/(auth)/sign-up'
 import { Route as authSignInImport } from './routes/(auth)/sign-in'
 import { Route as authResetPasswordImport } from './routes/(auth)/reset-password'
@@ -53,6 +55,18 @@ const IndexRoute = IndexImport.update({
 const DashboardIndexRoute = DashboardIndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+
+const DashboardSettingsRoute = DashboardSettingsImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+
+const DashboardAccountRoute = DashboardAccountImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 
@@ -158,6 +172,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authSignUpImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/account': {
+      id: '/dashboard/account'
+      path: '/account'
+      fullPath: '/dashboard/account'
+      preLoaderRoute: typeof DashboardAccountImport
+      parentRoute: typeof DashboardRouteImport
+    }
+    '/dashboard/settings': {
+      id: '/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof DashboardSettingsImport
+      parentRoute: typeof DashboardRouteImport
+    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/'
@@ -192,6 +220,8 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface DashboardRouteRouteChildren {
+  DashboardAccountRoute: typeof DashboardAccountRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardQuizzesQuizIdRoute: typeof DashboardQuizzesQuizIdRoute
   DashboardQuizzesNewRoute: typeof DashboardQuizzesNewRoute
@@ -199,6 +229,8 @@ interface DashboardRouteRouteChildren {
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardAccountRoute: DashboardAccountRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardQuizzesQuizIdRoute: DashboardQuizzesQuizIdRoute,
   DashboardQuizzesNewRoute: DashboardQuizzesNewRoute,
@@ -218,6 +250,8 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof authResetPasswordRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
+  '/dashboard/account': typeof DashboardAccountRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/quizzes/$quizId': typeof DashboardQuizzesQuizIdRoute
   '/dashboard/quizzes/new': typeof DashboardQuizzesNewRoute
@@ -232,6 +266,8 @@ export interface FileRoutesByTo {
   '/reset-password': typeof authResetPasswordRoute
   '/sign-in': typeof authSignInRoute
   '/sign-up': typeof authSignUpRoute
+  '/dashboard/account': typeof DashboardAccountRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/quizzes/$quizId': typeof DashboardQuizzesQuizIdRoute
   '/dashboard/quizzes/new': typeof DashboardQuizzesNewRoute
@@ -248,6 +284,8 @@ export interface FileRoutesById {
   '/(auth)/reset-password': typeof authResetPasswordRoute
   '/(auth)/sign-in': typeof authSignInRoute
   '/(auth)/sign-up': typeof authSignUpRoute
+  '/dashboard/account': typeof DashboardAccountRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/quizzes/$quizId': typeof DashboardQuizzesQuizIdRoute
   '/dashboard/quizzes/new': typeof DashboardQuizzesNewRoute
@@ -265,6 +303,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/dashboard/account'
+    | '/dashboard/settings'
     | '/dashboard/'
     | '/dashboard/quizzes/$quizId'
     | '/dashboard/quizzes/new'
@@ -278,6 +318,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/dashboard/account'
+    | '/dashboard/settings'
     | '/dashboard'
     | '/dashboard/quizzes/$quizId'
     | '/dashboard/quizzes/new'
@@ -292,6 +334,8 @@ export interface FileRouteTypes {
     | '/(auth)/reset-password'
     | '/(auth)/sign-in'
     | '/(auth)/sign-up'
+    | '/dashboard/account'
+    | '/dashboard/settings'
     | '/dashboard/'
     | '/dashboard/quizzes/$quizId'
     | '/dashboard/quizzes/new'
@@ -347,6 +391,8 @@ export const routeTree = rootRoute
     "/dashboard": {
       "filePath": "dashboard/route.tsx",
       "children": [
+        "/dashboard/account",
+        "/dashboard/settings",
         "/dashboard/",
         "/dashboard/quizzes/$quizId",
         "/dashboard/quizzes/new",
@@ -370,6 +416,14 @@ export const routeTree = rootRoute
     },
     "/(auth)/sign-up": {
       "filePath": "(auth)/sign-up.tsx"
+    },
+    "/dashboard/account": {
+      "filePath": "dashboard/account.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/settings": {
+      "filePath": "dashboard/settings.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/": {
       "filePath": "dashboard/index.tsx",

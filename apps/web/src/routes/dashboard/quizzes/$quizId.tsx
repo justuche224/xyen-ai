@@ -25,7 +25,7 @@ function RouteComponent() {
     return <Loader />;
   }
   return (
-    <div>
+    <div className="mt-16">
       <QuizPage quizId={quizId} userId={session?.user.id ?? ""} />
     </div>
   );

@@ -23,5 +23,9 @@ function RouteComponent() {
   if (isPending) {
     return <Loader />;
   }
-  return <CreateQuiz userId={session?.user.id ?? ""} />;
+  return (
+    <div className="mt-16">
+      <CreateQuiz userId={session?.user.id ?? ""} />
+    </div>
+  );
 }
