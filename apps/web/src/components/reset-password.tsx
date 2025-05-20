@@ -10,7 +10,7 @@ import { Label } from "./ui/label";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-
+import { defaultRedirect } from "@/routes"; 
 export default function ResetPasswordForm({
   token,
   invalidToken,
@@ -46,7 +46,7 @@ export default function ResetPasswordForm({
         {
           onSuccess: () => {
             navigate({
-              to: "/dashboard",
+              to: defaultRedirect,
             });
             toast.success("Sign up successful");
           },

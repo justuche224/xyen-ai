@@ -10,7 +10,7 @@ import { Label } from "./ui/label";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-
+import { defaultRedirect } from "@/routes";
 export default function SignInForm({
   className,
   callbackURL,
@@ -30,7 +30,7 @@ export default function SignInForm({
       errorCallbackURL: `${window.location.origin}/error`,
       callbackURL: callbackURL
         ? `${window.location.origin}${callbackURL}`
-        : `${window.location.origin}/dashboard`,
+        : `${window.location.origin}${defaultRedirect}`,
     });
   };
   const form = useForm({
@@ -47,7 +47,7 @@ export default function SignInForm({
         {
           onSuccess: () => {
             navigate({
-              to: callbackURL || "/dashboard",
+              to: callbackURL || defaultRedirect,
             });
             toast.success("Sign in successful");
           },
@@ -71,7 +71,7 @@ export default function SignInForm({
   }
 
   if (session) {
-    return <Navigate to={callbackURL || "/dashboard"} />;
+    return <Navigate to={callbackURL || defaultRedirect} />;
   }
 
   return (
