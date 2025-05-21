@@ -12,7 +12,7 @@ const ai = new GoogleGenAI({ apiKey: apikey });
 
 async function generateQuiz(
   documentLink: string,
-  quiztype: "multiple-choice" | "yes-no"
+  quiztype: "multiple-choice" | "yes-no" | "theory"
 ) {
   try {
     const document = await fetch(documentLink).then((response) =>
@@ -20,6 +20,7 @@ async function generateQuiz(
     );
 
     const contents = [
+      { text: "Generate quiz from this" },
       {
         inlineData: {
           mimeType: "application/pdf",
@@ -32,39 +33,50 @@ async function generateQuiz(
       model: "gemini-2.0-flash",
       contents: contents,
       config: {
-        systemInstruction: `You are an expert quiz generator. Your task is to output a quiz in valid JSON format only—do not include any extra text or commentary, Generate a quiz with 20 ${
-          quiztype === "multiple-choice" ? "multiple choice" : "yes or no"
-        } question. The JSON should follow this structure:
+        systemInstruction: `You are an expert quiz generator. Your task is to output a quiz in valid JSON format only—do not include any extra text or commentary. Generate a quiz with 20 ${
+          quiztype === "multiple-choice"
+            ? "multiple choice"
+            : quiztype === "yes-no"
+            ? "yes or no"
+            : "theory"
+        } questions. The JSON should follow this structure:
         JSON:
         [
-                            ${
-                              quiztype === "multiple-choice"
-                                ? `{
-                                "id": "q1",
-                                "text": "What is the capital of France?",
-                                "type": "multiple-choice",
-                                "choices": [
-                                { "id": "a", "text": "Paris", "isCorrect": true },
-                                { "id": "b", "text": "Berlin", "isCorrect": false },
-                                { "id": "c", "text": "Madrid", "isCorrect": false },
-                                { "id": "d", "text": "Rome", "isCorrect": false }
-                                ]
-                            }`
-                                : `{
-                                "id": "q1",
-                                "text": "Is the sky blue?",
-                                "type": "yes-no",
-                                "choices": [
-                                { "id": "a", "text": "Yes", "isCorrect": true },
-                                { "id": "b", "text": "No", "isCorrect": false }
-                                ]
-                            }`
-                            }]
-                            "The output must be a valid JSON string, starting with [ or { and ending with ] or } respectively, with no other characters or formatting before or after."
-                            "Ensure the response body is exclusively the JSON data, without any surrounding text or Markdown."
-                            "Output pure valid JSON, nothing else".
-                            "None of those new line encodings, just plain json nothing else.
-            `,
+          ${
+            quiztype === "multiple-choice"
+              ? `{
+              "id": "q1",
+              "text": "What is the capital of France?",
+              "type": "multiple-choice",
+              "choices": [
+                { "id": "a", "text": "Paris", "isCorrect": true },
+                { "id": "b", "text": "Berlin", "isCorrect": false },
+                { "id": "c", "text": "Madrid", "isCorrect": false },
+                { "id": "d", "text": "Rome", "isCorrect": false }
+              ]
+            }`
+              : quiztype === "yes-no"
+              ? `{
+              "id": "q1",
+              "text": "Is the sky blue?",
+              "type": "yes-no",
+              "choices": [
+                { "id": "a", "text": "Yes", "isCorrect": true },
+                { "id": "b", "text": "No", "isCorrect": false }
+              ]
+            }`
+              : `{
+              "id": "q1",
+              "text": "Explain the significance of the French Revolution.",
+              "type": "theory",
+              "answer": "The French Revolution was significant because..."
+            }`
+          }
+        ]
+        The output must be a valid JSON string, starting with [ or { and ending with ] or } respectively, with no other characters or formatting before or after.
+        Output pure valid JSON, nothing else.
+        No new line encodings or markdown formatting.
+        `,
         responseMimeType: "application/json",
       },
     });
@@ -78,7 +90,7 @@ async function generateQuiz(
       throw new Error("AI didn’t return valid JSON: " + parseErr);
     }
 
-    // writeFileSync("output.json", text);
+    // writeFileSync("output-theory.json", text);
 
     return { data: parsed, error: null };
   } catch (error) {

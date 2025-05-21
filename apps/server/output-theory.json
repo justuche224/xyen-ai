@@ -1,0 +1,122 @@
+[
+  {
+    "id": "q1",
+    "text": "What is the origin of SQL and how did it evolve?",
+    "type": "theory",
+    "answer": "SQL's origins can be traced to an IBM research paper published in 1974. It evolved from SEQUEL to SQL due to legal reasons and has undergone several revisions, including SQL:1989, SQL:1992, SQL:1999, SQL:2003, SQL:2007, and SQL:2011."
+  },
+  {
+    "id": "q2",
+    "text": "Explain the difference between relational (SQL) and non-relational (NoSQL) databases.",
+    "type": "theory",
+    "answer": "Relational databases (SQL) organize data in tables with predefined schemas and use SQL for querying, while non-relational databases (NoSQL) offer flexible schemas and are suitable for unstructured or semi-structured data. NoSQL provides data storage and recovery mechanism."
+  },
+  {
+    "id": "q3",
+    "text": "List the top 10 popular database management systems (DBMS) mentioned in the text.",
+    "type": "theory",
+    "answer": "The top 10 popular DBMS mentioned are MySQL, MariaDB, Microsoft SQL Server, Oracle DBMS, PostgreSQL, MongoDB, Redis, IBM DB2, Elasticsearch, and SQLite."
+  },
+  {
+    "id": "q4",
+    "text": "What are the three main data types in MySQL?",
+    "type": "theory",
+    "answer": "The three main data types in MySQL are String, Numeric, and Date/time."
+  },
+  {
+    "id": "q5",
+    "text": "Describe the purpose and syntax of the SQL CREATE TABLE statement.",
+    "type": "theory",
+    "answer": "The CREATE TABLE statement is used to create a new table. The syntax includes specifying the table name and the names and data types of its columns, along with optional constraints."
+  },
+  {
+    "id": "q6",
+    "text": "Explain how to modify an existing table structure using the ALTER TABLE command.",
+    "type": "theory",
+    "answer": "The ALTER TABLE command is used to modify the structure of an existing table, allowing you to add new columns, change column definitions, enable or disable constraints, and specify default values."
+  },
+  {
+    "id": "q7",
+    "text": "What is the purpose of the SQL DROP TABLE statement?",
+    "type": "theory",
+    "answer": "The DROP TABLE statement is used to delete a table from the database."
+  },
+  {
+    "id": "q8",
+    "text": "Differentiate between DELETE and TRUNCATE commands in SQL.",
+    "type": "theory",
+    "answer": "DELETE is used to delete specific rows from a table based on a WHERE clause, while TRUNCATE removes all rows from a table at once. TRUNCATE is faster but doesn't support the WHERE clause."
+  },
+  {
+    "id": "q9",
+    "text": "Describe the use of SQL INSERT INTO SELECT statement.",
+    "type": "theory",
+    "answer": "The INSERT INTO SELECT statement is used to copy records from one table to another existing table."
+  },
+  {
+    "id": "q10",
+    "text": "What is an SQL VIEW and what are its uses?",
+    "type": "theory",
+    "answer": "A VIEW is a virtual table based on a SELECT statement. It is used to simplify complex queries, restrict access to data, and rename columns."
+  },
+  {
+    "id": "q11",
+    "text": "Explain the purpose of the WHERE clause in SQL.",
+    "type": "theory",
+    "answer": "The WHERE clause is used to filter records in a query, selecting only those that meet specified conditions."
+  },
+  {
+    "id": "q12",
+    "text": "How does the ORDER BY clause affect the results of a SELECT statement?",
+    "type": "theory",
+    "answer": "The ORDER BY clause sorts the results of a SELECT statement based on one or more columns, in ascending or descending order."
+  },
+  {
+    "id": "q13",
+    "text": "Describe the function of the GROUP BY clause in SQL.",
+    "type": "theory",
+    "answer": "The GROUP BY clause groups rows that have the same values in specified columns into summary rows, like calculating aggregates."
+  },
+  {
+    "id": "q14",
+    "text": "What is the HAVING clause used for in SQL?",
+    "type": "theory",
+    "answer": "The HAVING clause is used to filter the results of a GROUP BY clause, based on aggregate functions."
+  },
+  {
+    "id": "q15",
+    "text": "How are logical operators such as AND, OR, and NOT used in SQL?",
+    "type": "theory",
+    "answer": "Logical operators combine multiple conditions in a WHERE clause. AND requires all conditions to be true, OR requires at least one condition to be true, and NOT negates a condition."
+  },
+  {
+    "id": "q16",
+    "text": "Explain the purpose of the LIKE operator in SQL.",
+    "type": "theory",
+    "answer": "The LIKE operator is used in a WHERE clause to search for patterns in columns, using wildcards like % (any sequence of characters) and _ (single character)."
+  },
+  {
+    "id": "q17",
+    "text": "What is the significance of NULL in database terms?",
+    "type": "theory",
+    "answer": "NULL represents the absence of data in a field, it is not zero or an empty string."
+  },
+  {
+    "id": "q18",
+    "text": "Describe the use of set operators like UNION, INTERSECT, and MINUS in SQL.",
+    "type": "theory",
+    "answer": "UNION combines the results of two SELECT statements, removing duplicate rows. INTERSECT returns common rows between two SELECT statements. MINUS returns rows from the first SELECT that are not present in the second."
+  },
+  {
+    "id": "q19",
+    "text": "Explain the functions and responsibilities of a Database Administrator (DBA).",
+    "type": "theory",
+    "answer": "A DBA controls the design, implementation, and maintenance of a database. They define the schema, security, access methods, monitor performance, and ensure backup and recovery."
+  },
+  {
+    "id": "q20",
+    "text": "What are the ACID properties of a transaction?",
+    "type": "theory",
+    "answer": "ACID properties are Atomicity (all or nothing), Consistency (maintains integrity), Isolation (concurrent transactions don't interfere), and Durability (committed data is permanent)."
+  }
+]

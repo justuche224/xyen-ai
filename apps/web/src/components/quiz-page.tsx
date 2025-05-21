@@ -19,7 +19,12 @@ import {
 
 import Loader from "./loader";
 import { orpc } from "@/utils/orpc";
-import { QuizDataSchema, type Question } from "@/types";
+import {
+  QuizDataSchema,
+  TheoryQuizDataSchema,
+  type Question,
+  type TheoryQuestion,
+} from "@/types";
 import { Quiz } from "./quiz";
 import {
   Card,
@@ -32,6 +37,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { TheoryQuiz } from "./quiz-theory";
 
 const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
   const [showQuiz, setShowQuiz] = useState(false);
@@ -187,11 +193,15 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                     variant={
                       quizDetails.quizType === "multiple-choice"
                         ? "default"
+                        : quizDetails.quizType === "theory"
+                        ? "outline"
                         : "secondary"
                     }
                   >
                     {quizDetails.quizType === "multiple-choice"
                       ? "Multiple Choice"
+                      : quizDetails.quizType === "theory"
+                      ? "Theory"
                       : "Yes/No"}
                   </Badge>
                 </div>
@@ -282,11 +292,15 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                     variant={
                       quizDetails.quizType === "multiple-choice"
                         ? "default"
+                        : quizDetails.quizType === "theory"
+                        ? "outline"
                         : "secondary"
                     }
                   >
                     {quizDetails.quizType === "multiple-choice"
                       ? "Multiple Choice"
+                      : quizDetails.quizType === "theory"
+                      ? "Theory"
                       : "Yes/No"}
                   </Badge>
                 </div>
@@ -353,7 +367,11 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
         );
       }
 
-      const parsedQuizData = QuizDataSchema.safeParse(quizDetails.quizData);
+      const quizDataSchema =
+        quizDetails.quizType === "theory"
+          ? TheoryQuizDataSchema
+          : QuizDataSchema;
+      const parsedQuizData = quizDataSchema.safeParse(quizDetails.quizData);
 
       if (!parsedQuizData.success) {
         console.error(
@@ -404,11 +422,15 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                       variant={
                         quizDetails.quizType === "multiple-choice"
                           ? "default"
+                          : quizDetails.quizType === "theory"
+                          ? "outline"
                           : "secondary"
                       }
                     >
                       {quizDetails.quizType === "multiple-choice"
                         ? "Multiple Choice"
+                        : quizDetails.quizType === "theory"
+                        ? "Theory"
                         : "Yes/No"}
                     </Badge>
                   </div>
@@ -441,7 +463,10 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
         );
       }
 
-      const validatedQuestions = parsedQuizData.data as Question[];
+      const validatedQuestions =
+        quizDetails.quizType === "theory"
+          ? (parsedQuizData.data as TheoryQuestion[])
+          : (parsedQuizData.data as Question[]);
 
       if (validatedQuestions.length === 0) {
         return (
@@ -492,7 +517,14 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
               </div>
             </CardHeader>
             <CardContent className="p-0">
-              <Quiz allQuestions={validatedQuestions} />
+              {quizDetails.quizType === "theory" && (
+                <TheoryQuiz
+                  allQuestions={validatedQuestions as TheoryQuestion[]}
+                />
+              )}
+              {quizDetails.quizType !== "theory" && (
+                <Quiz allQuestions={validatedQuestions as Question[]} />
+              )}
             </CardContent>
           </Card>
         );
@@ -559,11 +591,15 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                     variant={
                       quizDetails.quizType === "multiple-choice"
                         ? "default"
+                        : quizDetails.quizType === "theory"
+                        ? "outline"
                         : "secondary"
                     }
                   >
                     {quizDetails.quizType === "multiple-choice"
                       ? "Multiple Choice"
+                      : quizDetails.quizType === "theory"
+                      ? "Theory"
                       : "Yes/No"}
                   </Badge>
                 </div>

@@ -5,21 +5,23 @@ async function GenerateQuizTest() {
 
   try {
     const documentLink =
-      "https://lcasmcbhfijvxhjxkahp.supabase.co/storage/v1/object/public/pdf//COS%20441Net%20Centric%20Computing%20LectureNotes%20vs2%20Bakpo&Onyima1.doc.pdf";
-    const quiztype = "multiple-choice";
+      "https://lcasmcbhfijvxhjxkahp.supabase.co/storage/v1/object/public/pdf/pdf/V6AIFeudMutV6yymarSqRFZGQaZLJS5d-COS%20421%20Database%20design%20and%20management%20Note%20B-1747667257285.pdf";
+    const quiztype = "theory";
 
     console.log("generating quiz");
 
     const { data, error } = await generateQuiz(documentLink, quiztype);
 
     if (error) {
-      throw new Error(error);
+      console.log("Error generating quiz:", error);
+      process.exit(1);
     }
     // console.log(data);
-    writeFileSync("quiz.json", data as string);
-    return data;
+    // writeFileSync("quiz.json", data as string);
+    // return data;
+    console.log("Quiz generated successfully:");
   } catch (error) {
     console.error(error);
   }
 }
-export default GenerateQuizTest;
+GenerateQuizTest();

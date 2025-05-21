@@ -46,3 +46,15 @@ export type Question = z.infer<typeof QuestionSchema>;
 export const QuizDataSchema = z
   .array(QuestionSchema)
   .min(1, "A quiz must have at least one question.");
+
+export const TheoryQuestionSchema = z.object({
+  id: z.string().min(1, "Question ID cannot be empty."),
+  text: z.string().min(1, "Question text cannot be empty."),
+  type: z.literal("theory"),
+  answer: z.string().min(1, "Theory answer cannot be empty."),
+});
+export type TheoryQuestion = z.infer<typeof TheoryQuestionSchema>;
+
+export const TheoryQuizDataSchema = z
+  .array(TheoryQuestionSchema)
+  .min(1, "A theory quiz must have at least one question.");

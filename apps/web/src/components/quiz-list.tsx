@@ -212,6 +212,8 @@ const QuizList = ({ userId }: { userId: string }) => {
                   <Badge variant="outline" className="font-normal">
                     {quiz.quizType === "multiple-choice"
                       ? "Multiple Choice"
+                      : quiz.quizType === "theory"
+                      ? "Theory"
                       : "Yes/No"}
                   </Badge>
                 </div>

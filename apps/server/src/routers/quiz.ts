@@ -29,7 +29,7 @@ export const quizRouter = {
     .input(
       z.object({
         title: z.string(),
-        quizType: z.enum(["multiple-choice", "yes-no"]),
+        quizType: z.enum(["multiple-choice", "yes-no","theory"]),
         documentLink: z.string(),
         userId: z.string(),
       })

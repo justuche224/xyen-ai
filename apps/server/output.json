@@ -1,0 +1,222 @@
+[
+  {
+    "id": "q1",
+    "text": "SQL can be traced to an IBM research paper published in what year?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "1970", "isCorrect": false },
+      { "id": "b", "text": "1974", "isCorrect": true },
+      { "id": "c", "text": "1980", "isCorrect": false },
+      { "id": "d", "text": "1984", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q2",
+    "text": "What does BCNF stand for?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "Boyce-Codd Normal Form", "isCorrect": true },
+      { "id": "b", "text": "Basic-Codd Normal Form", "isCorrect": false },
+      { "id": "c", "text": "Boyce-Cardinal Normal Form", "isCorrect": false },
+      { "id": "d", "text": "Balanced-Codd Normal Form", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q3",
+    "text": "The first edition of the international (ISO) standard for SQL appeared in what year?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "1985", "isCorrect": false },
+      { "id": "b", "text": "1987", "isCorrect": true },
+      { "id": "c", "text": "1990", "isCorrect": false },
+      { "id": "d", "text": "1992", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q4",
+    "text": "In what year did the 'referential integrity' feature appear in SQL?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "SQL:1987", "isCorrect": false },
+      { "id": "b", "text": "SQL:1989", "isCorrect": true },
+      { "id": "c", "text": "SQL:1992", "isCorrect": false },
+      { "id": "d", "text": "SQL:1996", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q5",
+    "text": "What additional features were added to SQL in 1996?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "Stored procedures and functions", "isCorrect": false },
+      { "id": "b", "text": "Call level interface", "isCorrect": false },
+      { "id": "c", "text": "Programming language for stored procedures and functions", "isCorrect": true },
+      { "id": "d", "text": "Referential integrity", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q6",
+    "text": "What type of database is NoSQL originally defined as?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "Relational database", "isCorrect": false },
+      { "id": "b", "text": "Non-relational database", "isCorrect": true },
+      { "id": "c", "text": "Object-oriented database", "isCorrect": false },
+      { "id": "d", "text": "Distributed database", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q7",
+    "text": "Which of the following is a popular database management system?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "MySQL", "isCorrect": true },
+      { "id": "b", "text": "Java", "isCorrect": false },
+      { "id": "c", "text": "Windows", "isCorrect": false },
+      { "id": "d", "text": "Apache", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q8",
+    "text": "What is MySQL designed to increase?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "Complexity", "isCorrect": false },
+      { "id": "b", "text": "Security and scalability", "isCorrect": true },
+      { "id": "c", "text": "Cost", "isCorrect": false },
+      { "id": "d", "text": "Technical support", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q9",
+    "text": "What are the three main data types in MySQL?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "Integer, Float, Boolean", "isCorrect": false },
+      { "id": "b", "text": "String, Numeric, Date/time", "isCorrect": true },
+      { "id": "c", "text": "Text, Number, Time", "isCorrect": false },
+      { "id": "d", "text": "Character, Integer, Real", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q10",
+    "text": "What does the CHAR data type store in MySQL?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "Variable length string", "isCorrect": false },
+      { "id": "b", "text": "Binary byte strings", "isCorrect": false },
+      { "id": "c", "text": "Fixed length string", "isCorrect": true },
+      { "id": "d", "text": "Large objects", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q11",
+    "text": "What is the maximum length for a TINYBLOB data type in MySQL?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "65,535 bytes", "isCorrect": false },
+      { "id": "b", "text": "16,777,215 bytes", "isCorrect": false },
+      { "id": "c", "text": "4,294,967,295 bytes", "isCorrect": false },
+      { "id": "d", "text": "255 bytes", "isCorrect": true }
+    ]
+  },
+  {
+    "id": "q12",
+    "text": "What is an SQL database organized into?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "Rows", "isCorrect": false },
+      { "id": "b", "text": "Columns", "isCorrect": false },
+      { "id": "c", "text": "Tables", "isCorrect": true },
+      { "id": "d", "text": "Fields", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q13",
+    "text": "What is the purpose of the WHERE clause in SQL?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "To order results", "isCorrect": false },
+      { "id": "b", "text": "To group data", "isCorrect": false },
+      { "id": "c", "text": "To filter rows", "isCorrect": true },
+      { "id": "d", "text": "To join tables", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q14",
+    "text": "What does the ALTER TABLE statement do?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "Creates a new table", "isCorrect": false },
+      { "id": "b", "text": "Modifies an existing table", "isCorrect": true },
+      { "id": "c", "text": "Deletes a table", "isCorrect": false },
+      { "id": "d", "text": "Selects data from a table", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q15",
+    "text": "What is the purpose of the DROP TABLE statement in SQL?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "To modify a table", "isCorrect": false },
+      { "id": "b", "text": "To delete a table", "isCorrect": true },
+      { "id": "c", "text": "To create a table", "isCorrect": false },
+      { "id": "d", "text": "To select data", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q16",
+    "text": "What does the TRUNCATE TABLE statement do?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "Deletes specific rows", "isCorrect": false },
+      { "id": "b", "text": "Deletes all rows from a table", "isCorrect": true },
+      { "id": "c", "text": "Modifies a table's structure", "isCorrect": false },
+      { "id": "d", "text": "Creates a new table", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q17",
+    "text": "What is the main difference between DELETE and TRUNCATE?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "DELETE supports WHERE clause, TRUNCATE does not", "isCorrect": true },
+      { "id": "b", "text": "TRUNCATE supports WHERE clause, DELETE does not", "isCorrect": false },
+      { "id": "c", "text": "They do the same thing", "isCorrect": false },
+      { "id": "d", "text": "DELETE is faster than TRUNCATE", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q18",
+    "text": "What is an SQL VIEW?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "A physical table", "isCorrect": false },
+      { "id": "b", "text": "A virtual table", "isCorrect": true },
+      { "id": "c", "text": "A stored procedure", "isCorrect": false },
+      { "id": "d", "text": "A function", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q19",
+    "text": "What privilege do you need to create a view in your schema?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "CREATE TABLE", "isCorrect": false },
+      { "id": "b", "text": "CREATE VIEW", "isCorrect": true },
+      { "id": "c", "text": "ALTER VIEW", "isCorrect": false },
+      { "id": "d", "text": "DROP VIEW", "isCorrect": false }
+    ]
+  },
+  {
+    "id": "q20",
+    "text": "What is an expression in SQL?",
+    "type": "multiple-choice",
+    "choices": [
+      { "id": "a", "text": "A table", "isCorrect": false },
+      { "id": "b", "text": "A query", "isCorrect": false },
+      { "id": "c", "text": "A value", "isCorrect": true },
+      { "id": "d", "text": "A statement", "isCorrect": false }
+    ]
+  }
+]

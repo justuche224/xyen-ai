@@ -9,7 +9,7 @@ export const quiz = pgTable("quiz", {
   data: json("data"),
   jobId: text("jobId").references(() => jobs.id),
   documentLink: text("documentLink").notNull(),
-  quizType: text("quizType", { enum: ["multiple-choice", "yes-no"] }).notNull(),
+  quizType: text("quizType", { enum: ["multiple-choice", "yes-no","theory"] }).notNull(),
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
