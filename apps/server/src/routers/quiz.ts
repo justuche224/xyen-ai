@@ -1,15 +1,17 @@
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and, desc, sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "../db";
 import { quiz } from "../db/schema/quiz";
 import { protectedProcedure } from "../lib/orpc";
 import { jobs } from "@/db/schema/jobs";
+import { quizAttempts, quizMeta } from "../db/schema/quiz";
 
 export const quizRouter = {
   getAll: protectedProcedure
     .input(z.object({ userId: z.string() }))
     .handler(async ({ input }) => {
-      return await db
+      console.log("hi");
+      const data = await db
         .select({
           id: quiz.id,
           title: quiz.title,
@@ -19,25 +21,67 @@ export const quizRouter = {
           updatedAt: quiz.updatedAt,
           status: jobs.status,
           error: jobs.error,
+          difficulty: quizMeta.difficulty,
+          questionCount: quizMeta.questionCount,
+          description: quizMeta.description,
+          tags: quizMeta.tags,
+          totalAttempts: sql<number>`count(${quizAttempts.id})`.as(
+            "totalAttempts"
+          ),
+          averageScore: sql<number>`avg(${quizAttempts.score})`.as(
+            "averageScore"
+          ),
+          totalTimeSpent:
+            sql<number>`sum(extract(epoch from (${quizAttempts.endTime} - ${quizAttempts.startTime})))`.as(
+              "totalTimeSpent"
+            ),
+          averageTimeSpent:
+            sql<number>`avg(extract(epoch from (${quizAttempts.endTime} - ${quizAttempts.startTime})))`.as(
+              "averageTimeSpent"
+            ),
         })
         .from(quiz)
+        .leftJoin(quizAttempts, eq(quiz.id, quizAttempts.quizId))
+        .leftJoin(quizMeta, eq(quiz.id, quizMeta.quizId))
+        .leftJoin(jobs, eq(quiz.jobId, jobs.id))
         .where(eq(quiz.userId, input.userId))
-        .orderBy(desc(quiz.createdAt))
-        .leftJoin(jobs, eq(quiz.id, jobs.quizId));
+        .groupBy(
+          quiz.id,
+          quiz.title,
+          quiz.quizType,
+          quiz.documentLink,
+          quiz.createdAt,
+          quiz.updatedAt,
+          jobs.status,
+          jobs.error,
+          quizMeta.questionCount,
+          quizMeta.difficulty,
+          quizMeta.tags,
+          quizMeta.description,
+        )
+        .orderBy(desc(quiz.createdAt));
+      console.log(data);
+      return data;
     }),
   create: protectedProcedure
     .input(
       z.object({
         title: z.string(),
-        quizType: z.enum(["multiple-choice", "yes-no","theory"]),
+        quizType: z.enum(["multiple-choice", "yes-no", "theory"]),
         documentLink: z.string(),
         userId: z.string(),
+        difficulty: z.enum(["easy", "medium", "hard", "extreme"]),
+        tags: z.array(z.string()),
+        questionCount: z.number(),
+        description: z.string().optional(),
+        customePrompt: z.string().optional(),
       })
     )
     .handler(async ({ input }) => {
       try {
         const quizId = crypto.randomUUID();
         const jobId = crypto.randomUUID();
+        const quizMetaId = crypto.randomUUID();
 
         await db.insert(jobs).values({
           id: jobId,
@@ -54,6 +98,16 @@ export const quizRouter = {
           userId: input.userId,
           jobId,
           quizType: input.quizType,
+          customePrompt: input.customePrompt,
+        });
+
+        await db.insert(quizMeta).values({
+          id: quizMetaId,
+          quizId,
+          difficulty: input.difficulty,
+          tags: input.tags,
+          questionCount: input.questionCount,
+          description: input.description,
         });
 
         return {
@@ -70,7 +124,10 @@ export const quizRouter = {
   getQuizById: protectedProcedure
     .input(z.object({ quizId: z.string(), userId: z.string() }))
     .handler(async ({ input }) => {
-      return await db
+      console.log(input);
+
+      // Get quiz details first
+      const quizDetails = await db
         .select({
           id: quiz.id,
           quizData: quiz.data,
@@ -79,12 +136,55 @@ export const quizRouter = {
           documentLink: quiz.documentLink,
           createdAt: quiz.createdAt,
           updatedAt: quiz.updatedAt,
+          questionCount: quizMeta.questionCount,
+          description: quizMeta.description,
           status: jobs.status,
           error: jobs.error,
+          difficulty: quizMeta.difficulty,
+          tags: quizMeta.tags,
         })
         .from(quiz)
+        .leftJoin(quizMeta, eq(quiz.id, quizMeta.quizId))
+        .leftJoin(jobs, eq(quiz.jobId, jobs.id))
         .where(and(eq(quiz.id, input.quizId), eq(quiz.userId, input.userId)))
-        .leftJoin(jobs, eq(quiz.id, jobs.quizId));
+        .limit(1);
+
+      if (!quizDetails.length) {
+        throw new Error("Quiz not found or unauthorized");
+      }
+
+      // Get attempt statistics separately
+      const attemptStats = await db
+        .select({
+          totalAttempts: sql<number>`count(${quizAttempts.id})`.as(
+            "totalAttempts"
+          ),
+          averageScore: sql<number>`avg(${quizAttempts.score})`.as(
+            "averageScore"
+          ),
+          totalTimeSpent:
+            sql<number>`sum(extract(epoch from (${quizAttempts.endTime} - ${quizAttempts.startTime})))`.as(
+              "totalTimeSpent"
+            ),
+          averageTimeSpent:
+            sql<number>`avg(extract(epoch from (${quizAttempts.endTime} - ${quizAttempts.startTime})))`.as(
+              "averageTimeSpent"
+            ),
+        })
+        .from(quizAttempts)
+        .where(eq(quizAttempts.quizId, input.quizId));
+
+      const stats = attemptStats[0] || {
+        totalAttempts: 0,
+        averageScore: null,
+        totalTimeSpent: null,
+        averageTimeSpent: null,
+      };
+
+      return {
+        ...quizDetails[0],
+        ...stats,
+      };
     }),
   delete: protectedProcedure
     .input(z.object({ quizId: z.string(), userId: z.string() }))
@@ -94,6 +194,419 @@ export const quizRouter = {
         .where(and(eq(quiz.id, input.quizId), eq(quiz.userId, input.userId)));
       return {
         success: true,
+      };
+    }),
+  startAttempt: protectedProcedure
+    .input(
+      z.object({
+        quizId: z.string(),
+        userId: z.string(),
+        mode: z.enum(["practice", "exam", "review"]),
+      })
+    )
+    .handler(async ({ input }) => {
+      const attemptId = crypto.randomUUID();
+
+      // Verify quiz exists and user has access
+      const quizExists = await db
+        .select({ id: quiz.id })
+        .from(quiz)
+        .where(and(eq(quiz.id, input.quizId), eq(quiz.userId, input.userId)))
+        .limit(1);
+
+      if (!quizExists.length) {
+        throw new Error("Quiz not found or unauthorized");
+      }
+
+      await db.insert(quizAttempts).values({
+        id: attemptId,
+        quizId: input.quizId,
+        userId: input.userId,
+        mode: input.mode,
+        startTime: new Date(),
+        status: "in_progress",
+      });
+
+      return { attemptId };
+    }),
+  getAttempt: protectedProcedure
+    .input(z.object({ attemptId: z.string(), userId: z.string() }))
+    .handler(async ({ input }) => {
+      const result = await db
+        .select()
+        .from(quizAttempts)
+        .where(
+          and(
+            eq(quizAttempts.id, input.attemptId),
+            eq(quizAttempts.userId, input.userId)
+          )
+        )
+        .limit(1);
+
+      return result[0] || null;
+    }),
+  updateAttempt: protectedProcedure
+    .input(
+      z.object({
+        attemptId: z.string(),
+        userId: z.string(),
+        answers: z.any().optional(),
+        score: z.number().optional(),
+        endTime: z.date().optional(),
+        status: z.enum(["in_progress", "completed"]).optional(),
+      })
+    )
+    .handler(async ({ input }) => {
+      const { attemptId, userId, ...updateData } = input;
+
+      await db
+        .update(quizAttempts)
+        .set({
+          ...updateData,
+          updatedAt: new Date(),
+        })
+        .where(
+          and(eq(quizAttempts.id, attemptId), eq(quizAttempts.userId, userId))
+        );
+
+      return { success: true };
+    }),
+  completeAttempt: protectedProcedure
+    .input(
+      z.object({
+        attemptId: z.string(),
+        userId: z.string(),
+        answers: z.any(),
+        score: z.number(),
+      })
+    )
+    .handler(async ({ input }) => {
+      await db
+        .update(quizAttempts)
+        .set({
+          answers: input.answers,
+          score: input.score,
+          endTime: new Date(),
+          status: "completed",
+          updatedAt: new Date(),
+        })
+        .where(
+          and(
+            eq(quizAttempts.id, input.attemptId),
+            eq(quizAttempts.userId, input.userId)
+          )
+        );
+
+      return { success: true };
+    }),
+  getUserAttempts: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        quizId: z.string().optional(),
+        mode: z.enum(["practice", "exam", "review"]).optional(),
+        status: z.enum(["in_progress", "completed"]).optional(),
+        limit: z.number().default(50),
+        offset: z.number().default(0),
+      })
+    )
+    .handler(async ({ input }) => {
+      const conditions = [eq(quizAttempts.userId, input.userId)];
+
+      if (input.quizId) {
+        conditions.push(eq(quizAttempts.quizId, input.quizId));
+      }
+      if (input.mode) {
+        conditions.push(eq(quizAttempts.mode, input.mode));
+      }
+      if (input.status) {
+        conditions.push(eq(quizAttempts.status, input.status));
+      }
+
+      return await db
+        .select({
+          id: quizAttempts.id,
+          quizId: quizAttempts.quizId,
+          mode: quizAttempts.mode,
+          startTime: quizAttempts.startTime,
+          endTime: quizAttempts.endTime,
+          score: quizAttempts.score,
+          status: quizAttempts.status,
+          createdAt: quizAttempts.createdAt,
+          quizTitle: quiz.title,
+          quizType: quiz.quizType,
+          duration:
+            sql<number>`extract(epoch from (${quizAttempts.endTime} - ${quizAttempts.startTime}))`.as(
+              "duration"
+            ),
+        })
+        .from(quizAttempts)
+        .leftJoin(quiz, eq(quizAttempts.quizId, quiz.id))
+        .where(and(...conditions))
+        .orderBy(desc(quizAttempts.createdAt))
+        .limit(input.limit)
+        .offset(input.offset);
+    }),
+
+  getAttemptDetails: protectedProcedure
+    .input(z.object({ attemptId: z.string(), userId: z.string() }))
+    .handler(async ({ input }) => {
+      const result = await db
+        .select({
+          attempt: quizAttempts,
+          quiz: {
+            id: quiz.id,
+            title: quiz.title,
+            quizType: quiz.quizType,
+            data: quiz.data,
+          },
+          meta: quizMeta,
+        })
+        .from(quizAttempts)
+        .leftJoin(quiz, eq(quizAttempts.quizId, quiz.id))
+        .leftJoin(quizMeta, eq(quiz.id, quizMeta.quizId))
+        .where(
+          and(
+            eq(quizAttempts.id, input.attemptId),
+            eq(quizAttempts.userId, input.userId)
+          )
+        )
+        .limit(1);
+
+      return result[0] || null;
+    }),
+
+  deleteAttempt: protectedProcedure
+    .input(z.object({ attemptId: z.string(), userId: z.string() }))
+    .handler(async ({ input }) => {
+      await db
+        .delete(quizAttempts)
+        .where(
+          and(
+            eq(quizAttempts.id, input.attemptId),
+            eq(quizAttempts.userId, input.userId)
+          )
+        );
+
+      return { success: true };
+    }),
+  getQuizStats: protectedProcedure
+    .input(z.object({ quizId: z.string(), userId: z.string() }))
+    .handler(async ({ input }) => {
+      // Verify ownership
+      const quizExists = await db
+        .select({ id: quiz.id })
+        .from(quiz)
+        .where(and(eq(quiz.id, input.quizId), eq(quiz.userId, input.userId)))
+        .limit(1);
+
+      if (!quizExists.length) {
+        throw new Error("Quiz not found or unauthorized");
+      }
+
+      const stats = await db
+        .select({
+          totalAttempts: sql<number>`count(*)`.as("totalAttempts"),
+          completedAttempts:
+            sql<number>`count(*) filter (where ${quizAttempts.status} = 'completed')`.as(
+              "completedAttempts"
+            ),
+          averageScore:
+            sql<number>`avg(${quizAttempts.score}) filter (where ${quizAttempts.status} = 'completed')`.as(
+              "averageScore"
+            ),
+          highestScore:
+            sql<number>`max(${quizAttempts.score}) filter (where ${quizAttempts.status} = 'completed')`.as(
+              "highestScore"
+            ),
+          lowestScore:
+            sql<number>`min(${quizAttempts.score}) filter (where ${quizAttempts.status} = 'completed')`.as(
+              "lowestScore"
+            ),
+          averageDuration:
+            sql<number>`avg(extract(epoch from (${quizAttempts.endTime} - ${quizAttempts.startTime}))) filter (where ${quizAttempts.status} = 'completed')`.as(
+              "averageDuration"
+            ),
+          practiceAttempts:
+            sql<number>`count(*) filter (where ${quizAttempts.mode} = 'practice')`.as(
+              "practiceAttempts"
+            ),
+          examAttempts:
+            sql<number>`count(*) filter (where ${quizAttempts.mode} = 'exam')`.as(
+              "examAttempts"
+            ),
+          reviewAttempts:
+            sql<number>`count(*) filter (where ${quizAttempts.mode} = 'review')`.as(
+              "reviewAttempts"
+            ),
+        })
+        .from(quizAttempts)
+        .where(eq(quizAttempts.quizId, input.quizId));
+
+      const result = stats[0];
+
+      // Handle null values and provide defaults
+      return {
+        totalAttempts: result?.totalAttempts ?? 0,
+        completedAttempts: result?.completedAttempts ?? 0,
+        averageScore: result?.averageScore ?? null,
+        highestScore: result?.highestScore ?? null,
+        lowestScore: result?.lowestScore ?? null,
+        averageDuration: result?.averageDuration ?? null,
+        practiceAttempts: result?.practiceAttempts ?? 0,
+        examAttempts: result?.examAttempts ?? 0,
+        reviewAttempts: result?.reviewAttempts ?? 0,
+      };
+    }),
+
+  getUserQuizStats: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .handler(async ({ input }) => {
+      console.log("about to check stats");
+
+      // Option 1: Split into separate queries for better reliability
+      const [basicStats] = await db
+        .select({
+          totalQuizzes: sql<number>`count(distinct ${quiz.id})`.as(
+            "totalQuizzes"
+          ),
+          totalAttempts: sql<number>`count(${quizAttempts.id})`.as(
+            "totalAttempts"
+          ),
+          completedAttempts:
+            sql<number>`count(*) filter (where ${quizAttempts.status} = 'completed')`.as(
+              "completedAttempts"
+            ),
+          averageScore:
+            sql<number>`avg(${quizAttempts.score}) filter (where ${quizAttempts.status} = 'completed')`.as(
+              "averageScore"
+            ),
+          totalTimeSpent:
+            sql<number>`sum(extract(epoch from (${quizAttempts.endTime} - ${quizAttempts.startTime}))) filter (where ${quizAttempts.status} = 'completed')`.as(
+              "totalTimeSpent"
+            ),
+        })
+        .from(quiz)
+        .leftJoin(quizAttempts, eq(quiz.id, quizAttempts.quizId))
+        .where(eq(quiz.userId, input.userId));
+
+      const difficultyStats = await db
+        .select({
+          difficulty: quizMeta.difficulty,
+          count: sql<number>`count(distinct ${quiz.id})`.as("count"),
+        })
+        .from(quiz)
+        .leftJoin(quizMeta, eq(quiz.id, quizMeta.quizId))
+        .where(eq(quiz.userId, input.userId))
+        .groupBy(quizMeta.difficulty)
+        .having(sql`${quizMeta.difficulty} is not null`);
+
+      const quizTypeStats = await db
+        .select({
+          quizType: quiz.quizType,
+          count: sql<number>`count(distinct ${quiz.id})`.as("count"),
+        })
+        .from(quiz)
+        .where(eq(quiz.userId, input.userId))
+        .groupBy(quiz.quizType);
+
+      // Transform to the desired format
+      const byDifficulty = Object.fromEntries(
+        difficultyStats.map((stat) => [stat.difficulty, stat.count])
+      );
+
+      const byQuizType = Object.fromEntries(
+        quizTypeStats.map((stat) => [stat.quizType, stat.count])
+      );
+
+      const stats = {
+        ...basicStats,
+        byDifficulty,
+        byQuizType,
+      };
+      console.log(stats);
+
+      return stats;
+    }),
+
+  getRecentActivity: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        limit: z.number().default(10),
+      })
+    )
+    .handler(async ({ input }) => {
+      return await db
+        .select({
+          id: quizAttempts.id,
+          quizId: quizAttempts.quizId,
+          quizTitle: quiz.title,
+          mode: quizAttempts.mode,
+          status: quizAttempts.status,
+          score: quizAttempts.score,
+          startTime: quizAttempts.startTime,
+          endTime: quizAttempts.endTime,
+          duration:
+            sql<number>`extract(epoch from (${quizAttempts.endTime} - ${quizAttempts.startTime}))`.as(
+              "duration"
+            ),
+        })
+        .from(quizAttempts)
+        .leftJoin(quiz, eq(quizAttempts.quizId, quiz.id))
+        .where(eq(quizAttempts.userId, input.userId))
+        .orderBy(desc(quizAttempts.createdAt))
+        .limit(input.limit);
+    }),
+  bulkDeleteAttempts: protectedProcedure
+    .input(
+      z.object({
+        attemptIds: z.array(z.string()),
+        userId: z.string(),
+      })
+    )
+    .handler(async ({ input }) => {
+      if (input.attemptIds.length === 0) {
+        return { success: true, deletedCount: 0 };
+      }
+
+      const result = await db
+        .delete(quizAttempts)
+        .where(
+          and(
+            sql`${quizAttempts.id} = ANY(${input.attemptIds})`,
+            eq(quizAttempts.userId, input.userId)
+          )
+        );
+
+      return { success: true, deletedCount: result.rowCount || 0 };
+    }),
+
+  exportQuizData: protectedProcedure
+    .input(z.object({ quizId: z.string(), userId: z.string() }))
+    .handler(async ({ input }) => {
+      // Verify ownership
+      const quizData = await db
+        .select()
+        .from(quiz)
+        .leftJoin(quizMeta, eq(quiz.id, quizMeta.quizId))
+        .where(and(eq(quiz.id, input.quizId), eq(quiz.userId, input.userId)))
+        .limit(1);
+
+      if (!quizData.length) {
+        throw new Error("Quiz not found or unauthorized");
+      }
+
+      const attempts = await db
+        .select()
+        .from(quizAttempts)
+        .where(eq(quizAttempts.quizId, input.quizId))
+        .orderBy(desc(quizAttempts.createdAt));
+
+      return {
+        quiz: quizData[0],
+        attempts: attempts,
+        exportedAt: new Date(),
       };
     }),
 };

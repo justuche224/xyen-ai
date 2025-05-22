@@ -13,8 +13,30 @@ import {
   HelpCircle,
   CheckCircle,
   Clock,
-  BarChart,
   BookOpen,
+  Target,
+  Trophy,
+  Timer,
+  Users,
+  Calendar,
+  Tag,
+  TrendingUp,
+  Activity,
+  Award,
+  Zap,
+  Brain,
+  Star,
+  ChevronRight,
+  Download,
+  Share2,
+  Eye,
+  MoreVertical,
+  Bookmark,
+  Heart,
+  Shuffle,
+  Repeat,
+  Copy,
+  BarChart3,
 } from "lucide-react";
 
 import Loader from "./loader";
@@ -36,11 +58,19 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { TheoryQuiz } from "./quiz-theory";
 
 const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
   const [showQuiz, setShowQuiz] = useState(false);
+  const [quizType, setQuizType] = useState<'multiple' | 'theory'>('multiple');
+  const handleStartQuiz = () => {
+    if (queryResult?.quizType === 'theory') {
+      setQuizType('theory');
+    } else {
+      setQuizType('multiple');
+    }
+    setShowQuiz(true);
+  };
 
   const {
     data: queryResult,
@@ -56,314 +86,282 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
     })
   );
 
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty?.toLowerCase()) {
+      case "easy":
+        return "bg-green-500";
+      case "medium":
+        return "bg-yellow-500";
+      case "hard":
+        return "bg-red-500";
+      default:
+        return "bg-blue-500";
+    }
+  };
+
+  const getDifficultyWidth = (difficulty: string) => {
+    switch (difficulty?.toLowerCase()) {
+      case "easy":
+        return "33%";
+      case "medium":
+        return "66%";
+      case "hard":
+        return "100%";
+      default:
+        return "50%";
+    }
+  };
+
+  const getQuizTypeIcon = (type: string) => {
+    switch (type) {
+      case "multiple-choice":
+        return <Target className="h-4 w-4" />;
+      case "theory":
+        return <Brain className="h-4 w-4" />;
+      case "yes-no":
+        return <Zap className="h-4 w-4" />;
+      default:
+        return <BookOpen className="h-4 w-4" />;
+    }
+  };
+
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case "multiple-choice":
+        return <Target className="h-4 w-4" />;
+      case "theory":
+        return <Brain className="h-4 w-4" />;
+      case "yes-no":
+        return <Zap className="h-4 w-4" />;
+      default:
+        return <BookOpen className="h-4 w-4" />;
+    }
+  };
+
   const renderContent = () => {
     if (isLoading) {
-      return (
-        <div className="flex flex-col items-center justify-center h-[60vh]">
-          <Loader />
-          <p className="mt-4 text-muted-foreground">Loading quiz details...</p>
-        </div>
-      );
+      return <Loader />;
     }
 
     if (isQueryError) {
       return (
-        <Card className="border-destructive bg-destructive/5 shadow-lg">
-          <CardHeader className="pb-2">
-            <div className="flex items-center gap-3">
-              <div className="bg-destructive/10 rounded-full p-2">
-                <AlertCircle className="h-6 w-6 text-destructive" />
-              </div>
-              <div>
-                <CardTitle className="text-destructive">
-                  Error Loading Quiz
-                </CardTitle>
-                <CardDescription className="text-destructive-foreground">
-                  We couldn't fetch the quiz details. Please try again.
-                </CardDescription>
-              </div>
+        <div className="min-h-screen ">
+          <div className="container mx-auto px-4 py-8">
+            <div className="max-w-2xl mx-auto">
+              <Card className="border-red-500/20 bg-card">
+                <CardHeader className="text-center">
+                  <div className="mx-auto w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mb-4">
+                    <AlertCircle className="h-8 w-8 text-red-400" />
+                  </div>
+                  <CardTitle className="text-2xl text-red-400">
+                    Failed to Load Quiz
+                  </CardTitle>
+                  <CardDescription className="text-slate-300">
+                    We encountered an error while loading your quiz. Please try
+                    again.
+                  </CardDescription>
+                </CardHeader>
+                {queryError && (
+                  <CardContent>
+                    <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+                      <p className="text-sm text-red-300 font-medium mb-2">
+                        Error Details:
+                      </p>
+                      <p className="text-xs text-red-200 font-mono">
+                        {queryError.message}
+                      </p>
+                    </div>
+                  </CardContent>
+                )}
+                <CardFooter className="justify-center">
+                  <Button
+                    onClick={() => refetch()}
+                    className="bg-red-600 hover:bg-red-700"
+                  >
+                    <RefreshCw className="mr-2 h-4 w-4" />
+                    Try Again
+                  </Button>
+                </CardFooter>
+              </Card>
             </div>
-          </CardHeader>
-          {queryError && (
-            <CardContent className="pt-4">
-              <div className="bg-destructive/20 p-3 rounded-md text-sm text-destructive-foreground mb-4 text-left">
-                <p className="font-semibold">Error details:</p>
-                <p className="break-words">{queryError.message}</p>
-              </div>
-            </CardContent>
-          )}
-          <CardFooter className="flex justify-end">
-            <Button
-              onClick={() => refetch()}
-              variant="destructive"
-              className="bg-destructive hover:bg-destructive/90"
-            >
-              <RefreshCw className="mr-2 h-4 w-4" /> Try Again
-            </Button>
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
       );
     }
 
-    if (!queryResult || queryResult.length === 0) {
+    if (!queryResult) {
       return (
-        <Card className="shadow-lg">
-          <CardHeader className="pb-2">
-            <div className="flex items-center gap-3">
-              <div className="bg-muted rounded-full p-2">
-                <HelpCircle className="h-6 w-6 text-muted-foreground" />
-              </div>
-              <div>
-                <CardTitle>Quiz Not Found</CardTitle>
-                <CardDescription>
-                  The quiz you're looking for doesn't exist or you don't have
-                  permission to view it.
-                </CardDescription>
-              </div>
+        <div className="min-h-screen">
+          <div className="container mx-auto px-4 py-8">
+            <div className="max-w-2xl mx-auto">
+              <Card className="bg-card border-slate-700">
+                <CardHeader className="text-center">
+                  <div className="mx-auto w-16 h-16 bg-slate-700 rounded-full flex items-center justify-center mb-4">
+                    <HelpCircle className="h-8 w-8 text-slate-400" />
+                  </div>
+                  <CardTitle className="text-2xl text-white">
+                    Quiz Not Found
+                  </CardTitle>
+                  <CardDescription className="text-slate-300">
+                    The quiz you're looking for doesn't exist or you don't have
+                    permission to view it.
+                  </CardDescription>
+                </CardHeader>
+                <CardFooter className="justify-center">
+                  <Button variant="outline" asChild>
+                    <Link to="/dashboard/quizzes">
+                      <ArrowLeft className="mr-2 h-4 w-4" />
+                      Back to Quizzes
+                    </Link>
+                  </Button>
+                </CardFooter>
+              </Card>
             </div>
-          </CardHeader>
-          <CardFooter className="pt-6">
-            <Button variant="outline" asChild>
-              <Link to="/dashboard/quizzes">Go to Quizzes</Link>
-            </Button>
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
       );
     }
 
-    const quizDetails = queryResult[0];
+    const quizDetails = queryResult;
 
     if (
       quizDetails.status === "PENDING" ||
       quizDetails.status === "PROCESSING"
     ) {
-      const isProcessing = quizDetails.status === "PROCESSING";
       return (
-        <Card className="shadow-lg max-w-3xl mx-auto">
-          <div className="grid md:grid-cols-5 gap-0">
-            <div className="md:col-span-3 p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div
-                  className={`rounded-full p-2 ${
-                    isProcessing ? "bg-sky-500/10" : "bg-amber-500/10"
-                  }`}
-                >
-                  <RefreshCw
-                    className={`h-6 w-6 ${
-                      isProcessing
-                        ? "text-sky-500 animate-spin"
-                        : "text-amber-500 animate-ping"
-                    }`}
-                  />
-                </div>
-                <h2 className="text-2xl font-bold">
-                  Quiz is {quizDetails.status.toLowerCase()}
-                </h2>
-              </div>
-
-              <p className="text-muted-foreground mb-6">
-                Your quiz "{quizDetails.title}" is currently being{" "}
-                {isProcessing ? "processed" : "prepared"}. This might take a few
-                moments.
-              </p>
-
-              <div className="flex flex-col items-center justify-center py-8">
-                <Loader />
-                <p className="text-sm text-muted-foreground mt-4">
-                  Feel free to refresh, or check back in a bit.
-                </p>
-              </div>
-
-              <Button
-                onClick={() => refetch()}
-                variant="outline"
-                className="w-full"
-              >
-                <RefreshCw className="mr-2 h-4 w-4" /> Refresh Status
-              </Button>
-            </div>
-
-            <div className="md:col-span-2 bg-muted/30 p-6 md:p-8 border-t md:border-t-0 md:border-l">
-              <h3 className="text-lg font-medium mb-4">Quiz Details</h3>
-
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Type:</span>
-                  <Badge
-                    variant={
-                      quizDetails.quizType === "multiple-choice"
-                        ? "default"
-                        : quizDetails.quizType === "theory"
-                        ? "outline"
-                        : "secondary"
-                    }
-                  >
-                    {quizDetails.quizType === "multiple-choice"
-                      ? "Multiple Choice"
-                      : quizDetails.quizType === "theory"
-                      ? "Theory"
-                      : "Yes/No"}
-                  </Badge>
-                </div>
-
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">
-                    Created:
-                  </span>
-                  <span className="text-sm">
-                    {new Date(quizDetails.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
-
-                {quizDetails.updatedAt &&
-                  new Date(quizDetails.updatedAt).getTime() !==
-                    new Date(quizDetails.createdAt).getTime() && (
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">
-                        Updated:
-                      </span>
-                      <span className="text-sm">
-                        {new Date(quizDetails.updatedAt).toLocaleDateString()}
-                      </span>
+        <div className="min-h-screen">
+          <div className="container mx-auto px-4 py-8">
+            <div className="max-w-4xl mx-auto">
+              <Card className="bg-card border-slate-700">
+                <CardContent className="p-8">
+                  <div className="text-center mb-8">
+                    <div className="mx-auto w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mb-6">
+                      <RefreshCw className="h-10 w-10 text-blue-400 animate-spin" />
                     </div>
-                  )}
+                    <h1 className="text-3xl font-bold text-white mb-2">
+                      Quiz is {quizDetails.status.toLowerCase()}
+                    </h1>
+                    <p className="text-slate-300 text-lg">
+                      Your quiz "{quizDetails.title}" is being prepared. This
+                      usually takes a few moments.
+                    </p>
+                  </div>
 
-                <div className="pt-4">
-                  <Button variant="outline" asChild className="w-full">
-                    <Link to="/dashboard/quizzes">Go to Quizzes</Link>
+                  <div className="grid md:grid-cols-3 gap-6 mb-8">
+                    <div className="bg-slate-700/30 rounded-lg p-4 text-center">
+                      <div className="flex items-center justify-center mb-2">
+                        {getQuizTypeIcon(quizDetails.quizType)}
+                      </div>
+                      <p className="text-sm text-slate-400">Type</p>
+                      <p className="text-white font-medium capitalize">
+                        {quizDetails.quizType.replace("-", " ")}
+                      </p>
+                    </div>
+                    <div className="bg-slate-700/30 rounded-lg p-4 text-center">
+                      <Calendar className="h-5 w-5 mx-auto mb-2 text-slate-400" />
+                      <p className="text-sm text-slate-400">Created</p>
+                      <p className="text-white font-medium">
+                        {new Date(quizDetails.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div className="bg-slate-700/30 rounded-lg p-4 text-center">
+                      <Activity className="h-5 w-5 mx-auto mb-2 text-slate-400" />
+                      <p className="text-sm text-slate-400">Status</p>
+                      <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">
+                        {quizDetails.status}
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={() => refetch()}
+                    className="w-full bg-blue-600 hover:bg-blue-700"
+                  >
+                    <RefreshCw className="mr-2 h-4 w-4" />
+                    Check Status
                   </Button>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
-        </Card>
+        </div>
       );
     }
 
+    // Failed State
     if (quizDetails.status === "FAILED") {
       return (
-        <Card className="shadow-lg max-w-3xl mx-auto">
-          <div className="grid md:grid-cols-5 gap-0">
-            <div className="md:col-span-3 p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="bg-destructive/10 rounded-full p-2">
-                  <AlertCircle className="h-6 w-6 text-destructive" />
-                </div>
-                <h2 className="text-2xl font-bold text-destructive">
-                  Quiz Generation Failed
-                </h2>
-              </div>
+        <div className="min-h-screen">
+          <div className="container mx-auto px-4 py-8">
+            <div className="max-w-4xl mx-auto">
+              <Card className="bg-card border-red-500/20">
+                <CardContent className="p-8">
+                  <div className="text-center mb-8">
+                    <div className="mx-auto w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mb-6">
+                      <AlertCircle className="h-10 w-10 text-red-400" />
+                    </div>
+                    <h1 className="text-3xl font-bold text-red-400 mb-2">
+                      Quiz Generation Failed
+                    </h1>
+                    <p className="text-slate-300 text-lg">
+                      We're sorry, but an error occurred while generating "
+                      {quizDetails.title}".
+                    </p>
+                  </div>
 
-              <p className="text-muted-foreground mb-6">
-                We're sorry, but an error occurred while generating your quiz "
-                {quizDetails.title}".
-              </p>
-
-              {quizDetails.error && (
-                <div className="bg-destructive/20 p-4 rounded-md text-sm text-destructive-foreground mb-6 text-left">
-                  <p className="font-semibold mb-1">Error details:</p>
-                  <pre className="whitespace-pre-wrap text-xs max-h-60 overflow-y-auto">
-                    {quizDetails.error}
-                  </pre>
-                </div>
-              )}
-
-              <div className="flex gap-2">
-                <Button
-                  onClick={() => refetch()}
-                  variant="outline"
-                  className="flex-1"
-                >
-                  <RefreshCw className="mr-2 h-4 w-4" /> Try Refreshing
-                </Button>
-                <Button variant="outline" asChild className="flex-1">
-                  <Link to="/dashboard/quizzes">Go to Quizzes</Link>
-                </Button>
-              </div>
-            </div>
-
-            <div className="md:col-span-2 bg-muted/30 p-6 md:p-8 border-t md:border-t-0 md:border-l">
-              <h3 className="text-lg font-medium mb-4">Quiz Details</h3>
-
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Type:</span>
-                  <Badge
-                    variant={
-                      quizDetails.quizType === "multiple-choice"
-                        ? "default"
-                        : quizDetails.quizType === "theory"
-                        ? "outline"
-                        : "secondary"
-                    }
-                  >
-                    {quizDetails.quizType === "multiple-choice"
-                      ? "Multiple Choice"
-                      : quizDetails.quizType === "theory"
-                      ? "Theory"
-                      : "Yes/No"}
-                  </Badge>
-                </div>
-
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Status:</span>
-                  <Badge variant="destructive">Failed</Badge>
-                </div>
-
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">
-                    Created:
-                  </span>
-                  <span className="text-sm">
-                    {new Date(quizDetails.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
-
-                {quizDetails.updatedAt &&
-                  new Date(quizDetails.updatedAt).getTime() !==
-                    new Date(quizDetails.createdAt).getTime() && (
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">
-                        Updated:
-                      </span>
-                      <span className="text-sm">
-                        {new Date(quizDetails.updatedAt).toLocaleDateString()}
-                      </span>
+                  {quizDetails.error && (
+                    <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-6">
+                      <p className="text-red-300 font-medium mb-2">
+                        Error Details:
+                      </p>
+                      <pre className="text-xs text-red-200 font-mono whitespace-pre-wrap max-h-32 overflow-y-auto">
+                        {quizDetails.error}
+                      </pre>
                     </div>
                   )}
-              </div>
+
+                  <div className="flex gap-4 justify-center">
+                    <Button onClick={() => refetch()} variant="outline">
+                      <RefreshCw className="mr-2 h-4 w-4" />
+                      Retry
+                    </Button>
+                    <Button asChild>
+                      <Link to="/dashboard/quizzes">
+                        <ArrowLeft className="mr-2 h-4 w-4" />
+                        Back to Quizzes
+                      </Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
-        </Card>
+        </div>
       );
     }
 
+    // Completed Quiz
     if (quizDetails.status === "COMPLETED") {
       if (!quizDetails.quizData) {
         return (
-          <Card className="border-amber-500 bg-amber-500/5 shadow-lg">
-            <CardHeader className="pb-2">
-              <div className="flex items-center gap-3">
-                <div className="bg-amber-500/10 rounded-full p-2">
-                  <AlertTriangle className="h-6 w-6 text-amber-500" />
-                </div>
-                <div>
-                  <CardTitle className="text-amber-700 dark:text-amber-500">
-                    Quiz Data Missing
-                  </CardTitle>
-                  <CardDescription className="text-amber-600 dark:text-amber-400">
-                    The quiz "{quizDetails.title}" is marked as complete, but
-                    its content is missing. This might be an internal error.
-                  </CardDescription>
-                </div>
+          <div className="min-h-screen">
+            <div className="container mx-auto px-4 py-8">
+              <div className="max-w-2xl mx-auto">
+                <Card className="bg-card border-amber-500/20">
+                  <CardHeader className="text-center">
+                    <AlertTriangle className="h-12 w-12 text-amber-400 mx-auto mb-4" />
+                    <CardTitle className="text-2xl text-amber-400">
+                      Quiz Data Missing
+                    </CardTitle>
+                    <CardDescription className="text-slate-300">
+                      The quiz is marked as complete, but its content is
+                      missing.
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
               </div>
-            </CardHeader>
-            <CardFooter className="pt-6">
-              <Button variant="outline" asChild>
-                <Link to="/dashboard/quizzes">Go to Quizzes</Link>
-              </Button>
-            </CardFooter>
-          </Card>
+            </div>
+          </div>
         );
       }
 
@@ -374,92 +372,24 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
       const parsedQuizData = quizDataSchema.safeParse(quizDetails.quizData);
 
       if (!parsedQuizData.success) {
-        console.error(
-          "Quiz data validation failed:",
-          parsedQuizData.error.flatten()
-        );
         return (
-          <Card className="shadow-lg max-w-3xl mx-auto">
-            <div className="grid md:grid-cols-5 gap-0">
-              <div className="md:col-span-3 p-6 md:p-8">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="bg-orange-500/10 rounded-full p-2">
-                    <AlertTriangle className="h-6 w-6 text-orange-500" />
-                  </div>
-                  <h2 className="text-2xl font-bold">Quiz Data Issue</h2>
-                </div>
-
-                <p className="text-muted-foreground mb-6">
-                  The quiz "{quizDetails.title}" is complete, but its content
-                  has an invalid structure. Please report this issue if it
-                  persists.
-                </p>
-
-                <div className="bg-orange-500/10 p-3 rounded-md text-sm text-orange-700 dark:text-orange-300 mb-4 text-left max-h-60 overflow-y-auto">
-                  <p className="font-semibold">Validation Errors:</p>
-                  <ul className="list-disc list-inside mt-1 text-xs">
-                    {parsedQuizData.error.errors.map((err, idx) => (
-                      <li key={idx}>
-                        <strong>Path:</strong> {err.path.join(".")} -{" "}
-                        {err.message}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <Button variant="outline" asChild className="w-full">
-                  <Link to="/dashboard/quizzes">Go to Quizzes</Link>
-                </Button>
-              </div>
-
-              <div className="md:col-span-2 bg-muted/30 p-6 md:p-8 border-t md:border-t-0 md:border-l">
-                <h3 className="text-lg font-medium mb-4">Quiz Details</h3>
-
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Type:</span>
-                    <Badge
-                      variant={
-                        quizDetails.quizType === "multiple-choice"
-                          ? "default"
-                          : quizDetails.quizType === "theory"
-                          ? "outline"
-                          : "secondary"
-                      }
-                    >
-                      {quizDetails.quizType === "multiple-choice"
-                        ? "Multiple Choice"
-                        : quizDetails.quizType === "theory"
-                        ? "Theory"
-                        : "Yes/No"}
-                    </Badge>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">
-                      Created:
-                    </span>
-                    <span className="text-sm">
-                      {new Date(quizDetails.createdAt).toLocaleDateString()}
-                    </span>
-                  </div>
-
-                  {quizDetails.updatedAt &&
-                    new Date(quizDetails.updatedAt).getTime() !==
-                      new Date(quizDetails.createdAt).getTime() && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-muted-foreground">
-                          Updated:
-                        </span>
-                        <span className="text-sm">
-                          {new Date(quizDetails.updatedAt).toLocaleDateString()}
-                        </span>
-                      </div>
-                    )}
-                </div>
+          <div className="min-h-screen">
+            <div className="container mx-auto px-4 py-8">
+              <div className="max-w-2xl mx-auto">
+                <Card className="bg-card border-orange-500/20">
+                  <CardHeader className="text-center">
+                    <AlertTriangle className="h-12 w-12 text-orange-400 mx-auto mb-4" />
+                    <CardTitle className="text-2xl text-orange-400">
+                      Quiz Data Issue
+                    </CardTitle>
+                    <CardDescription className="text-slate-300">
+                      The quiz content has an invalid structure.
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
               </div>
             </div>
-          </Card>
+          </div>
         );
       }
 
@@ -468,240 +398,255 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
           ? (parsedQuizData.data as TheoryQuestion[])
           : (parsedQuizData.data as Question[]);
 
-      if (validatedQuestions.length === 0) {
-        return (
-          <Card className="shadow-lg">
-            <CardHeader className="pb-2">
-              <div className="flex items-center gap-3">
-                <div className="bg-sky-500/10 rounded-full p-2">
-                  <Info className="h-6 w-6 text-sky-500" />
-                </div>
-                <div>
-                  <CardTitle>Quiz Ready, No Questions</CardTitle>
-                  <CardDescription>
-                    The quiz "{quizDetails.title}" is ready, but it seems to
-                    have no questions. This might be an issue with the source
-                    document or generation process.
-                  </CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-            <CardFooter className="pt-6">
-              <Button variant="outline" asChild>
-                <Link to="/dashboard/quizzes">Go to Quizzes</Link>
-              </Button>
-            </CardFooter>
-          </Card>
-        );
-      }
-
       if (showQuiz) {
         return (
-          <Card className="shadow-lg w-full max-w-4xl mx-auto">
-            <CardHeader className="pb-2 pt-4 border-b">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-3">
-                  <BookOpen className="h-5 w-5 text-primary" />
-                  <CardTitle className="text-xl font-semibold">
-                    {quizDetails.title}
-                  </CardTitle>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowQuiz(false)}
-                  className="text-muted-foreground hover:text-primary"
-                >
-                  <X className="h-4 w-4 mr-1" /> Exit Quiz
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="p-0">
-              {quizDetails.quizType === "theory" && (
-                <TheoryQuiz
-                  allQuestions={validatedQuestions as TheoryQuestion[]}
-                />
-              )}
-              {quizDetails.quizType !== "theory" && (
-                <Quiz allQuestions={validatedQuestions as Question[]} />
-              )}
-            </CardContent>
-          </Card>
+          <div className="min-h-screen ">
+            <div className="container mx-auto px-4 py-8">
+              <Card className="bg-card border-slate-700 max-w-4xl mx-auto">
+                <CardHeader className="border-b border-slate-700">
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-3">
+                      <BookOpen className="h-6 w-6 text-blue-400" />
+                      <CardTitle className="text-xl text-white">
+                        {quizDetails.title}
+                      </CardTitle>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setShowQuiz(false)}
+                      className="text-slate-400 hover:text-white"
+                    >
+                      <X className="h-4 w-4 mr-1" />
+                      Exit Quiz
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-0">
+                  {quizDetails.quizType === "theory" && (
+                    <TheoryQuiz
+                      allQuestions={validatedQuestions as TheoryQuestion[]}
+                    />
+                  )}
+                  {quizDetails.quizType !== "theory" && (
+                    <Quiz allQuestions={validatedQuestions as Question[]} />
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         );
       }
 
       return (
-        <Card className="shadow-lg max-w-3xl mx-auto">
-          <div className="grid md:grid-cols-5 gap-0">
-            <div className="md:col-span-3 p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="bg-green-500/10 rounded-full p-2">
-                  <CheckCircle className="h-6 w-6 text-green-500" />
-                </div>
-                <h2 className="text-2xl font-bold">{quizDetails.title}</h2>
-              </div>
+        <div className="min-h-screen ">
+          <div className="container mx-auto px-4 py-8 max-w-7xl bg-background rounded">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-2xl p-8 mb-6 border border-blue-500/20 backdrop-blur-md">
+              <div className="border-b border-slate-900/50 bg-slate-900/50 backdrop-blur-sm rounded-2xl mb-2">
+                <div className="container mx-auto px-4 py-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <Button asChild variant="ghost" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                        <Link to="/dashboard/quizzes">
+                          <ArrowLeft className="h-4 w-4" />
+                          <span className="hidden sm:inline">
+                            Back to Quiz List
+                          </span>
+                        </Link>
+                      </Button>
+                      <div className="h-6 w-px bg-slate-700"></div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                        <span className="text-green-400 text-sm font-medium">
+                          Ready
+                        </span>
+                      </div>
+                    </div>
 
-              <p className="text-muted-foreground mb-6">
-                Your quiz is ready! Test your knowledge with{" "}
-                {validatedQuestions.length} questions.
-              </p>
-
-              <div className="space-y-4 mb-8">
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">
-                    Estimated time: {Math.ceil(validatedQuestions.length * 1.5)}{" "}
-                    minutes
-                  </span>
-                </div>
-
-                {quizDetails.documentLink && (
-                  <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-muted-foreground" />
-                    <a
-                      href={quizDetails.documentLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-primary hover:underline truncate max-w-[250px]"
-                      title={quizDetails.documentLink}
-                    >
-                      Source document
-                    </a>
+                    <div className="flex items-center gap-2">
+                      <button className="p-2 text-slate-400 hover:text-white transition-colors">
+                        <Bookmark className="h-4 w-4" />
+                      </button>
+                      <button className="p-2 text-slate-400 hover:text-white transition-colors">
+                        <Heart className="h-4 w-4" />
+                      </button>
+                      <button className="p-2 text-slate-400 hover:text-white transition-colors">
+                        <Share2 className="h-4 w-4" />
+                      </button>
+                      <button className="p-2 text-slate-400 hover:text-white transition-colors">
+                        <MoreVertical className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                      {getTypeIcon(queryResult?.quizType)}
+                    </div>
+                    <div>
+                      <h1 className="text-3xl font-bold text-white mb-1">
+                        {queryResult?.title}
+                      </h1>
+                      <p className="text-slate-300">
+                        {queryResult?.description}
+                      </p>
+                    </div>
+                  </div>
 
-              <Button
-                size="lg"
-                onClick={() => setShowQuiz(true)}
-                className="w-full transform hover:scale-105 transition-transform duration-150"
-              >
-                <PlayCircle className="mr-2 h-5 w-5" />
-                Start Quiz
-              </Button>
-            </div>
-
-            <div className="md:col-span-2 bg-muted/30 p-6 md:p-8 border-t md:border-t-0 md:border-l">
-              <h3 className="text-lg font-medium mb-4">Quiz Details</h3>
-
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Type:</span>
-                  <Badge
-                    variant={
-                      quizDetails.quizType === "multiple-choice"
-                        ? "default"
-                        : quizDetails.quizType === "theory"
-                        ? "outline"
-                        : "secondary"
-                    }
-                  >
-                    {quizDetails.quizType === "multiple-choice"
-                      ? "Multiple Choice"
-                      : quizDetails.quizType === "theory"
-                      ? "Theory"
-                      : "Yes/No"}
-                  </Badge>
-                </div>
-
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">
-                    Questions:
-                  </span>
-                  <span className="font-medium">
-                    {validatedQuestions.length}
-                  </span>
-                </div>
-
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">
-                    Created:
-                  </span>
-                  <span className="text-sm">
-                    {new Date(quizDetails.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
-
-                {quizDetails.updatedAt &&
-                  new Date(quizDetails.updatedAt).getTime() !==
-                    new Date(quizDetails.createdAt).getTime() && (
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">
-                        Updated:
-                      </span>
-                      <span className="text-sm">
-                        {new Date(quizDetails.updatedAt).toLocaleDateString()}
+                  <div className="flex flex-wrap items-center gap-4 mb-6">
+                    <div className="flex items-center gap-2 bg-slate-800/50 rounded-lg px-3 py-1">
+                      <div
+                        className={`w-3 h-3 rounded-full ${getDifficultyColor(
+                          queryResult.difficulty!
+                        )}`}
+                      ></div>
+                      <span className="text-white text-sm font-medium capitalize">
+                        {queryResult.difficulty}
                       </span>
                     </div>
-                  )}
-
-                <Separator className="my-2" />
-
-                <div className="pt-2">
-                  <div className="flex items-center gap-2 mb-2">
-                    <BarChart className="h-4 w-4 text-primary" />
-                    <span className="text-sm font-medium">Difficulty</span>
+                    <div className="flex items-center gap-2 text-slate-300 text-sm">
+                      <FileText className="h-4 w-4" />
+                      {queryResult.questionCount} Questions
+                    </div>
+                    <div className="flex items-center gap-2 text-slate-300 text-sm">
+                      <Clock className="h-4 w-4" />
+                      {queryResult.totalTimeSpent} Minutes
+                    </div>
+                    <div className="flex items-center gap-2 text-slate-300 text-sm">
+                      <Users className="h-4 w-4" />
+                      {queryResult.totalAttempts} Attempts
+                    </div>
                   </div>
-                  <div className="h-2 bg-muted rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-primary rounded-full"
-                      style={{ width: "65%" }}
-                    ></div>
+
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {queryResult?.tags?.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="bg-slate-700/50 border border-slate-600 text-slate-300 px-3 py-1 rounded-full text-xs"
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
-                  <div className="flex justify-between mt-1">
-                    <span className="text-xs text-muted-foreground">
-                      Beginner
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      Advanced
-                    </span>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  <button onClick={handleStartQuiz} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold flex items-center gap-3 transition-all transform hover:scale-105">
+                    <PlayCircle className="h-5 w-5" />
+                    Start Quiz
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+
+                  <div className="flex gap-2">
+                    <button className="bg-slate-700/50 hover:bg-slate-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
+                      <Shuffle className="h-4 w-4" />
+                      Practice
+                    </button>
+                    <button className="bg-slate-700/50 hover:bg-slate-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
+                      <Download className="h-4 w-4" />
+                      Export
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Quick Stats Bar */}
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6">
+              <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50 ">
+                <div className="flex items-center justify-between mb-2">
+                  <Trophy className="h-5 w-5 text-yellow-400" />
+                  {/* <span className="text-2xl font-bold text-white">{quizData.bestScore}%</span> */}
+                  <span className="text-2xl font-bold text-white">{76}%</span>
+                </div>
+                <p className="text-slate-400 text-sm">Best Score</p>
+              </div>
+
+              <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50">
+                <div className="flex items-center justify-between mb-2">
+                  <BarChart3 className="h-5 w-5 text-green-400" />
+                  <span className="text-2xl font-bold text-white">
+                    {queryResult.averageScore ?? 0}%
+                  </span>
+                </div>
+                <p className="text-slate-400 text-sm">Average</p>
+              </div>
+
+              <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50">
+                <div className="flex items-center justify-between mb-2">
+                  <CheckCircle className="h-5 w-5 text-blue-400" />
+                  {/* <span className="text-2xl font-bold text-white">{quizData.completionRate}%</span> */}
+                  <span className="text-2xl font-bold text-white">{36}%</span>
+                </div>
+                <p className="text-slate-400 text-sm">Completion</p>
+              </div>
+
+              <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50">
+                <div className="flex items-center justify-between mb-2">
+                  <Repeat className="h-5 w-5 text-purple-400" />
+                  <span className="text-2xl font-bold text-white">
+                    {queryResult.totalAttempts}
+                  </span>
+                </div>
+                <p className="text-slate-400 text-sm">Attempts</p>
+              </div>
+
+              <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50">
+                <div className="flex items-center justify-between mb-2">
+                  <Timer className="h-5 w-5 text-orange-400" />
+                  <span className="text-2xl font-bold text-white">18m</span>
+                </div>
+                <p className="text-slate-400 text-sm">Avg Time</p>
+              </div>
+            </div>
+            <div className="mt-8 flex flex-wrap gap-4 justify-center">
+              <button className="bg-slate-700/50 hover:bg-slate-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors">
+                <Download className="h-4 w-4" />
+                Download PDF Report
+              </button>
+
+              <button className="bg-slate-700/50 hover:bg-slate-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors">
+                <Share2 className="h-4 w-4" />
+                Share Progress
+              </button>
+
+              <button className="bg-slate-700/50 hover:bg-slate-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors">
+                <Copy className="h-4 w-4" />
+                Export Data
+              </button>
+            </div>
           </div>
-        </Card>
+        </div>
       );
     }
 
     return (
-      <Card className="shadow-lg">
-        <CardHeader className="pb-2">
-          <div className="flex items-center gap-3">
-            <div className="bg-muted rounded-full p-2">
-              <HelpCircle className="h-6 w-6 text-muted-foreground" />
-            </div>
-            <div>
-              <CardTitle>Unknown Quiz Status</CardTitle>
-              <CardDescription>
-                The quiz "{quizDetails.title}" has an unrecognized status:{" "}
-                {quizDetails.status}.
-              </CardDescription>
-            </div>
+      <div className="min-h-screen">
+        <div className="container mx-auto px-4 py-8 max-w-7xl">
+          <div className="max-w-2xl mx-auto">
+            <Card className="bg-card border-slate-700">
+              <CardHeader className="text-center">
+                <HelpCircle className="h-12 w-12 text-slate-400 mx-auto mb-4" />
+                <CardTitle className="text-2xl text-white">
+                  Unknown Quiz Status
+                </CardTitle>
+                <CardDescription className="text-slate-300">
+                  The quiz "{quizDetails.title}" has an unrecognized status:{" "}
+                  {quizDetails.status}.
+                </CardDescription>
+              </CardHeader>
+            </Card>
           </div>
-        </CardHeader>
-        <CardFooter className="pt-6">
-          <Button variant="outline" asChild>
-            <Link to="/dashboard/quizzes">Go to Quizzes</Link>
-          </Button>
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
     );
   };
 
-  return (
-    <div className="container mx-auto px-4 py-6 max-w-7xl">
-      <div className="flex items-center justify-between mb-6">
-        <Button variant="outline" asChild size="sm">
-          <Link to=".." className="flex items-center gap-2 group">
-            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            Back to Dashboard
-          </Link>
-        </Button>
-      </div>
-      {renderContent()}
-    </div>
-  );
+  return renderContent();
 };
 
 export default QuizPage;

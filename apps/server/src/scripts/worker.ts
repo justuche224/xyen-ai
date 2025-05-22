@@ -3,7 +3,7 @@
 import "dotenv/config";
 import { db } from "../db";
 import { jobs } from "../db/schema/jobs";
-import { quiz } from "../db/schema/quiz";
+import { quiz, quizMeta } from "../db/schema/quiz";
 import { eq } from "drizzle-orm";
 import { generateQuiz } from "./utils/generate-quiz";
 
@@ -44,8 +44,15 @@ async function processJob(jobRow: typeof jobs.$inferSelect) {
     }
 
     const [quizEntry] = await db
-      .select({ documentLink: quiz.documentLink, quizType: quiz.quizType })
+      .select({
+        documentLink: quiz.documentLink,
+        quizType: quiz.quizType,
+        questionCount: quizMeta.questionCount,
+        difficulty: quizMeta.difficulty,
+        customePrompt: quiz.customePrompt,
+      })
       .from(quiz)
+      .leftJoin(quizMeta, eq(quiz.id, quizMeta.quizId))
       .where(eq(quiz.id, jobRow.quizId));
 
     if (!quizEntry || !quizEntry.documentLink) {
@@ -65,7 +72,10 @@ async function processJob(jobRow: typeof jobs.$inferSelect) {
 
     const { data, error } = await generateQuiz(
       quizEntry.documentLink,
-      quizEntry.quizType
+      quizEntry.quizType,
+      quizEntry.difficulty,
+      quizEntry.questionCount,
+      quizEntry.customePrompt ?? undefined
     );
 
     if (error) {

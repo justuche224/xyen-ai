@@ -12,7 +12,10 @@ const ai = new GoogleGenAI({ apiKey: apikey });
 
 async function generateQuiz(
   documentLink: string,
-  quiztype: "multiple-choice" | "yes-no" | "theory"
+  quiztype: "multiple-choice" | "yes-no" | "theory",
+  difficulty: "easy" | "medium" | "hard" | "extreme" | null,
+  questionCount: number | null,
+  customePrompt?: string
 ) {
   try {
     const document = await fetch(documentLink).then((response) =>
@@ -20,7 +23,7 @@ async function generateQuiz(
     );
 
     const contents = [
-      { text: "Generate quiz from this" },
+      { text: `Generate quiz from.${customePrompt}. Dificulty level = ${difficulty ?? "medium"}` },
       {
         inlineData: {
           mimeType: "application/pdf",
@@ -33,7 +36,7 @@ async function generateQuiz(
       model: "gemini-2.0-flash",
       contents: contents,
       config: {
-        systemInstruction: `You are an expert quiz generator. Your task is to output a quiz in valid JSON format only—do not include any extra text or commentary. Generate a quiz with 20 ${
+        systemInstruction: `You are an expert quiz generator. Your task is to output a quiz in valid JSON format only—do not include any extra text or commentary. Generate a quiz with ${questionCount ?? 10} ${
           quiztype === "multiple-choice"
             ? "multiple choice"
             : quiztype === "yes-no"

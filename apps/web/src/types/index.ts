@@ -58,3 +58,5 @@ export type TheoryQuestion = z.infer<typeof TheoryQuestionSchema>;
 export const TheoryQuizDataSchema = z
   .array(TheoryQuestionSchema)
   .min(1, "A theory quiz must have at least one question.");
+
+export type Status = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";

@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, json } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, json, integer } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { jobs } from "./jobs";
 import { user } from "./auth";
@@ -9,7 +9,10 @@ export const quiz = pgTable("quiz", {
   data: json("data"),
   jobId: text("jobId").references(() => jobs.id),
   documentLink: text("documentLink").notNull(),
-  quizType: text("quizType", { enum: ["multiple-choice", "yes-no","theory"] }).notNull(),
+  customePrompt:text("customePrompt"),
+  quizType: text("quizType", {
+    enum: ["multiple-choice", "yes-no", "theory"],
+  }).notNull(),
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
@@ -17,7 +20,32 @@ export const quiz = pgTable("quiz", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-export const quizRelations = relations(quiz, ({ one }) => ({
+export const quizMeta = pgTable("quiz_meta", {
+  id: text("id").primaryKey(),
+  quizId: text("quiz_id").references(() => quiz.id),
+  questionCount: integer("question_count").notNull(),
+  description: text("description"),
+  difficulty: text("difficulty", {
+    enum: ["easy", "medium", "hard", "extreme"],
+  }).notNull(),
+  tags: text("tags").array(),
+});
+
+export const quizAttempts = pgTable("quiz_attempts", {
+  id: text("id").primaryKey(),
+  quizId: text("quiz_id").references(() => quiz.id),
+  userId: text("user_id").references(() => user.id),
+  mode: text("mode", { enum: ["practice", "exam", "review"] }).notNull(),
+  startTime: timestamp("start_time").notNull(),
+  endTime: timestamp("end_time"),
+  answers: json("answers"),
+  score: integer("score"),
+  status: text("status", { enum: ["in_progress", "completed"] }).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const quizRelations = relations(quiz, ({ one,many }) => ({
   user: one(user, {
     fields: [quiz.userId],
     references: [user.id],
@@ -26,4 +54,9 @@ export const quizRelations = relations(quiz, ({ one }) => ({
     fields: [quiz.jobId],
     references: [jobs.id],
   }),
+  meta: one(quizMeta, {
+    fields: [quiz.id],
+    references: [quizMeta.quizId],
+  }),
+  attempts: many(quizAttempts),
 }));

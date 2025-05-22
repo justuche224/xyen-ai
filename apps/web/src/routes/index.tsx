@@ -85,7 +85,7 @@ function HomeComponent() {
               Google
             </Button>
           </div>
-          <ModeToggle />
+          {/* <ModeToggle /> */}
           <Drawer>
             <DrawerTrigger className="md:hidden" aria-label="Menu">
               <MenuIcon />
