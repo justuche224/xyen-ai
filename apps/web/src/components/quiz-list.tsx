@@ -571,7 +571,7 @@ const QuizList = ({ userId }: { userId: string }) => {
 
                 {quiz.status === "COMPLETED" && (
                   <div className="mt-3 grid grid-cols-2 gap-2">
-                    <div className="rounded-md bg-blue-50 p-2 dark:bg-blue-950">
+                    {/* <div className="rounded-md bg-blue-50 p-2 dark:bg-blue-950">
                       <p className="text-xs font-medium text-blue-600 dark:text-blue-400">
                         Completion
                       </p>
@@ -584,10 +584,10 @@ const QuizList = ({ userId }: { userId: string }) => {
                             style={{ width: `${56}%` }}
                           ></div>
                         </div>
-                        {/* <span className="ml-2 text-xs font-medium">{quiz.completionRate}%</span> */}
+                        {/* <span className="ml-2 text-xs font-medium">{quiz.completionRate}%</span> 
                         <span className="ml-2 text-xs font-medium">{56}%</span>
                       </div>
-                    </div>
+                    </div> */}
 
                     <div className="rounded-md bg-purple-50 p-2 dark:bg-purple-950">
                       <p className="text-xs font-medium text-purple-600 dark:text-purple-400">

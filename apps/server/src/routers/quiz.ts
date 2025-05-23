@@ -12,7 +12,6 @@ export const quizRouter = {
   getAll: protectedProcedure
     .input(z.object({ userId: z.string() }))
     .handler(async ({ input }) => {
-      console.log("hi");
       const data = await db
         .select({
           id: quiz.id,
@@ -62,7 +61,6 @@ export const quizRouter = {
           quizMeta.description,
         )
         .orderBy(desc(quiz.createdAt));
-      console.log(data);
       return data;
     }),
   create: protectedProcedure
