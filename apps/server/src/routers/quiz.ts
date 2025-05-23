@@ -1,12 +1,14 @@
 import { eq, and, desc, sql } from "drizzle-orm";
 import { z } from "zod";
-import { db } from "../db";
-import { quiz } from "../db/schema/quiz";
-import { protectedProcedure } from "../lib/orpc";
+import { db } from "@/db";
+import { quiz } from "@/db/schema/quiz";
+import { protectedProcedure } from "@/lib/orpc";
 import { jobs } from "@/db/schema/jobs";
-import { quizAttempts, quizMeta } from "../db/schema/quiz";
+import { quizAttempts, quizMeta } from "@/db/schema/quiz";
+import { generateQuizPDFHandler } from "@/scripts/utils/generate-pdf";
 
 export const quizRouter = {
+  generateQuizPDF: generateQuizPDFHandler,
   getAll: protectedProcedure
     .input(z.object({ userId: z.string() }))
     .handler(async ({ input }) => {

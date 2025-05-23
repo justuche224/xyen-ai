@@ -24,11 +24,14 @@ export const quizMeta = pgTable("quiz_meta", {
   id: text("id").primaryKey(),
   quizId: text("quiz_id").references(() => quiz.id),
   questionCount: integer("question_count").notNull(),
+  questionsAsPdf:text("questions_as_pdf"),
   description: text("description"),
   difficulty: text("difficulty", {
     enum: ["easy", "medium", "hard", "extreme"],
   }).notNull(),
   tags: text("tags").array(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const quizAttempts = pgTable("quiz_attempts", {

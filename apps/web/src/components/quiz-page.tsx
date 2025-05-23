@@ -70,9 +70,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TheoryQuiz } from "./quiz-theory";
+import { toast } from "sonner";
 
 const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
   const [showQuiz, setShowQuiz] = useState(false);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [quizType, setQuizType] = useState<"exam" | "practice" | "review">(
     "practice"
   );
@@ -102,6 +104,36 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
     })
   );
 
+  const handleDownloadQuizAsPDF = async () => {
+    setIsGeneratingPDF(true);
+   try {
+    const res = await orpc.quiz.generateQuizPDF.call({
+      quizId,
+      userId,
+    });
+
+    if(res.error){
+      toast.error("Failed to generate PDF");
+      return;
+    }
+
+    if (res.success && res.pdfUrl) {
+      const blob = await fetch(res.pdfUrl).then((res) => res.blob());
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${queryResult?.title}.pdf`;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+   } catch (error) {
+    toast.error("Failed to generate PDF");
+   }
+   finally {
+    setIsGeneratingPDF(false);
+   }
+  };
+
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty?.toLowerCase()) {
       case "easy":
@@ -115,18 +147,6 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
     }
   };
 
-  const getDifficultyWidth = (difficulty: string) => {
-    switch (difficulty?.toLowerCase()) {
-      case "easy":
-        return "33%";
-      case "medium":
-        return "66%";
-      case "hard":
-        return "100%";
-      default:
-        return "50%";
-    }
-  };
 
   const getQuizTypeIcon = (type: string) => {
     switch (type) {
@@ -682,9 +702,9 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
               </div>
             </div>
             <div className="mt-8 flex flex-wrap gap-4 justify-center">
-              <button className="bg-slate-700/50 hover:bg-slate-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors">
-                <Download className="h-4 w-4" />
-                Download as PDF
+              <button disabled={isGeneratingPDF} onClick={handleDownloadQuizAsPDF} className="bg-slate-700/50 hover:bg-slate-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors">
+               {isGeneratingPDF ? <Loader2 className="animate-spin" /> : <Download className="h-4 w-4" />}
+               {isGeneratingPDF ? "Generating PDF..." : "Download as PDF"}
               </button>
 
               <button className="bg-slate-700/50 hover:bg-slate-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors">
