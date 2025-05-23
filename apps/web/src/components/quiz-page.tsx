@@ -2,6 +2,16 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   ArrowLeft,
   AlertCircle,
   Info,
@@ -37,6 +47,7 @@ import {
   Repeat,
   Copy,
   BarChart3,
+  Loader2,
 } from "lucide-react";
 
 import Loader from "./loader";
@@ -62,13 +73,12 @@ import { TheoryQuiz } from "./quiz-theory";
 
 const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
   const [showQuiz, setShowQuiz] = useState(false);
-  const [quizType, setQuizType] = useState<'multiple' | 'theory'>('multiple');
-  const handleStartQuiz = () => {
-    if (queryResult?.quizType === 'theory') {
-      setQuizType('theory');
-    } else {
-      setQuizType('multiple');
-    }
+  const [quizType, setQuizType] = useState<"exam" | "practice" | "review">(
+    "practice"
+  );
+  const [showExitConfirmation, setShowExitConfirmation] = useState(false);
+  const handleStartQuiz = (mode: "exam" | "practice" | "review") => {
+    setQuizType(mode);
     setShowQuiz(true);
   };
 
@@ -83,6 +93,12 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
       input: { quizId, userId },
       staleTime: 5 * 60 * 1000,
       gcTime: 10 * 60 * 1000,
+    })
+  );
+
+  const stats = useQuery(
+    orpc.quiz.getQuizStats.queryOptions({
+      input: { quizId, userId },
     })
   );
 
@@ -414,22 +430,51 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => setShowQuiz(false)}
+                      onClick={() => setShowExitConfirmation(true)}
                       className="text-slate-400 hover:text-white"
                     >
                       <X className="h-4 w-4 mr-1" />
                       Exit Quiz
                     </Button>
+
+                    <AlertDialog
+                      open={showExitConfirmation}
+                      onOpenChange={setShowExitConfirmation}
+                    >
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Exit Quiz?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Are you sure you want to exit? Your progress will be
+                            saved, but you'll need to start a new attempt to
+                            continue.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => setShowQuiz(false)}>
+                            Exit Quiz
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                 </CardHeader>
                 <CardContent className="p-0">
                   {quizDetails.quizType === "theory" && (
                     <TheoryQuiz
                       allQuestions={validatedQuestions as TheoryQuestion[]}
+                      quizId={quizDetails.id}
+                      userId={userId}
+                      mode={quizType}
                     />
                   )}
                   {quizDetails.quizType !== "theory" && (
-                    <Quiz allQuestions={validatedQuestions as Question[]} />
+                    <Quiz
+                      allQuestions={validatedQuestions as Question[]}
+                      quizId={quizDetails.id}
+                      userId={userId}
+                    />
                   )}
                 </CardContent>
               </Card>
@@ -447,7 +492,11 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                 <div className="container mx-auto px-4 py-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <Button asChild variant="ghost" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                      <Button
+                        asChild
+                        variant="ghost"
+                        className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
+                      >
                         <Link to="/dashboard/quizzes">
                           <ArrowLeft className="h-4 w-4" />
                           <span className="hidden sm:inline">
@@ -535,20 +584,29 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                 </div>
 
                 <div className="flex flex-col gap-4">
-                  <button onClick={handleStartQuiz} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold flex items-center gap-3 transition-all transform hover:scale-105">
+                  <button
+                    onClick={() => handleStartQuiz("exam")}
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold flex items-center gap-3 transition-all transform hover:scale-105"
+                  >
                     <PlayCircle className="h-5 w-5" />
-                    Start Quiz
+                    Start Exam
                     <ChevronRight className="h-4 w-4" />
                   </button>
 
                   <div className="flex gap-2">
-                    <button className="bg-slate-700/50 hover:bg-slate-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
+                    <button
+                      onClick={() => handleStartQuiz("practice")}
+                      className="bg-slate-700/50 hover:bg-slate-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                    >
                       <Shuffle className="h-4 w-4" />
                       Practice
                     </button>
-                    <button className="bg-slate-700/50 hover:bg-slate-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
-                      <Download className="h-4 w-4" />
-                      Export
+                    <button
+                      onClick={() => handleStartQuiz("review")}
+                      className="bg-slate-700/50 hover:bg-slate-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                    >
+                      <RefreshCw className="h-4 w-4" />
+                      Review
                     </button>
                   </div>
                 </div>
@@ -560,8 +618,15 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
               <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50 ">
                 <div className="flex items-center justify-between mb-2">
                   <Trophy className="h-5 w-5 text-yellow-400" />
-                  {/* <span className="text-2xl font-bold text-white">{quizData.bestScore}%</span> */}
-                  <span className="text-2xl font-bold text-white">{76}%</span>
+                  {stats.isLoading ? (
+                    <Loader2 className="animate-spin" />
+                  ) : stats.isError ? (
+                    <span className="text-red-500">Error</span>
+                  ) : (
+                    <span className="text-2xl font-bold text-white">
+                      {stats?.data?.highestScore ?? 0}
+                    </span>
+                  )}
                 </div>
                 <p className="text-slate-400 text-sm">Best Score</p>
               </div>
@@ -569,27 +634,40 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
               <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50">
                 <div className="flex items-center justify-between mb-2">
                   <BarChart3 className="h-5 w-5 text-green-400" />
-                  <span className="text-2xl font-bold text-white">
-                    {queryResult.averageScore ?? 0}%
-                  </span>
+                  {stats.isLoading ? (
+                    <Loader2 className="animate-spin" />
+                  ) : stats.isError ? (
+                    <span className="text-red-500">Error</span>
+                  ) : (
+                    <span className="text-2xl font-bold text-white">
+                      {stats?.data?.averageScore ?? 0}
+                    </span>
+                  )}
                 </div>
-                <p className="text-slate-400 text-sm">Average</p>
+                <p className="text-slate-400 text-sm">Average Score</p>
               </div>
 
               <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50">
                 <div className="flex items-center justify-between mb-2">
                   <CheckCircle className="h-5 w-5 text-blue-400" />
-                  {/* <span className="text-2xl font-bold text-white">{quizData.completionRate}%</span> */}
-                  <span className="text-2xl font-bold text-white">{36}%</span>
+                  {stats.isLoading ? (
+                    <Loader2 className="animate-spin" />
+                  ) : stats.isError ? (
+                    <span className="text-red-500">Error</span>
+                  ) : (
+                    <span className="text-2xl font-bold text-white">
+                      {stats?.data?.completedAttempts ?? 0}
+                    </span>
+                  )}
                 </div>
-                <p className="text-slate-400 text-sm">Completion</p>
+                <p className="text-slate-400 text-sm">Completed Attempts</p>
               </div>
 
               <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50">
                 <div className="flex items-center justify-between mb-2">
                   <Repeat className="h-5 w-5 text-purple-400" />
                   <span className="text-2xl font-bold text-white">
-                    {queryResult.totalAttempts}
+                    {queryResult.totalAttempts ?? 0}
                   </span>
                 </div>
                 <p className="text-slate-400 text-sm">Attempts</p>
@@ -606,7 +684,7 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
             <div className="mt-8 flex flex-wrap gap-4 justify-center">
               <button className="bg-slate-700/50 hover:bg-slate-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors">
                 <Download className="h-4 w-4" />
-                Download PDF Report
+                Download as PDF
               </button>
 
               <button className="bg-slate-700/50 hover:bg-slate-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors">

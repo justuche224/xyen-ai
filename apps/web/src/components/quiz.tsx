@@ -24,11 +24,24 @@ import {
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
+import { orpc } from "@/utils/orpc";
 import type { Question } from "@/types";
+import { useMutation } from "@tanstack/react-query";
 
-export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
+export function Quiz({ 
+  allQuestions, 
+  quizId, 
+  userId,
+  mode = "practice"
+}: { 
+  allQuestions: Question[]; 
+  quizId: string; 
+  userId: string;
+  mode?: "practice" | "exam" | "review";
+}) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [answers, setAnswers] = useState<Record<string, { questionId: string, value: string, type: string }>>({});
   const [showResults, setShowResults] = useState(false);
   const [score, setScore] = useState(0);
   const [showSubmitDialog, setShowSubmitDialog] = useState(false);
@@ -36,8 +49,49 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
   const [flaggedQuestions, setFlaggedQuestions] = useState<string[]>([]);
   const [startTime, setStartTime] = useState<number>(Date.now());
   const [currentTime, setCurrentTime] = useState<number>(Date.now());
+  const [attemptId, setAttemptId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const startMutation = useMutation(
+    orpc.quiz.startAttempt.mutationOptions()
+  )
+
+  const updateMutation = useMutation(
+    orpc.quiz.updateAttempt.mutationOptions()
+  )
+
+  const completeMutation = useMutation(
+    orpc.quiz.completeAttempt.mutationOptions()
+  )
+
+  // Initialize quiz attempt when component mounts
   useEffect(() => {
+    const startQuizAttempt = async () => {
+      try {
+        setIsLoading(true);
+        const result = await startMutation.mutateAsync({
+          quizId,
+          userId,
+          mode
+        });
+        
+        if (result.attemptId) {
+          setAttemptId(result.attemptId);
+          toast.success(`${mode.charAt(0).toUpperCase() + mode.slice(1)} mode started`);
+        } else {
+          toast.error("Failed to start quiz attempt");
+        }
+      } catch (error) {
+        console.error("Error starting quiz attempt:", error);
+        toast.error("Error starting quiz attempt");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    startQuizAttempt();
+    
+    // Start timer
     const timer = setInterval(() => {
       if (!showResults) {
         setCurrentTime(Date.now());
@@ -45,7 +99,55 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [showResults]);
+  }, [quizId, userId, mode, showResults]);
+
+  // Add warning when user tries to close or refresh the page
+  useEffect(() => {
+    // Only add the event listener if quiz is in progress (not in results view)
+    if (showResults) return;
+    
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      // Save the user's progress before they leave
+      if (attemptId && Object.keys(answers).length > 0) {
+        try {
+          updateMutation.mutate({
+            attemptId,
+            userId,
+            answers
+          });
+        } catch (error) {
+          console.error("Error saving progress before unload:", error);
+        }
+      }
+      
+      const confirmationMessage = "You are in the middle of a quiz. Your progress will be saved, but are you sure you want to leave?";
+      e.preventDefault();
+      e.returnValue = confirmationMessage;
+      return confirmationMessage;
+    };
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [showResults, attemptId, answers, userId]);
+  
+  // Update attempt data periodically
+  useEffect(() => {
+    if (!attemptId || showResults) return;
+    
+    const updateInterval = setInterval(async () => {
+      try {
+        await updateMutation.mutateAsync({
+          attemptId,
+          userId,
+          answers
+        });
+      } catch (error) {
+        console.error("Error updating attempt:", error);
+      }
+    }, 30000); // Update every 30 seconds
+    
+    return () => clearInterval(updateInterval);
+  }, [attemptId, userId, answers, showResults]);
 
   const quizData = allQuestions;
   const currentQuestion = quizData[currentQuestionIndex];
@@ -55,7 +157,11 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
   const handleAnswerChange = (value: string) => {
     setAnswers({
       ...answers,
-      [currentQuestion.id]: value,
+      [currentQuestion.id]: {
+        questionId: currentQuestion.id,
+        value,
+        type: 'choice'
+      },
     });
   };
 
@@ -75,7 +181,7 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
     setShowSubmitDialog(true);
   };
 
-  const confirmSubmit = () => {
+  const confirmSubmit = async () => {
     let correctAnswers = 0;
 
     quizData.forEach((question) => {
@@ -84,7 +190,7 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
         const correctChoice = question.choices.find(
           (choice) => choice.isCorrect
         );
-        if (correctChoice && userAnswer === correctChoice.id) {
+        if (correctChoice && userAnswer.value === correctChoice.id) {
           correctAnswers++;
         }
       }
@@ -93,9 +199,27 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
     setScore(correctAnswers);
     setShowResults(true);
     setShowSubmitDialog(false);
+    
+    if (attemptId) {
+      try {
+        setIsLoading(true);
+        await completeMutation.mutateAsync({
+          attemptId,
+          userId,
+          answers,
+          score: correctAnswers,
+        });
+        toast.success("Quiz completed and results saved");
+      } catch (error) {
+        console.error("Error completing quiz attempt:", error);
+        toast.error("Failed to save quiz results");
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
 
-  const resetQuiz = () => {
+  const resetQuiz = async () => {
     setCurrentQuestionIndex(0);
     setAnswers({});
     setShowResults(false);
@@ -105,6 +229,27 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
     const now = Date.now();
     setStartTime(now);
     setCurrentTime(now);
+    
+    try {
+      setIsLoading(true);
+      const result = await startMutation.mutateAsync({
+        quizId,
+        userId,
+        mode
+      });
+      
+      if (result.attemptId) {
+        setAttemptId(result.attemptId);
+        toast.success(`New ${mode} attempt started`);
+      } else {
+        toast.error("Failed to start new quiz attempt");
+      }
+    } catch (error) {
+      console.error("Error starting new quiz attempt:", error);
+      toast.error("Error starting new quiz attempt");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const toggleFlagQuestion = (questionId: string) => {
@@ -142,7 +287,7 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
             {quizData.map((question, index) => {
               const userAnswerId = answers[question.id];
               const userAnswer = question.choices.find(
-                (choice) => choice.id === userAnswerId
+                (choice) => choice.id === (userAnswerId ? userAnswerId.value : null)
               );
               const correctAnswer = question.choices.find(
                 (choice) => choice.isCorrect
@@ -185,7 +330,7 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
 
                   <div className="space-y-2">
                     {question.choices.map((choice) => {
-                      const isUserChoice = choice.id === userAnswerId;
+                      const isUserChoice = choice.id === (userAnswerId ? userAnswerId.value : null);
                       const isCorrectChoice = choice.isCorrect;
 
                       let className =
@@ -387,7 +532,15 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 relative">
+      {isLoading && (
+        <div className="absolute inset-0 bg-background/80 flex items-center justify-center z-50">
+          <div className="flex flex-col items-center">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+            <p className="mt-2 text-sm text-muted-foreground">Processing...</p>
+          </div>
+        </div>
+      )}
       <div className="grid md:grid-cols-3 gap-6">
         <div className="md:col-span-2">
           <div className="mb-6">
@@ -399,6 +552,9 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
                 <span className="text-sm text-muted-foreground">
                   {answeredQuestionsCount} answered
                 </span>
+                <Badge variant={mode === "practice" ? "secondary" : "destructive"}>
+                  {mode.charAt(0).toUpperCase() + mode.slice(1)} Mode
+                </Badge>
               </div>
               <div className="flex items-center gap-2">
                 <Button
@@ -425,12 +581,12 @@ export function Quiz({ allQuestions }: { allQuestions: Question[] }) {
             <h2 className="text-xl font-medium">{currentQuestion.text}</h2>
 
             <RadioGroup
-              value={answers[currentQuestion.id] || ""}
+              value={answers[currentQuestion.id]?.value || ""}
               onValueChange={handleAnswerChange}
               className="space-y-3 mt-6"
             >
               {currentQuestion.choices.map((choice) => {
-                const isSelected = answers[currentQuestion.id] === choice.id;
+                const isSelected = answers[currentQuestion.id]?.value === choice.id;
                 return (
                   <div
                     key={choice.id}

@@ -36,11 +36,43 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import type { TheoryQuestion } from "@/types";
+import { toast } from "sonner";
+import { orpc } from "@/utils/orpc";
+import { useMutation } from "@tanstack/react-query";
 
-export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] }) {
+export function TheoryQuiz({
+  allQuestions,
+  quizId,
+  userId,
+  mode = "practice",
+}: {
+  allQuestions: TheoryQuestion[];
+  quizId: string;
+  userId: string;
+  mode?: "practice" | "exam" | "review";
+}) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [feedback, setFeedback] = useState<Record<string, { score: number; comments: string }>>({});
+  // Store answers with a structure that works for both choice and theory questions
+  const [answers, setAnswers] = useState<
+    Record<string, { questionId: string; value: string; type: string }>
+  >({});
+  const [attemptId, setAttemptId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const startMutation = useMutation(
+    orpc.quiz.startAttempt.mutationOptions()
+  );
+
+  const updateMutation = useMutation(
+    orpc.quiz.updateAttempt.mutationOptions()
+  );
+
+  const completeMutation = useMutation(
+    orpc.quiz.completeAttempt.mutationOptions()
+  );
+  const [feedback, setFeedback] = useState<
+    Record<string, { score: number; comments: string }>
+  >({});
   const [showResults, setShowResults] = useState(false);
   const [showSubmitDialog, setShowSubmitDialog] = useState(false);
   const [showReview, setShowReview] = useState(false);
@@ -49,7 +81,34 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
   const [currentTime, setCurrentTime] = useState<number>(Date.now());
   const [totalScore, setTotalScore] = useState(0);
 
+  // Initialize quiz attempt when component mounts
   useEffect(() => {
+    const startQuizAttempt = async () => {
+      try {
+        setIsLoading(true);
+        const result = await startMutation.mutateAsync({
+          quizId,
+          userId,
+          mode,
+        });
+
+        if (result.attemptId) {
+          setAttemptId(result.attemptId);
+          toast.success(`${mode.charAt(0).toUpperCase() + mode.slice(1)} mode started`);
+        } else {
+          toast.error("Failed to start quiz attempt");
+        }
+      } catch (error) {
+        console.error("Error starting quiz attempt:", error);
+        toast.error("Error starting quiz attempt");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    startQuizAttempt();
+
+    // Start timer
     const timer = setInterval(() => {
       if (!showResults) {
         setCurrentTime(Date.now());
@@ -57,7 +116,56 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [showResults]);
+  }, [quizId, userId, mode, showResults]);
+  
+  // Add warning when user tries to close or refresh the page
+  useEffect(() => {
+    // Only add the event listener if quiz is in progress (not in results view)
+    if (showResults) return;
+    
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      // Save the user's progress before they leave
+      if (attemptId && Object.keys(answers).length > 0) {
+        try {
+          updateMutation.mutate({
+            attemptId,
+            userId,
+            answers
+          });
+        } catch (error) {
+          console.error("Error saving progress before unload:", error);
+        }
+      }
+      
+      // Standard way to show a confirmation dialog before leaving
+      const confirmationMessage = "You are in the middle of a theory quiz. Your progress will be saved, but are you sure you want to leave?";
+      e.preventDefault();
+      e.returnValue = confirmationMessage;
+      return confirmationMessage;
+    };
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [showResults, attemptId, answers, userId]);
+
+  // Update attempt data periodically
+  useEffect(() => {
+    if (!attemptId || showResults) return;
+
+    const updateInterval = setInterval(async () => {
+      try {
+        await updateMutation.mutateAsync({
+          attemptId,
+          userId,
+          answers,
+        });
+      } catch (error) {
+        console.error("Error updating attempt:", error);
+      }
+    }, 30000); // Update every 30 seconds
+
+    return () => clearInterval(updateInterval);
+  }, [attemptId, userId, answers, showResults]);
 
   const quizData = allQuestions;
   const currentQuestion = quizData[currentQuestionIndex];
@@ -67,7 +175,11 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
   const handleAnswerChange = (value: string) => {
     setAnswers({
       ...answers,
-      [currentQuestion.id]: value,
+      [currentQuestion.id]: {
+        questionId: currentQuestion.id,
+        value,
+        type: "theory",
+      },
     });
   };
 
@@ -88,36 +200,46 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
   };
 
   // Simple algorithm to assess theory answers based on keyword matching and length
-  const assessTheoryAnswer = (userAnswer: string, modelAnswer: string): { score: number; comments: string } => {
-    if (!userAnswer.trim()) {
+  const assessTheoryAnswer = (
+    userAnswer: { value: string } | string,
+    modelAnswer: string
+  ): { score: number; comments: string } => {
+    const userAnswerText = typeof userAnswer === "string" ? userAnswer : userAnswer.value;
+    if (!userAnswerText.trim()) {
       return { score: 0, comments: "No answer provided." };
     }
-    
+
     // Normalize both answers: lowercase and remove punctuation
-    const normalizedUserAnswer = userAnswer.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-    const normalizedModelAnswer = modelAnswer.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-    
+    const normalizedUserAnswer = userAnswerText
+      .toLowerCase()
+      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+    const normalizedModelAnswer = modelAnswer
+      .toLowerCase()
+      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+
     // Extract key terms from model answer (words with 4+ chars)
     const modelKeyTerms = normalizedModelAnswer
       .split(/\s+/)
-      .filter(word => word.length >= 4);
-    
+      .filter((word) => word.length >= 4);
+
     // Count how many key terms appear in the user answer
-    const matchedTerms = modelKeyTerms.filter(term => 
+    const matchedTerms = modelKeyTerms.filter((term) =>
       normalizedUserAnswer.includes(term)
     );
-    
+
     const termMatchRatio = matchedTerms.length / modelKeyTerms.length;
-    
+
     // Check answer length (too short or too long compared to model)
     const userWordCount = normalizedUserAnswer.split(/\s+/).length;
     const modelWordCount = normalizedModelAnswer.split(/\s+/).length;
     const lengthRatio = Math.min(userWordCount / modelWordCount, 2);
-    
+
     // Calculate score (max 100%)
-    let score = Math.round((termMatchRatio * 0.7 + Math.min(lengthRatio, 1) * 0.3) * 100);
+    let score = Math.round(
+      (termMatchRatio * 0.7 + Math.min(lengthRatio, 1) * 0.3) * 100
+    );
     score = Math.min(score, 100);
-    
+
     // Generate feedback
     let comments = "";
     if (score >= 90) {
@@ -131,34 +253,55 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
     } else {
       comments = "This answer doesn't address the question effectively.";
     }
-    
+
     if (userWordCount < modelWordCount * 0.5) {
       comments += " Your answer is quite brief compared to the expected length.";
     } else if (userWordCount > modelWordCount * 1.5) {
       comments += " Your answer might be more concise while still covering key points.";
     }
-    
+
     return { score, comments };
   };
 
-  const confirmSubmit = () => {
-    let totalPoints = 0;
+  const confirmSubmit = async () => {
+    // Generate feedback for each question
     const newFeedback: Record<string, { score: number; comments: string }> = {};
+    let total = 0;
 
     quizData.forEach((question) => {
-      const userAnswer = answers[question.id] || "";
-      const assessment = assessTheoryAnswer(userAnswer, question.answer);
+      const userAnswer = answers[question.id];
+      const assessment = assessTheoryAnswer(userAnswer || "", question.answer);
       newFeedback[question.id] = assessment;
-      totalPoints += assessment.score;
+      total += assessment.score;
     });
 
-    setTotalScore(Math.round(totalPoints / totalQuestions));
+    const finalScore = Math.round(total / totalQuestions * 100);
     setFeedback(newFeedback);
+    setTotalScore(finalScore);
     setShowResults(true);
     setShowSubmitDialog(false);
+
+    // Complete the attempt if we have an attemptId
+    if (attemptId) {
+      try {
+        setIsLoading(true);
+        await completeMutation.mutateAsync({
+          attemptId,
+          userId,
+          answers,
+          score: finalScore,
+        });
+        toast.success("Quiz completed and results saved");
+      } catch (error) {
+        console.error("Error completing quiz attempt:", error);
+        toast.error("Failed to save quiz results");
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
 
-  const resetQuiz = () => {
+  const resetQuiz = async () => {
     setCurrentQuestionIndex(0);
     setAnswers({});
     setFeedback({});
@@ -169,6 +312,28 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
     const now = Date.now();
     setStartTime(now);
     setCurrentTime(now);
+
+    // Start a new attempt
+    try {
+      setIsLoading(true);
+      const result = await startMutation.mutateAsync({
+        quizId,
+        userId,
+        mode,
+      });
+
+      if (result.attemptId) {
+        setAttemptId(result.attemptId);
+        toast.success(`New ${mode} attempt started`);
+      } else {
+        toast.error("Failed to start new quiz attempt");
+      }
+    } catch (error) {
+      console.error("Error starting new quiz attempt:", error);
+      toast.error("Error starting new quiz attempt");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const toggleFlagQuestion = (questionId: string) => {
@@ -179,12 +344,11 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
     }
   };
 
-  const isCurrentQuestionAnswered = answers[currentQuestion?.id]?.trim() !== undefined && 
-                                   answers[currentQuestion?.id]?.trim() !== "";
+  const isCurrentQuestionAnswered = answers[currentQuestion?.id] !== undefined;
   const isCurrentQuestionFlagged = flaggedQuestions.includes(
     currentQuestion?.id
   );
-  const answeredQuestionsCount = Object.values(answers).filter(a => a?.trim()).length;
+  const answeredQuestionsCount = Object.values(answers).filter((a) => a?.value?.trim()).length;
   const elapsedTime = Math.floor((currentTime - startTime) / 1000);
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -205,12 +369,17 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
 
           <div className="space-y-8">
             {quizData.map((question, index) => {
-              const userAnswer = answers[question.id] || "";
-              const questionFeedback = feedback[question.id] || { score: 0, comments: "Not evaluated" };
-              const scoreColor = 
-                questionFeedback.score >= 80 ? "text-green-600 dark:text-green-400" :
-                questionFeedback.score >= 60 ? "text-amber-600 dark:text-amber-400" :
-                "text-red-600 dark:text-red-400";
+              const userAnswer = answers[question.id];
+              const questionFeedback = feedback[question.id] || {
+                score: 0,
+                comments: "Not evaluated",
+              };
+              const scoreColor =
+                questionFeedback.score >= 80
+                  ? "text-green-600 dark:text-green-400"
+                  : questionFeedback.score >= 60
+                  ? "text-amber-600 dark:text-amber-400"
+                  : "text-red-600 dark:text-red-400";
 
               return (
                 <div
@@ -219,11 +388,16 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
                 >
                   <div className="flex justify-between items-start mb-3">
                     <h3 className="text-lg font-medium">Question {index + 1}</h3>
-                    <Badge variant="outline" className={`${
-                      questionFeedback.score >= 80 ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-500" :
-                      questionFeedback.score >= 60 ? "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-500" :
-                      "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-500"
-                    }`}>
+                    <Badge
+                      variant="outline"
+                      className={`${
+                        questionFeedback.score >= 80
+                          ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-500"
+                          : questionFeedback.score >= 60
+                          ? "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-500"
+                          : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-500"
+                      }`}
+                    >
                       <span className="mr-1">{questionFeedback.score}%</span>
                       {questionFeedback.score >= 80 ? (
                         <CheckCircle className="h-3 w-3" />
@@ -237,7 +411,11 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
                     <div className="rounded-md border p-4 bg-muted/30">
                       <div className="font-medium text-sm mb-2">Your Answer:</div>
                       <p className="whitespace-pre-wrap text-sm">
-                        {userAnswer || <span className="italic text-muted-foreground">No answer provided</span>}
+                        {userAnswer?.value || (
+                          <span className="italic text-muted-foreground">
+                            No answer provided
+                          </span>
+                        )}
                       </p>
                     </div>
 
@@ -362,13 +540,20 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
                 <div className="flex justify-between text-sm mb-1">
                   <span>High Scores (80-100%)</span>
                   <span>
-                    {Object.values(feedback).filter(f => f.score >= 80).length} of {totalQuestions}
+                    {Object.values(feedback).filter((f) => f.score >= 80).length} of{" "}
+                    {totalQuestions}
                   </span>
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div
                     className="h-full bg-green-500 rounded-full"
-                    style={{ width: `${(Object.values(feedback).filter(f => f.score >= 80).length / totalQuestions) * 100}%` }}
+                    style={{
+                      width: `${
+                        (Object.values(feedback).filter((f) => f.score >= 80).length /
+                          totalQuestions) *
+                        100
+                      }%`,
+                    }}
                   ></div>
                 </div>
               </div>
@@ -377,13 +562,24 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
                 <div className="flex justify-between text-sm mb-1">
                   <span>Medium Scores (50-79%)</span>
                   <span>
-                    {Object.values(feedback).filter(f => f.score >= 50 && f.score < 80).length} of {totalQuestions}
+                    {Object.values(feedback).filter(
+                      (f) => f.score >= 50 && f.score < 80
+                    ).length}{" "}
+                    of {totalQuestions}
                   </span>
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div
                     className="h-full bg-amber-500 rounded-full"
-                    style={{ width: `${(Object.values(feedback).filter(f => f.score >= 50 && f.score < 80).length / totalQuestions) * 100}%` }}
+                    style={{
+                      width: `${
+                        (Object.values(feedback).filter(
+                          (f) => f.score >= 50 && f.score < 80
+                        ).length /
+                          totalQuestions) *
+                        100
+                      }%`,
+                    }}
                   ></div>
                 </div>
               </div>
@@ -392,13 +588,20 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
                 <div className="flex justify-between text-sm mb-1">
                   <span>Low Scores (0-49%)</span>
                   <span>
-                    {Object.values(feedback).filter(f => f.score < 50).length} of {totalQuestions}
+                    {Object.values(feedback).filter((f) => f.score < 50).length} of{" "}
+                    {totalQuestions}
                   </span>
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div
                     className="h-full bg-red-500 rounded-full"
-                    style={{ width: `${(Object.values(feedback).filter(f => f.score < 50).length / totalQuestions) * 100}%` }}
+                    style={{
+                      width: `${
+                        (Object.values(feedback).filter((f) => f.score < 50).length /
+                          totalQuestions) *
+                        100
+                      }%`,
+                    }}
                   ></div>
                 </div>
               </div>
@@ -426,7 +629,7 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
 
               <Separator className="my-4" />
 
-              <div className="flex justify-between">
+              <div className="flex justify-end">
                 <Button variant="outline" onClick={() => setShowReview(true)}>
                   Review Answers
                 </Button>
@@ -482,7 +685,7 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
               <Textarea
                 id="answer"
                 placeholder="Type your answer here..."
-                value={answers[currentQuestion.id] || ""}
+                value={answers[currentQuestion.id]?.value || ""}
                 onChange={(e) => handleAnswerChange(e.target.value)}
                 className="min-h-40"
               />
@@ -512,7 +715,7 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
             <h3 className="text-sm font-medium mb-3">Question Navigator</h3>
             <div className="grid grid-cols-5 gap-2">
               {quizData.map((question, index) => {
-                const isAnswered = answers[question.id]?.trim() !== undefined && answers[question.id]?.trim() !== "";
+                const isAnswered = answers[question.id]?.value?.trim() !== undefined && answers[question.id]?.value?.trim() !== "";
                 const isFlagged = flaggedQuestions.includes(question.id);
                 const isCurrent = index === currentQuestionIndex;
 
@@ -575,7 +778,7 @@ export function TheoryQuiz({ allQuestions }: { allQuestions: TheoryQuestion[] })
           <h3 className="text-sm font-medium mb-3">Question Navigator</h3>
           <div className="grid grid-cols-5 gap-2">
             {quizData.map((question, index) => {
-              const isAnswered = answers[question.id]?.trim() !== undefined && answers[question.id]?.trim() !== "";
+              const isAnswered = answers[question.id]?.value?.trim() !== undefined && answers[question.id]?.value?.trim() !== "";
               const isFlagged = flaggedQuestions.includes(question.id);
               const isCurrent = index === currentQuestionIndex;
 

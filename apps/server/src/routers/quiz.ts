@@ -464,7 +464,6 @@ export const quizRouter = {
     .handler(async ({ input }) => {
       console.log("about to check stats");
 
-      // Option 1: Split into separate queries for better reliability
       const [basicStats] = await db
         .select({
           totalQuizzes: sql<number>`count(distinct ${quiz.id})`.as(
@@ -489,6 +488,15 @@ export const quizRouter = {
         .from(quiz)
         .leftJoin(quizAttempts, eq(quiz.id, quizAttempts.quizId))
         .where(eq(quiz.userId, input.userId));
+
+      const bestScore = await db
+        .select({
+          bestScore: sql<number>`max(${quizAttempts.score}) filter (where ${quizAttempts.status} = 'completed')`.as(
+            "bestScore"
+          ),
+        })
+        .from(quizAttempts)
+        .where(eq(quizAttempts.userId, input.userId));
 
       const difficultyStats = await db
         .select({
@@ -523,6 +531,7 @@ export const quizRouter = {
         ...basicStats,
         byDifficulty,
         byQuizType,
+        bestScore,
       };
       console.log(stats);
 

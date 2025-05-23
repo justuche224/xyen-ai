@@ -11,15 +11,11 @@ import {
   FileText,
   Star,
   StarHalf,
-  Award,
-  CalendarClock,
-  Clock3,
-  GraduationCap,
   ArrowUpDown,
   Users,
   Sparkles,
-  BookMarked,
   Brain,
+  GraduationCap,
 } from "lucide-react";
 
 import {
