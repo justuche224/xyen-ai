@@ -22,7 +22,7 @@ export const quiz = pgTable("quiz", {
 
 export const quizMeta = pgTable("quiz_meta", {
   id: text("id").primaryKey(),
-  quizId: text("quiz_id").references(() => quiz.id),
+  quizId: text("quiz_id").references(() => quiz.id, { onDelete: "cascade" }),
   questionCount: integer("question_count").notNull(),
   questionsAsPdf:text("questions_as_pdf"),
   description: text("description"),
@@ -36,8 +36,8 @@ export const quizMeta = pgTable("quiz_meta", {
 
 export const quizAttempts = pgTable("quiz_attempts", {
   id: text("id").primaryKey(),
-  quizId: text("quiz_id").references(() => quiz.id),
-  userId: text("user_id").references(() => user.id),
+  quizId: text("quiz_id").references(() => quiz.id, { onDelete: "cascade" }),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
   mode: text("mode", { enum: ["practice", "exam", "review"] }).notNull(),
   startTime: timestamp("start_time").notNull(),
   endTime: timestamp("end_time"),

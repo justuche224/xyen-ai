@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Block access to admin and private areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /.well-known/
+
+# Allow access to static resources
+Allow: /icons/
+Allow: /images/
+Allow: /screenshots/
+Allow: /_next/static/
+
+# Specify sitemap location
+Sitemap: https://xyen-ai.vercel.app/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1
+
+# Host
+Host: https://xyen-ai.vercel.app 
