@@ -1,6 +1,7 @@
 import SignUpForm from "@/components/sign-up-form";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { GalleryVerticalEnd } from "lucide-react";
+import { Brain } from "lucide-react";
+import { PlatformDemo } from "@/components/platform-demo";
 import { z } from "zod";
 
 export const Route = createFileRoute("/(auth)/sign-up")({
@@ -22,9 +23,9 @@ function RouteComponent() {
         <div className="flex justify-center gap-2 md:justify-start">
           <Link to="/" className="flex items-center gap-2 font-medium">
             <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <GalleryVerticalEnd className="size-4" />
+              <Brain className="size-4" />
             </div>
-            Acme Inc.
+            Xyen AI
           </Link>
         </div>
         <div className="flex flex-1 items-center justify-center">
@@ -33,12 +34,19 @@ function RouteComponent() {
           </div>
         </div>
       </div>
-      <div className="relative hidden bg-muted lg:block">
-        <img
-          src="/Innovation-pana.png"
-          alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
+      <div className="relative hidden bg-muted/30 lg:block">
+        <div className="absolute inset-0 flex items-center justify-center p-8">
+          <div className="w-full max-w-2xl">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold mb-2">See How It Works</h2>
+              <p className="text-muted-foreground">
+                Transform your documents into intelligent quizzes in three
+                simple steps
+              </p>
+            </div>
+            <PlatformDemo autoplay={true} interval={3000} />
+          </div>
+        </div>
       </div>
     </div>
   );

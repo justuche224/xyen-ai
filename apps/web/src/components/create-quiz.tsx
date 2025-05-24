@@ -10,8 +10,11 @@ import {
   Settings,
   FileUp,
   Brain,
+  Crown,
+  Clock,
+  Zap,
 } from "lucide-react";
-import { useState, type ChangeEvent } from "react";
+import { useState, type ChangeEvent, useEffect } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -35,6 +38,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { useFeatureLimits, useFeatureUsage } from "@/hooks/useFeatureLimits";
+import { useCanCreateQuiz } from "@/hooks/useFeatureCheck";
+import { Badge } from "@/components/ui/badge";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 type QuestionType = "multiple-choice" | "yes-no" | "theory";
@@ -57,6 +63,37 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
   const [prompt, setPrompt] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
+
+  // Feature limiting hooks
+  const { data: limitsData, isLoading: limitsLoading } =
+    useFeatureLimits(userId);
+  const { data: dailyUsage } = useFeatureUsage(userId, "daily_generations");
+  const {
+    canCreate,
+    reasons,
+    isLoading: checkingLimits,
+  } = useCanCreateQuiz(userId, questionCount);
+
+  // Get user's question limit
+  const maxQuestionsLimit =
+    limitsData?.limits.find(
+      (limit: any) => limit.featureKey === "max_questions"
+    )?.limitValue || 10;
+
+  const dailyGenerationsLimit =
+    limitsData?.limits.find(
+      (limit: any) => limit.featureKey === "daily_generations"
+    )?.limitValue || 3;
+
+  const isPro = limitsData?.planType === "pro";
+  const isEnterprise = limitsData?.planType === "enterprise";
+
+  // Reset question count if it exceeds the user's limit
+  useEffect(() => {
+    if (maxQuestionsLimit !== -1 && questionCount > maxQuestionsLimit) {
+      setQuestionCount(Math.min(maxQuestionsLimit, 10) as QuestionCount);
+    }
+  }, [maxQuestionsLimit, questionCount]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files || e.target.files.length === 0) {
@@ -96,17 +133,22 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
   };
 
   const removeTag = (tagToRemove: string) => {
-    setTags(tags.filter(tag => tag !== tagToRemove));
+    setTags(tags.filter((tag) => tag !== tagToRemove));
   };
 
   const handleTagInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       addTag();
     }
   };
 
   const generateQuiz = async () => {
+    if (!canCreate) {
+      setError(reasons[0] || "You cannot create a quiz at this time");
+      return;
+    }
+
     if (!file || !title.trim() || !userId) {
       setError("Please fill in all required fields");
       return;
@@ -153,6 +195,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
         tags,
         questionCount,
         description,
+        customePrompt: prompt,
       });
 
       if (createError) {
@@ -194,7 +237,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!uploading) {
+    if (!uploading && canCreate) {
       e.currentTarget.classList.add("border-primary");
     }
   };
@@ -210,7 +253,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
     e.stopPropagation();
     e.currentTarget.classList.remove("border-primary");
 
-    if (uploading) return;
+    if (uploading || !canCreate) return;
 
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       const droppedFile = e.dataTransfer.files[0];
@@ -238,12 +281,220 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
     }
   };
 
+  const getResetTimeMessage = () => {
+    if (dailyGenerationsLimit === -1) return "";
+
+    const now = new Date();
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+
+    const hoursUntilReset = Math.ceil(
+      (tomorrow.getTime() - now.getTime()) / (1000 * 60 * 60)
+    );
+
+    return `Resets in ${hoursUntilReset} hour${
+      hoursUntilReset === 1 ? "" : "s"
+    }`;
+  };
+
+  // Loading state
+  if (limitsLoading || checkingLimits) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p>Loading your plan details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Blocked state - user has reached their limits
+  if (!canCreate && reasons.length > 0) {
+    const isConcurrentJobsIssue = reasons.some(
+      (reason) =>
+        typeof reason === "string" &&
+        (reason.includes("concurrent") ||
+          reason.includes("current quiz generation to complete"))
+    );
+    const isDailyGenerationsIssue = reasons.some(
+      (reason) =>
+        typeof reason === "string" &&
+        (reason.includes("daily_generations") ||
+          (reason.includes("limit reached") && reason.includes("daily")))
+    );
+    const isQuestionCountIssue = reasons.some(
+      (reason) =>
+        typeof reason === "string" &&
+        (reason.includes("Question count") ||
+          reason.includes("max_questions") ||
+          reason.includes("exceeds limit"))
+    );
+
+    return (
+      <div className="min-h-screen">
+        <div className="container max-w-4xl mx-auto px-4 py-6">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold mb-2">Create Quiz</h1>
+            <p className="text-muted-foreground">
+              Generate quiz questions from your PDF documents using AI
+            </p>
+          </div>
+
+          <Card className="max-w-2xl mx-auto">
+            <CardHeader className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+                <AlertCircle className="w-8 h-8 text-red-500" />
+              </div>
+              <CardTitle className="text-xl">
+                {isConcurrentJobsIssue
+                  ? "Quiz Generation In Progress"
+                  : isDailyGenerationsIssue
+                  ? "Daily Limit Reached"
+                  : isQuestionCountIssue
+                  ? "Question Count Limit"
+                  : "Limit Reached"}
+              </CardTitle>
+              <CardDescription>
+                {isConcurrentJobsIssue
+                  ? "You already have a quiz being generated. Please wait for it to complete."
+                  : isDailyGenerationsIssue
+                  ? "You've reached your quiz creation limit for today"
+                  : isQuestionCountIssue
+                  ? "The selected question count exceeds your plan limit"
+                  : "You cannot create a quiz at this time"}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-center space-y-4">
+              {/* Show specific limit info based on the blocking reason */}
+              {isDailyGenerationsIssue && dailyGenerationsLimit !== -1 && (
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium">
+                      Daily Generations
+                    </span>
+                    <Badge variant="outline">
+                      {dailyUsage?.usageCount || 0} / {dailyGenerationsLimit}
+                    </Badge>
+                  </div>
+                  <Progress
+                    value={
+                      dailyGenerationsLimit > 0
+                        ? ((dailyUsage?.usageCount || 0) /
+                            dailyGenerationsLimit) *
+                          100
+                        : 0
+                    }
+                    className="h-2"
+                  />
+                  <p className="text-xs text-muted-foreground mt-2">
+                    <Clock className="w-3 h-3 inline mr-1" />
+                    {getResetTimeMessage()}
+                  </p>
+                </div>
+              )}
+
+              {isConcurrentJobsIssue && (
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                  <div className="flex items-center justify-center mb-2">
+                    <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mr-2"></div>
+                    <span className="text-sm font-medium">
+                      Quiz Generation in Progress
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Check your existing quizzes to see the generation progress
+                  </p>
+                </div>
+              )}
+
+              {isQuestionCountIssue && (
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium">
+                      Question Count Limit
+                    </span>
+                    <Badge variant="outline">
+                      Max {maxQuestionsLimit} questions
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Your current plan allows up to {maxQuestionsLimit} questions
+                    per quiz
+                  </p>
+                </div>
+              )}
+
+              <div className="text-sm text-muted-foreground mb-4">
+                {reasons.map((reason, index) => (
+                  <div key={index} className="mb-1">
+                    {reason}
+                  </div>
+                ))}
+              </div>
+
+              <div className="space-y-3">
+                {!isPro && !isEnterprise && !isConcurrentJobsIssue && (
+                  <div className="space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      Upgrade to Pro for unlimited quiz generations and advanced
+                      features
+                    </p>
+                    <Button className="w-full" size="lg">
+                      <Crown className="w-4 h-4 mr-2" />
+                      Upgrade to Pro
+                    </Button>
+                  </div>
+                )}
+
+                {isConcurrentJobsIssue ? (
+                  <p className="text-xs text-muted-foreground">
+                    Go to your dashboard to check the status of your current
+                    quiz generation
+                  </p>
+                ) : isDailyGenerationsIssue ? (
+                  <p className="text-xs text-muted-foreground">
+                    Or come back tomorrow when your limit resets
+                  </p>
+                ) : (
+                  <p className="text-xs text-muted-foreground">
+                    Upgrade your plan to continue creating quizzes
+                  </p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen">
       <div className="container max-w-7xl mx-auto px-4 py-6 bg-background rounded">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">Create Quiz</h1>
-          <p className="text-muted-foreground">Generate quiz questions from your PDF documents using AI</p>
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <h1 className="text-3xl font-bold">Create Quiz</h1>
+            {isPro && <Crown className="w-6 h-6 text-yellow-500" />}
+            {isEnterprise && <Zap className="w-6 h-6 text-purple-500" />}
+          </div>
+          <p className="text-muted-foreground">
+            Generate quiz questions from your PDF documents using AI
+          </p>
+
+          {/* Plan status */}
+          <div className="flex items-center justify-center gap-4 mt-4">
+            <Badge variant={isPro || isEnterprise ? "default" : "secondary"}>
+              {limitsData?.planType.toUpperCase()} Plan
+            </Badge>
+            {dailyGenerationsLimit !== -1 && (
+              <div className="text-sm text-muted-foreground">
+                Daily generations: {dailyUsage?.usageCount || 0} /{" "}
+                {dailyGenerationsLimit}
+              </div>
+            )}
+          </div>
         </div>
 
         {error && (
@@ -251,6 +502,18 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
+        {!canCreate && reasons.length > 0 && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Cannot Create Quiz</AlertTitle>
+            <AlertDescription>
+              {reasons.map((reason, index) => (
+                <div key={index}>{reason}</div>
+              ))}
+            </AlertDescription>
           </Alert>
         )}
 
@@ -274,22 +537,33 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                   <FileUp className="w-5 h-5 text-primary" />
                   <CardTitle className="text-lg">Upload Document</CardTitle>
                 </div>
-                <CardDescription>Upload a PDF file to generate questions from</CardDescription>
+                <CardDescription>
+                  Upload a PDF file to generate questions from
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div
                   className={`
                     relative border-2 border-dashed rounded-lg p-8 transition-all cursor-pointer
-                    ${file 
-                      ? "border-primary bg-primary/5" 
-                      : "border-gray-300 hover:border-primary hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-800"
+                    ${
+                      file
+                        ? "border-primary bg-primary/5"
+                        : "border-gray-300 hover:border-primary hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-800"
                     }
-                    ${uploading ? "pointer-events-none opacity-60" : ""}
+                    ${
+                      uploading || !canCreate
+                        ? "pointer-events-none opacity-60"
+                        : ""
+                    }
                   `}
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
                   onDrop={handleDrop}
-                  onClick={() => !uploading && document.getElementById("file-upload")?.click()}
+                  onClick={() =>
+                    canCreate &&
+                    !uploading &&
+                    document.getElementById("file-upload")?.click()
+                  }
                 >
                   <div className="text-center">
                     {file ? (
@@ -299,9 +573,11 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                         </div>
                         <div>
                           <p className="font-medium text-sm">{file.name}</p>
-                          <p className="text-xs text-muted-foreground">{formatFileSize(file.size)}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {formatFileSize(file.size)}
+                          </p>
                         </div>
-                        {!uploading && (
+                        {!uploading && canCreate && (
                           <Button variant="outline" size="sm">
                             Change File
                           </Button>
@@ -313,8 +589,14 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                           <Upload className="w-6 h-6 text-gray-400" />
                         </div>
                         <div>
-                          <p className="font-medium">Click to upload or drag and drop</p>
-                          <p className="text-xs text-muted-foreground">PDF files up to 5MB</p>
+                          <p className="font-medium">
+                            {canCreate
+                              ? "Click to upload or drag and drop"
+                              : "Upload disabled - limit reached"}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            PDF files up to 5MB
+                          </p>
                         </div>
                       </div>
                     )}
@@ -324,7 +606,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                     type="file"
                     className="hidden"
                     onChange={handleFileChange}
-                    disabled={uploading}
+                    disabled={uploading || !canCreate}
                     accept=".pdf"
                   />
                 </div>
@@ -357,7 +639,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                     placeholder="Enter quiz title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    disabled={uploading}
+                    disabled={uploading || !canCreate}
                   />
                 </div>
 
@@ -368,7 +650,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                     placeholder="Brief description of the quiz (optional)"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    disabled={uploading}
+                    disabled={uploading || !canCreate}
                     className="flex min-h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
                     rows={3}
                   />
@@ -379,33 +661,84 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                     <Label>Question Count</Label>
                     <Select
                       value={questionCount.toString()}
-                      onValueChange={(value) => setQuestionCount(Number(value) as QuestionCount)}
-                      disabled={uploading}
+                      onValueChange={(value) =>
+                        setQuestionCount(Number(value) as QuestionCount)
+                      }
+                      disabled={uploading || !canCreate}
                     >
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="5">5 Questions</SelectItem>
-                        <SelectItem value="10">10 Questions</SelectItem>
-                        <SelectItem value="20">20 Questions</SelectItem>
-                        <SelectItem value="30">30 Questions</SelectItem>
+                        <SelectItem
+                          value="5"
+                          disabled={
+                            maxQuestionsLimit !== -1 && 5 > maxQuestionsLimit
+                          }
+                        >
+                          5 Questions{" "}
+                          {maxQuestionsLimit !== -1 &&
+                            5 > maxQuestionsLimit &&
+                            "(Pro)"}
+                        </SelectItem>
+                        <SelectItem
+                          value="10"
+                          disabled={
+                            maxQuestionsLimit !== -1 && 10 > maxQuestionsLimit
+                          }
+                        >
+                          10 Questions{" "}
+                          {maxQuestionsLimit !== -1 &&
+                            10 > maxQuestionsLimit &&
+                            "(Pro)"}
+                        </SelectItem>
+                        <SelectItem
+                          value="20"
+                          disabled={
+                            maxQuestionsLimit !== -1 && 20 > maxQuestionsLimit
+                          }
+                        >
+                          20 Questions{" "}
+                          {maxQuestionsLimit !== -1 &&
+                            20 > maxQuestionsLimit &&
+                            "(Pro)"}
+                        </SelectItem>
+                        <SelectItem
+                          value="30"
+                          disabled={
+                            maxQuestionsLimit !== -1 && 30 > maxQuestionsLimit
+                          }
+                        >
+                          30 Questions{" "}
+                          {maxQuestionsLimit !== -1 &&
+                            30 > maxQuestionsLimit &&
+                            "(Pro)"}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
+                    {maxQuestionsLimit !== -1 && (
+                      <p className="text-xs text-muted-foreground">
+                        Your plan allows up to {maxQuestionsLimit} questions
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
                     <Label>Question Type</Label>
                     <Select
                       value={questionType}
-                      onValueChange={(value: QuestionType) => setQuestionType(value)}
-                      disabled={uploading}
+                      onValueChange={(value: QuestionType) =>
+                        setQuestionType(value)
+                      }
+                      disabled={uploading || !canCreate}
                     >
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="multiple-choice">Multiple Choice</SelectItem>
+                        <SelectItem value="multiple-choice">
+                          Multiple Choice
+                        </SelectItem>
                         <SelectItem value="theory">Theory</SelectItem>
                         <SelectItem value="yes-no">Yes/No</SelectItem>
                       </SelectContent>
@@ -418,7 +751,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                   <Select
                     value={difficulty}
                     onValueChange={(value: Difficulty) => setDifficulty(value)}
-                    disabled={uploading}
+                    disabled={uploading || !canCreate}
                   >
                     <SelectTrigger>
                       <SelectValue />
@@ -449,7 +782,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                     placeholder="Add specific instructions..."
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    disabled={uploading}
+                    disabled={uploading || !canCreate}
                     className="flex min-h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
                     rows={4}
                   />
@@ -464,14 +797,14 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                       value={tagInput}
                       onChange={(e) => setTagInput(e.target.value)}
                       onKeyPress={handleTagInputKeyPress}
-                      disabled={uploading}
+                      disabled={uploading || !canCreate}
                       className="flex-1"
                     />
                     <Button
                       type="button"
                       variant="outline"
                       onClick={addTag}
-                      disabled={uploading || !tagInput.trim()}
+                      disabled={uploading || !canCreate || !tagInput.trim()}
                       size="sm"
                     >
                       Add
@@ -488,7 +821,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                           <button
                             type="button"
                             onClick={() => removeTag(tag)}
-                            disabled={uploading}
+                            disabled={uploading || !canCreate}
                             className="ml-1 h-3 w-3"
                           >
                             <X className="h-2 w-2" />
@@ -503,7 +836,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
 
             <Button
               onClick={generateQuiz}
-              disabled={!file || uploading || !title.trim()}
+              disabled={!file || uploading || !title.trim() || !canCreate}
               className="w-full h-12"
               size="lg"
             >
@@ -512,10 +845,35 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                   Creating Quiz...
                 </>
+              ) : !canCreate ? (
+                "Limit Reached"
               ) : (
                 `Generate Quiz`
               )}
             </Button>
+
+            {!isPro && !isEnterprise && (
+              <Card className="border-yellow-200 dark:border-yellow-800">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center gap-2">
+                    <Crown className="w-4 h-4 text-yellow-500" />
+                    <CardTitle className="text-sm">Upgrade to Pro</CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <ul className="text-xs space-y-1 text-muted-foreground mb-3">
+                    <li>• Unlimited quiz generations</li>
+                    <li>• Up to 30 questions per quiz</li>
+                    <li>• Unlimited PDF exports</li>
+                    <li>• Priority support</li>
+                  </ul>
+                  <Button size="sm" variant="outline" className="w-full">
+                    <Crown className="w-3 h-3 mr-1" />
+                    Upgrade Now
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </div>

@@ -12,7 +12,12 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "db:seed": "tsx src/scripts/seed-feature-limits.ts",
+    "db:update-reset-periods": "tsx src/scripts/update-reset-periods.ts",
+    "test:feature-limits": "tsx src/scripts/test-feature-limits.ts",
+    "check:jobs": "tsx src/scripts/check-jobs.ts",
+    "create-user-plan": "tsx src/scripts/create-user-plan.ts"
   },
   "dependencies": {
     "@google/genai": "^0.14.1",

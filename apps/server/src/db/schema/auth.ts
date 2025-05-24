@@ -2,6 +2,8 @@ import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
 import { quiz } from "./quiz";
 import { jobs } from "./jobs";
+import { userPlans, featureUsage } from "./subscription";
+
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
@@ -58,4 +60,6 @@ export const userRelations = relations(user, ({ many }) => ({
   verification: many(verification),
   quiz: many(quiz),
   jobs: many(jobs),
+  userPlans: many(userPlans),
+  featureUsage: many(featureUsage),
 }));

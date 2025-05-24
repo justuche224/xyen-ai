@@ -6,121 +6,13 @@ import { protectedProcedure } from "@/lib/orpc";
 import { jobs } from "@/db/schema/jobs";
 import { quizAttempts, quizMeta } from "@/db/schema/quiz";
 import { generateQuizPDFHandler } from "@/scripts/utils/generate-pdf";
+import {  getAllUserQuizHandler } from "@/handlers/get-all-user-quiz";
+import { createQuizHandler } from "@/handlers/create-quiz";
 
 export const quizRouter = {
   generateQuizPDF: generateQuizPDFHandler,
-  getAll: protectedProcedure
-    .input(z.object({ userId: z.string() }))
-    .handler(async ({ input }) => {
-      const data = await db
-        .select({
-          id: quiz.id,
-          title: quiz.title,
-          quizType: quiz.quizType,
-          documentLink: quiz.documentLink,
-          createdAt: quiz.createdAt,
-          updatedAt: quiz.updatedAt,
-          status: jobs.status,
-          error: jobs.error,
-          difficulty: quizMeta.difficulty,
-          questionCount: quizMeta.questionCount,
-          description: quizMeta.description,
-          tags: quizMeta.tags,
-          totalAttempts: sql<number>`count(${quizAttempts.id})`.as(
-            "totalAttempts"
-          ),
-          averageScore: sql<number>`avg(${quizAttempts.score})`.as(
-            "averageScore"
-          ),
-          totalTimeSpent:
-            sql<number>`sum(extract(epoch from (${quizAttempts.endTime} - ${quizAttempts.startTime})))`.as(
-              "totalTimeSpent"
-            ),
-          averageTimeSpent:
-            sql<number>`avg(extract(epoch from (${quizAttempts.endTime} - ${quizAttempts.startTime})))`.as(
-              "averageTimeSpent"
-            ),
-        })
-        .from(quiz)
-        .leftJoin(quizAttempts, eq(quiz.id, quizAttempts.quizId))
-        .leftJoin(quizMeta, eq(quiz.id, quizMeta.quizId))
-        .leftJoin(jobs, eq(quiz.jobId, jobs.id))
-        .where(eq(quiz.userId, input.userId))
-        .groupBy(
-          quiz.id,
-          quiz.title,
-          quiz.quizType,
-          quiz.documentLink,
-          quiz.createdAt,
-          quiz.updatedAt,
-          jobs.status,
-          jobs.error,
-          quizMeta.questionCount,
-          quizMeta.difficulty,
-          quizMeta.tags,
-          quizMeta.description,
-        )
-        .orderBy(desc(quiz.createdAt));
-      return data;
-    }),
-  create: protectedProcedure
-    .input(
-      z.object({
-        title: z.string(),
-        quizType: z.enum(["multiple-choice", "yes-no", "theory"]),
-        documentLink: z.string(),
-        userId: z.string(),
-        difficulty: z.enum(["easy", "medium", "hard", "extreme"]),
-        tags: z.array(z.string()),
-        questionCount: z.number(),
-        description: z.string().optional(),
-        customePrompt: z.string().optional(),
-      })
-    )
-    .handler(async ({ input }) => {
-      try {
-        const quizId = crypto.randomUUID();
-        const jobId = crypto.randomUUID();
-        const quizMetaId = crypto.randomUUID();
-
-        await db.insert(jobs).values({
-          id: jobId,
-          userId: input.userId,
-          quizId,
-          status: "PENDING",
-          createdAt: new Date(),
-        });
-
-        await db.insert(quiz).values({
-          id: quizId,
-          title: input.title,
-          documentLink: input.documentLink,
-          userId: input.userId,
-          jobId,
-          quizType: input.quizType,
-          customePrompt: input.customePrompt,
-        });
-
-        await db.insert(quizMeta).values({
-          id: quizMetaId,
-          quizId,
-          difficulty: input.difficulty,
-          tags: input.tags,
-          questionCount: input.questionCount,
-          description: input.description,
-        });
-
-        return {
-          quizId,
-          jobId,
-        };
-      } catch (error) {
-        console.error(error);
-        return {
-          error: "Failed to create quiz",
-        };
-      }
-    }),
+  getAll: getAllUserQuizHandler,
+  create: createQuizHandler,
   getQuizById: protectedProcedure
     .input(z.object({ quizId: z.string(), userId: z.string() }))
     .handler(async ({ input }) => {
@@ -491,9 +383,10 @@ export const quizRouter = {
 
       const bestScore = await db
         .select({
-          bestScore: sql<number>`max(${quizAttempts.score}) filter (where ${quizAttempts.status} = 'completed')`.as(
-            "bestScore"
-          ),
+          bestScore:
+            sql<number>`max(${quizAttempts.score}) filter (where ${quizAttempts.status} = 'completed')`.as(
+              "bestScore"
+            ),
         })
         .from(quizAttempts)
         .where(eq(quizAttempts.userId, input.userId));

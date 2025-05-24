@@ -93,7 +93,7 @@ async function generateQuiz(
       throw new Error("AI didn’t return valid JSON: " + parseErr);
     }
 
-    writeFileSync("output-multiple-choice.json", text);
+    // writeFileSync("output-multiple-choice.json", text);
 
     return { data: parsed, error: null };
   } catch (error) {
