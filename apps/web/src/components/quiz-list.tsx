@@ -79,18 +79,40 @@ const QuizList = ({ userId }: { userId: string }) => {
   const [sortOrder, setSortOrder] = useState("desc");
   const [activeTab, setActiveTab] = useState("all");
 
+  // Helper functions for formatting numbers
+  const formatScore = (score: number | undefined | null): string => {
+    if (!score && score !== 0) return "0";
+    return (Math.round(score * 10) / 10).toString();
+  };
+
+  const formatTime = (minutes: number | undefined | null): string => {
+    if (!minutes && minutes !== 0) return "0m";
+
+    const totalMinutes = Math.round(minutes);
+
+    if (totalMinutes < 60) {
+      return `${totalMinutes}m`;
+    }
+
+    const hours = Math.floor(totalMinutes / 60);
+    const remainingMinutes = totalMinutes % 60;
+
+    if (remainingMinutes === 0) {
+      return `${hours}h`;
+    }
+
+    return `${hours}h ${remainingMinutes}m`;
+  };
+
   // Mock data for recommended quizzes
   const recommendedQuizzes = [
     { id: "rec1", title: "Advanced SQL Queries", type: "Multiple Choice" },
     { id: "rec2", title: "Data Structures Fundamentals", type: "Theory" },
   ];
 
-  const data = useQuery(
-    orpc.quiz.getAll.queryOptions({ input: { userId } })
-  );
+  const data = useQuery(orpc.quiz.getAll.queryOptions({ input: { userId } }));
 
-
-  type Quiz = NonNullable<typeof data.data>[number]
+  type Quiz = NonNullable<typeof data.data>[number];
 
   // Filter and sort quizzes
   const filteredQuizzes = data.data
@@ -391,14 +413,11 @@ const QuizList = ({ userId }: { userId: string }) => {
   );
 
   function renderQuizzes(quizzes: Quiz[]) {
-    if ( data.isPending ) {
+    if (data.isPending) {
       return (
         <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
           {[...Array(4)].map((_, i) => (
-            <Card
-              key={i}
-              className="overflow-hidden bg-card"
-            >
+            <Card key={i} className="overflow-hidden bg-card">
               <CardHeader className="pb-2">
                 <Skeleton className="h-5 w-3/4" />
                 <Skeleton className="h-4 w-1/2" />
@@ -544,7 +563,7 @@ const QuizList = ({ userId }: { userId: string }) => {
                       </span>
                     ))}
                     <span className="ml-1 text-sm font-medium">
-                      {quiz.averageScore}/{quiz.totalAttempts}
+                      {formatScore(quiz.averageScore)}/{quiz.totalAttempts}
                     </span>
                   </div>
                 )}
@@ -571,30 +590,12 @@ const QuizList = ({ userId }: { userId: string }) => {
 
                 {quiz.status === "COMPLETED" && (
                   <div className="mt-3 grid grid-cols-2 gap-2">
-                    {/* <div className="rounded-md bg-blue-50 p-2 dark:bg-blue-950">
-                      <p className="text-xs font-medium text-blue-600 dark:text-blue-400">
-                        Completion
-                      </p>
-                      <div className="mt-1 flex items-center">
-                        <div className="w-full bg-blue-100 rounded-full h-1.5 dark:bg-blue-900">
-                          <div
-                            className="bg-blue-600 h-1.5 rounded-full dark:bg-blue-400"
-                            // TODO: calculate completion rate
-                            // style={{ width: `${quiz.completionRate}%` }}
-                            style={{ width: `${56}%` }}
-                          ></div>
-                        </div>
-                        {/* <span className="ml-2 text-xs font-medium">{quiz.completionRate}%</span> 
-                        <span className="ml-2 text-xs font-medium">{56}%</span>
-                      </div>
-                    </div> */}
-
                     <div className="rounded-md bg-purple-50 p-2 dark:bg-purple-950">
                       <p className="text-xs font-medium text-purple-600 dark:text-purple-400">
                         Time Spent
                       </p>
                       <p className="text-sm font-medium">
-                        {quiz.totalTimeSpent ?? 0}m
+                        {formatTime(quiz.totalTimeSpent)}
                       </p>
                     </div>
                   </div>

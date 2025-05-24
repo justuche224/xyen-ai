@@ -79,6 +79,32 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
     "practice"
   );
   const [showExitConfirmation, setShowExitConfirmation] = useState(false);
+
+  // Helper functions for formatting numbers
+  const formatScore = (score: number | undefined | null): string => {
+    if (!score && score !== 0) return "0";
+    return (Math.round(score * 10) / 10).toString();
+  };
+
+  const formatTime = (minutes: number | undefined | null): string => {
+    if (!minutes && minutes !== 0) return "0m";
+
+    const totalMinutes = Math.round(minutes);
+
+    if (totalMinutes < 60) {
+      return `${totalMinutes}m`;
+    }
+
+    const hours = Math.floor(totalMinutes / 60);
+    const remainingMinutes = totalMinutes % 60;
+
+    if (remainingMinutes === 0) {
+      return `${hours}h`;
+    }
+
+    return `${hours}h ${remainingMinutes}m`;
+  };
+
   const handleStartQuiz = (mode: "exam" | "practice" | "review") => {
     setQuizType(mode);
     setShowQuiz(true);
@@ -106,32 +132,31 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
 
   const handleDownloadQuizAsPDF = async () => {
     setIsGeneratingPDF(true);
-   try {
-    const res = await orpc.quiz.generateQuizPDF.call({
-      quizId,
-      userId,
-    });
+    try {
+      const res = await orpc.quiz.generateQuizPDF.call({
+        quizId,
+        userId,
+      });
 
-    if(res.error){
+      if (res.error) {
+        toast.error("Failed to generate PDF");
+        return;
+      }
+
+      if (res.success && res.pdfUrl) {
+        const blob = await fetch(res.pdfUrl).then((res) => res.blob());
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${queryResult?.title}.pdf`;
+        link.click();
+        URL.revokeObjectURL(url);
+      }
+    } catch (error) {
       toast.error("Failed to generate PDF");
-      return;
+    } finally {
+      setIsGeneratingPDF(false);
     }
-
-    if (res.success && res.pdfUrl) {
-      const blob = await fetch(res.pdfUrl).then((res) => res.blob());
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${queryResult?.title}.pdf`;
-      link.click();
-      URL.revokeObjectURL(url);
-    }
-   } catch (error) {
-    toast.error("Failed to generate PDF");
-   }
-   finally {
-    setIsGeneratingPDF(false);
-   }
   };
 
   const getDifficultyColor = (difficulty: string) => {
@@ -146,7 +171,6 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
         return "bg-blue-500";
     }
   };
-
 
   const getQuizTypeIcon = (type: string) => {
     switch (type) {
@@ -583,7 +607,7 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                     </div>
                     <div className="flex items-center gap-2 text-slate-300 text-sm">
                       <Clock className="h-4 w-4" />
-                      {queryResult.totalTimeSpent} Minutes
+                      {formatTime(queryResult.totalTimeSpent)}
                     </div>
                     <div className="flex items-center gap-2 text-slate-300 text-sm">
                       <Users className="h-4 w-4" />
@@ -660,7 +684,7 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                     <span className="text-red-500">Error</span>
                   ) : (
                     <span className="text-2xl font-bold text-white">
-                      {stats?.data?.averageScore ?? 0}
+                      {formatScore(stats?.data?.averageScore)}%
                     </span>
                   )}
                 </div>
@@ -696,15 +720,25 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
               <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50">
                 <div className="flex items-center justify-between mb-2">
                   <Timer className="h-5 w-5 text-orange-400" />
-                  <span className="text-2xl font-bold text-white">18m</span>
+                  <span className="text-2xl font-bold text-white">
+                    {formatTime(queryResult.totalTimeSpent)}
+                  </span>
                 </div>
                 <p className="text-slate-400 text-sm">Avg Time</p>
               </div>
             </div>
             <div className="mt-8 flex flex-wrap gap-4 justify-center">
-              <button disabled={isGeneratingPDF} onClick={handleDownloadQuizAsPDF} className="bg-slate-700/50 hover:bg-slate-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors">
-               {isGeneratingPDF ? <Loader2 className="animate-spin" /> : <Download className="h-4 w-4" />}
-               {isGeneratingPDF ? "Generating PDF..." : "Download as PDF"}
+              <button
+                disabled={isGeneratingPDF}
+                onClick={handleDownloadQuizAsPDF}
+                className="bg-slate-700/50 hover:bg-slate-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors"
+              >
+                {isGeneratingPDF ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  <Download className="h-4 w-4" />
+                )}
+                {isGeneratingPDF ? "Generating PDF..." : "Download as PDF"}
               </button>
 
               <button className="bg-slate-700/50 hover:bg-slate-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-colors">
