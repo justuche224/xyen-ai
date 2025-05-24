@@ -13,6 +13,10 @@ import {
   Crown,
   Clock,
   Zap,
+  Plus,
+  BookOpen,
+  Target,
+  Hash,
 } from "lucide-react";
 import { useState, type ChangeEvent, useEffect } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -472,33 +476,56 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
 
   return (
     <div className="min-h-screen">
-      <div className="container max-w-7xl mx-auto px-4 py-6 bg-background rounded">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <h1 className="text-3xl font-bold">Create Quiz</h1>
-            {isPro && <Crown className="w-6 h-6 text-yellow-500" />}
-            {isEnterprise && <Zap className="w-6 h-6 text-purple-500" />}
+      <div className="container max-w-6xl mx-auto px-4 py-8 bg-gradient-to-br from-background via-background to-muted/20">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center gap-3 mb-4">
+            <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
+              <Brain className="w-6 h-6 text-primary" />
+            </div>
+            <div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                Create Quiz
+              </h1>
+              {isPro && (
+                <Crown className="w-5 h-5 text-yellow-500 inline ml-2" />
+              )}
+              {isEnterprise && (
+                <Zap className="w-5 h-5 text-purple-500 inline ml-2" />
+              )}
+            </div>
           </div>
-          <p className="text-muted-foreground">
-            Generate quiz questions from your PDF documents using AI
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Transform your PDF documents into interactive quizzes using advanced
+            AI technology
           </p>
 
-          {/* Plan status */}
-          <div className="flex items-center justify-center gap-4 mt-4">
-            <Badge variant={isPro || isEnterprise ? "default" : "secondary"}>
+          {/* Status Bar */}
+          <div className="flex items-center justify-center gap-6 mt-6 p-4 bg-card rounded-xl border">
+            <Badge
+              variant={isPro || isEnterprise ? "default" : "secondary"}
+              className="text-sm"
+            >
               {limitsData?.planType.toUpperCase()} Plan
             </Badge>
             {dailyGenerationsLimit !== -1 && (
-              <div className="text-sm text-muted-foreground">
-                Daily generations: {dailyUsage?.usageCount || 0} /{" "}
-                {dailyGenerationsLimit}
+              <div className="flex items-center gap-2 text-sm">
+                <Clock className="w-4 h-4 text-muted-foreground" />
+                <span className="text-muted-foreground">
+                  Daily generations:{" "}
+                  <span className="font-medium text-foreground">
+                    {dailyUsage?.usageCount || 0}
+                  </span>{" "}
+                  / {dailyGenerationsLimit}
+                </span>
               </div>
             )}
           </div>
         </div>
 
+        {/* Alerts */}
         {error && (
-          <Alert variant="destructive" className="mb-6">
+          <Alert variant="destructive" className="mb-8 shadow-sm">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
@@ -506,7 +533,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
         )}
 
         {!canCreate && reasons.length > 0 && (
-          <Alert variant="destructive" className="mb-6">
+          <Alert variant="destructive" className="mb-8 shadow-sm">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Cannot Create Quiz</AlertTitle>
             <AlertDescription>
@@ -518,37 +545,41 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
         )}
 
         {success && (
-          <Alert className="mb-6 border-green-500 text-green-500 bg-green-50 dark:bg-green-900/20">
+          <Alert className="mb-8 border-green-500 text-green-700 bg-green-50 dark:bg-green-900/20 shadow-sm">
             <CheckCircle className="h-4 w-4" />
-            <AlertTitle>Success</AlertTitle>
+            <AlertTitle>Success!</AlertTitle>
             <AlertDescription>
-              Your quiz has been created successfully!
+              Your quiz has been created successfully and is being generated!
             </AlertDescription>
           </Alert>
         )}
 
-        <div className="grid lg:grid-cols-5 gap-6">
-          {/* Main Form */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* File Upload */}
-            <Card>
-              <CardHeader className="pb-4">
-                <div className="flex items-center gap-2">
-                  <FileUp className="w-5 h-5 text-primary" />
-                  <CardTitle className="text-lg">Upload Document</CardTitle>
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* File Upload Section */}
+            <Card className="shadow-sm hover:shadow-md transition-shadow duration-200">
+              <CardHeader className="pb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                    <FileUp className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-xl">Upload Document</CardTitle>
+                    <CardDescription className="text-base">
+                      Select a PDF file to generate quiz questions from
+                    </CardDescription>
+                  </div>
                 </div>
-                <CardDescription>
-                  Upload a PDF file to generate questions from
-                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div
                   className={`
-                    relative border-2 border-dashed rounded-lg p-8 transition-all cursor-pointer
+                    relative border-2 border-dashed rounded-2xl p-12 transition-all duration-300 cursor-pointer group
                     ${
                       file
-                        ? "border-primary bg-primary/5"
-                        : "border-gray-300 hover:border-primary hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-800"
+                        ? "border-primary bg-primary/5 shadow-inner"
+                        : "border-gray-300 hover:border-primary hover:bg-gray-50/50 dark:border-gray-600 dark:hover:bg-gray-800/50"
                     }
                     ${
                       uploading || !canCreate
@@ -567,35 +598,36 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                 >
                   <div className="text-center">
                     {file ? (
-                      <div className="space-y-3">
-                        <div className="w-12 h-12 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
-                          <FileText className="w-6 h-6 text-primary" />
+                      <div className="space-y-4">
+                        <div className="w-16 h-16 mx-auto bg-primary/20 rounded-2xl flex items-center justify-center">
+                          <FileText className="w-8 h-8 text-primary" />
                         </div>
                         <div>
-                          <p className="font-medium text-sm">{file.name}</p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="font-semibold text-lg">{file.name}</p>
+                          <p className="text-sm text-muted-foreground">
                             {formatFileSize(file.size)}
                           </p>
                         </div>
                         {!uploading && canCreate && (
-                          <Button variant="outline" size="sm">
+                          <Button variant="outline" size="sm" className="mt-4">
+                            <Upload className="w-4 h-4 mr-2" />
                             Change File
                           </Button>
                         )}
                       </div>
                     ) : (
-                      <div className="space-y-3">
-                        <div className="w-12 h-12 mx-auto bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
-                          <Upload className="w-6 h-6 text-gray-400" />
+                      <div className="space-y-4">
+                        <div className="w-16 h-16 mx-auto bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                          <Upload className="w-8 h-8 text-gray-400 group-hover:text-primary transition-colors" />
                         </div>
                         <div>
-                          <p className="font-medium">
+                          <p className="font-semibold text-lg">
                             {canCreate
-                              ? "Click to upload or drag and drop"
+                              ? "Drop your PDF here or click to browse"
                               : "Upload disabled - limit reached"}
                           </p>
-                          <p className="text-xs text-muted-foreground">
-                            PDF files up to 5MB
+                          <p className="text-sm text-muted-foreground mt-2">
+                            Supports PDF files up to 5MB
                           </p>
                         </div>
                       </div>
@@ -612,53 +644,63 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                 </div>
 
                 {uploading && (
-                  <div className="mt-4 space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Creating quiz...</span>
+                  <div className="mt-6 p-4 bg-muted/50 rounded-xl">
+                    <div className="flex justify-between text-sm font-medium mb-3">
+                      <span className="flex items-center gap-2">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Creating your quiz...
+                      </span>
                       <span>{uploadProgress}%</span>
                     </div>
-                    <Progress value={uploadProgress} className="h-2" />
+                    <Progress value={uploadProgress} className="h-3" />
                   </div>
                 )}
               </CardContent>
             </Card>
 
-            {/* Quiz Details */}
-            <Card>
-              <CardHeader className="pb-4">
-                <div className="flex items-center gap-2">
-                  <Settings className="w-5 h-5 text-primary" />
-                  <CardTitle className="text-lg">Quiz Details</CardTitle>
+            {/* Quiz Configuration */}
+            <Card className="shadow-sm hover:shadow-md transition-shadow duration-200">
+              <CardHeader className="pb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-blue-500/10 rounded-xl flex items-center justify-center">
+                    <Settings className="w-5 h-5 text-blue-500" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-xl">
+                      Quiz Configuration
+                    </CardTitle>
+                    <CardDescription className="text-base">
+                      Customize your quiz settings and preferences
+                    </CardDescription>
+                  </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Quiz Title *</Label>
-                  <Input
-                    id="title"
-                    placeholder="Enter quiz title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    disabled={uploading || !canCreate}
-                  />
-                </div>
+              <CardContent className="space-y-6">
+                {/* Basic Info */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-3">
+                    <Label
+                      htmlFor="title"
+                      className="text-sm font-medium flex items-center gap-2"
+                    >
+                      <BookOpen className="w-4 h-4" />
+                      Quiz Title *
+                    </Label>
+                    <Input
+                      id="title"
+                      placeholder="Enter a descriptive title"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      disabled={uploading || !canCreate}
+                      className="h-11"
+                    />
+                  </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
-                  <textarea
-                    id="description"
-                    placeholder="Brief description of the quiz (optional)"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    disabled={uploading || !canCreate}
-                    className="flex min-h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
-                    rows={3}
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label>Question Count</Label>
+                  <div className="space-y-3">
+                    <Label className="text-sm font-medium flex items-center gap-2">
+                      <Hash className="w-4 h-4" />
+                      Question Count
+                    </Label>
                     <Select
                       value={questionCount.toString()}
                       onValueChange={(value) =>
@@ -666,7 +708,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                       }
                       disabled={uploading || !canCreate}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="h-11">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -722,9 +764,30 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                       </p>
                     )}
                   </div>
+                </div>
 
-                  <div className="space-y-2">
-                    <Label>Question Type</Label>
+                <div className="space-y-3">
+                  <Label htmlFor="description" className="text-sm font-medium">
+                    Description
+                  </Label>
+                  <textarea
+                    id="description"
+                    placeholder="Add a brief description of your quiz (optional)"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    disabled={uploading || !canCreate}
+                    className="flex min-h-24 w-full rounded-lg border border-input bg-background px-4 py-3 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+                    rows={3}
+                  />
+                </div>
+
+                {/* Quiz Settings */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-3">
+                    <Label className="text-sm font-medium flex items-center gap-2">
+                      <FileText className="w-4 h-4" />
+                      Question Type
+                    </Label>
                     <Select
                       value={questionType}
                       onValueChange={(value: QuestionType) =>
@@ -732,64 +795,77 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                       }
                       disabled={uploading || !canCreate}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="h-11">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="multiple-choice">
                           Multiple Choice
                         </SelectItem>
-                        <SelectItem value="theory">Theory</SelectItem>
-                        <SelectItem value="yes-no">Yes/No</SelectItem>
+                        <SelectItem value="theory">Theory Questions</SelectItem>
+                        <SelectItem value="yes-no">Yes/No Questions</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
-                </div>
 
-                <div className="space-y-2">
-                  <Label>Difficulty</Label>
-                  <Select
-                    value={difficulty}
-                    onValueChange={(value: Difficulty) => setDifficulty(value)}
-                    disabled={uploading || !canCreate}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="easy">Easy</SelectItem>
-                      <SelectItem value="medium">Medium</SelectItem>
-                      <SelectItem value="hard">Hard</SelectItem>
-                      <SelectItem value="extreme">Extreme</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <div className="space-y-3">
+                    <Label className="text-sm font-medium flex items-center gap-2">
+                      <Target className="w-4 h-4" />
+                      Difficulty Level
+                    </Label>
+                    <Select
+                      value={difficulty}
+                      onValueChange={(value: Difficulty) =>
+                        setDifficulty(value)
+                      }
+                      disabled={uploading || !canCreate}
+                    >
+                      <SelectTrigger className="h-11">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="easy">🟢 Easy</SelectItem>
+                        <SelectItem value="medium">🟡 Medium</SelectItem>
+                        <SelectItem value="hard">🟠 Hard</SelectItem>
+                        <SelectItem value="extreme">🔴 Extreme</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               </CardContent>
             </Card>
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6 lg:col-span-2">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Advanced Options</CardTitle>
+          <div className="space-y-6">
+            {/* Advanced Options */}
+            <Card className="shadow-sm hover:shadow-md transition-shadow duration-200">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Brain className="w-5 h-5 text-purple-500" />
+                  Advanced Options
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="prompt">Custom Instructions</Label>
+              <CardContent className="space-y-6">
+                <div className="space-y-3">
+                  <Label htmlFor="prompt" className="text-sm font-medium">
+                    Custom Instructions
+                  </Label>
                   <textarea
                     id="prompt"
-                    placeholder="Add specific instructions..."
+                    placeholder="Add specific instructions for the AI..."
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     disabled={uploading || !canCreate}
-                    className="flex min-h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+                    className="flex min-h-24 w-full rounded-lg border border-input bg-background px-3 py-3 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
                     rows={4}
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="tags">Tags</Label>
+                <div className="space-y-3">
+                  <Label htmlFor="tags" className="text-sm font-medium">
+                    Tags
+                  </Label>
                   <div className="flex gap-2">
                     <Input
                       id="tags"
@@ -798,7 +874,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                       onChange={(e) => setTagInput(e.target.value)}
                       onKeyPress={handleTagInputKeyPress}
                       disabled={uploading || !canCreate}
-                      className="flex-1"
+                      className="flex-1 h-10"
                     />
                     <Button
                       type="button"
@@ -806,27 +882,29 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
                       onClick={addTag}
                       disabled={uploading || !canCreate || !tagInput.trim()}
                       size="sm"
+                      className="h-10 px-3"
                     >
-                      Add
+                      <Plus className="w-4 h-4" />
                     </Button>
                   </div>
                   {tags.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-2">
+                    <div className="flex flex-wrap gap-2 mt-3">
                       {tags.map((tag, index) => (
-                        <span
+                        <Badge
                           key={index}
-                          className="inline-flex items-center px-2 py-1 rounded text-xs bg-primary/10 text-primary"
+                          variant="secondary"
+                          className="px-3 py-1 text-xs flex items-center gap-2"
                         >
                           {tag}
                           <button
                             type="button"
                             onClick={() => removeTag(tag)}
                             disabled={uploading || !canCreate}
-                            className="ml-1 h-3 w-3"
+                            className="hover:text-destructive transition-colors"
                           >
-                            <X className="h-2 w-2" />
+                            <X className="h-3 w-3" />
                           </button>
-                        </span>
+                        </Badge>
                       ))}
                     </div>
                   )}
@@ -834,41 +912,61 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
               </CardContent>
             </Card>
 
+            {/* Action Button */}
             <Button
               onClick={generateQuiz}
               disabled={!file || uploading || !title.trim() || !canCreate}
-              className="w-full h-12"
+              className="w-full h-14 text-lg font-semibold shadow-md hover:shadow-lg transition-all duration-200"
               size="lg"
             >
               {uploading ? (
                 <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  <Loader2 className="h-5 w-5 mr-3 animate-spin" />
                   Creating Quiz...
                 </>
               ) : !canCreate ? (
                 "Limit Reached"
               ) : (
-                `Generate Quiz`
+                <>
+                  <Brain className="h-5 w-5 mr-3" />
+                  Generate Quiz
+                </>
               )}
             </Button>
 
+            {/* Upgrade Card */}
             {!isPro && !isEnterprise && (
-              <Card className="border-yellow-200 dark:border-yellow-800">
-                <CardHeader className="pb-3">
+              <Card className="border-gradient-to-r from-yellow-200 to-yellow-300 dark:from-yellow-800 dark:to-yellow-700 shadow-sm">
+                <CardHeader className="pb-4">
                   <div className="flex items-center gap-2">
-                    <Crown className="w-4 h-4 text-yellow-500" />
-                    <CardTitle className="text-sm">Upgrade to Pro</CardTitle>
+                    <Crown className="w-5 h-5 text-yellow-500" />
+                    <CardTitle className="text-lg">Upgrade to Pro</CardTitle>
                   </div>
+                  <CardDescription>
+                    Unlock advanced features and unlimited access
+                  </CardDescription>
                 </CardHeader>
-                <CardContent className="pt-0">
-                  <ul className="text-xs space-y-1 text-muted-foreground mb-3">
-                    <li>• Unlimited quiz generations</li>
-                    <li>• Up to 30 questions per quiz</li>
-                    <li>• Unlimited PDF exports</li>
-                    <li>• Priority support</li>
+                <CardContent className="space-y-4">
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-500" />
+                      Unlimited quiz generations
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-500" />
+                      Up to 30 questions per quiz
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-500" />
+                      Advanced customization
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-500" />
+                      Priority support
+                    </li>
                   </ul>
-                  <Button size="sm" variant="outline" className="w-full">
-                    <Crown className="w-3 h-3 mr-1" />
+                  <Button size="sm" className="w-full">
+                    <Crown className="w-4 h-4 mr-2" />
                     Upgrade Now
                   </Button>
                 </CardContent>
