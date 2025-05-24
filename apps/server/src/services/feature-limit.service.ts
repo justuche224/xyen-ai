@@ -5,6 +5,7 @@ import {
   featureLimits,
   featureUsage,
 } from "@/db/schema/subscription";
+import { user } from "@/db/schema/auth";
 import { jobs } from "@/db/schema/jobs";
 
 export type FeatureKey =
@@ -28,6 +29,17 @@ export class FeatureLimitService {
     current?: number;
     message?: string;
   }> {
+    // Check if user is admin or tester - give them unlimited access
+    const userData = await db
+      .select({ role: user.role })
+      .from(user)
+      .where(eq(user.id, userId))
+      .limit(1);
+
+    if (userData[0]?.role === "admin" || userData[0]?.role === "tester") {
+      return { allowed: true }; // Unlimited access for admins and testers
+    }
+
     const userPlan = await this.getUserPlan(userId);
 
     // Get feature limit for this plan
@@ -176,6 +188,19 @@ export class FeatureLimitService {
   private static async getUserPlan(
     userId: string
   ): Promise<{ planType: PlanType }> {
+    // First check if user is admin or tester
+    const userData = await db
+      .select({ role: user.role })
+      .from(user)
+      .where(eq(user.id, userId))
+      .limit(1);
+
+    // If user is admin or tester, treat them as pro (unlimited access)
+    if (userData[0]?.role === "admin" || userData[0]?.role === "tester") {
+      return { planType: "pro" };
+    }
+
+    // Otherwise, get their actual plan
     const plan = await db
       .select()
       .from(userPlans)
