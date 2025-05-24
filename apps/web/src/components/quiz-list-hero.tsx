@@ -11,6 +11,30 @@ const QuizListHero = ({ userId }: { userId: string }) => {
     orpc.quiz.getUserQuizStats.queryOptions({ input: { userId } })
   );
 
+  const formatScore = (score: number | undefined | null): string => {
+    if (!score && score !== 0) return "0";
+    return (Math.round(score * 10) / 10).toString();
+  };
+
+  const formatTime = (minutes: number | undefined | null): string => {
+    if (!minutes && minutes !== 0) return "0";
+
+    const totalMinutes = Math.round(minutes);
+
+    if (totalMinutes < 60) {
+      return `${totalMinutes}m`;
+    }
+
+    const hours = Math.floor(totalMinutes / 60);
+    const remainingMinutes = totalMinutes % 60;
+
+    if (remainingMinutes === 0) {
+      return `${hours}h`;
+    }
+
+    return `${hours}h ${remainingMinutes}m`;
+  };
+
   // const {
   //   totalQuizzes,
   //   totalAttempts,
@@ -74,7 +98,7 @@ const QuizListHero = ({ userId }: { userId: string }) => {
                   <Loader className="animate-spin" />
                 ) : (
                   <h3 className="text-2xl font-bold">
-                    {stats.data?.averageScore ?? 0}%
+                    {formatScore(stats.data?.averageScore)}%
                   </h3>
                 )}
               </div>
@@ -94,7 +118,7 @@ const QuizListHero = ({ userId }: { userId: string }) => {
                   <Loader className="animate-spin" />
                 ) : (
                   <h3 className="text-2xl font-bold">
-                    {stats.data?.totalTimeSpent ?? 0}m
+                    {formatTime(stats.data?.totalTimeSpent)}
                   </h3>
                 )}
               </div>
