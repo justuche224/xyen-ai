@@ -123,8 +123,8 @@ async function main() {
         console.log(`Picked up job ${job.id}`);
         await processJob(job);
       } else {
-        await new Promise((r) => setTimeout(r, 2000));
-        console.log("No job found, sleeping for 2 seconds");
+        await new Promise((r) => setTimeout(r, 5000));
+        console.log("No job found, sleeping for 5 seconds");
       }
     } catch (err) {
       console.error("Worker loop error:", err);
