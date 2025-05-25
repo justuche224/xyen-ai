@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle } from "lucide-react";
-import { googleSignIn } from "@/lib/google-sign-in";
 import { PlatformDemo } from "@/components/platform-demo";
 
 // Animation variants for better performance
@@ -63,6 +62,12 @@ const slideInRight = {
 };
 
 const Hero = () => {
+  const handleGoogleSignIn = () => {
+    alert(
+      "🚧 App in Testing Mode\n\nOur Google sign-in is currently under development. Please use the email and password sign-in option instead.\n\nThank you for your patience!"
+    );
+  };
+
   return (
     <section className="overflow-hidden max-w-7xl mx-auto min-h-screen">
       <div className="container mx-auto pt-24 lg:pt-32 px-6 lg:px-10">
@@ -119,9 +124,7 @@ const Hero = () => {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => {
-                  void googleSignIn();
-                }}
+                onClick={handleGoogleSignIn}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
