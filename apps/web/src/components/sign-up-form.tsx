@@ -25,14 +25,11 @@ export default function SignUpForm({
   const { isPending, data: session } = authClient.useSession();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const googleSignIn = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-      errorCallbackURL: `${window.location.origin}/error`,
-      callbackURL: callbackURL
-        ? `${window.location.origin}${callbackURL}`
-        : `${window.location.origin}${defaultRedirect}`,
-    });
+
+  const handleGoogleSignIn = () => {
+    alert(
+      "🚧 App in Testing Mode\n\nOur Google sign-in is currently under development. Please use the email and password sign-in option instead.\n\nThank you for your patience!"
+    );
   };
   const form = useForm({
     defaultValues: {
@@ -122,7 +119,7 @@ export default function SignUpForm({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            void googleSignIn();
+            handleGoogleSignIn();
           }}
         >
           <svg

@@ -137,6 +137,12 @@ export const Route = createFileRoute("/")({
 function HomeComponent() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
+  const handleGoogleSignIn = () => {
+    alert(
+      "🚧 App in Testing Mode\n\nOur Google sign-in is currently under development. Please use the email and password sign-in option instead.\n\nThank you for your patience!"
+    );
+  };
+
   const features = [
     {
       icon: <FileText className="h-8 w-8 text-primary" />,
@@ -340,9 +346,7 @@ function HomeComponent() {
               type="button"
               aria-label="Continue with Google"
               variant="outline"
-              onClick={() => {
-                void googleSignIn();
-              }}
+              onClick={handleGoogleSignIn}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -400,9 +404,7 @@ function HomeComponent() {
                   type="button"
                   aria-label="Continue with Google"
                   variant="outline"
-                  onClick={() => {
-                    void googleSignIn();
-                  }}
+                  onClick={handleGoogleSignIn}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -594,7 +596,7 @@ function HomeComponent() {
                         variant={plan.popular ? "default" : "outline"}
                         onClick={() => {
                           if (plan.name === "Free") {
-                            void googleSignIn();
+                            handleGoogleSignIn();
                           }
                         }}
                       >
@@ -770,7 +772,7 @@ function HomeComponent() {
                 <Button
                   size="lg"
                   className="text-lg px-8"
-                  onClick={() => void googleSignIn()}
+                  onClick={handleGoogleSignIn}
                 >
                   <Zap className="w-5 h-5 mr-2" />
                   Start Free Today
