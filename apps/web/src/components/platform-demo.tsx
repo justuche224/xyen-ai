@@ -77,15 +77,17 @@ const PlatformDemo = ({
         return (
           <motion.div
             key="upload"
-            className="flex flex-col lg:flex-row items-center gap-8"
+            className="flex flex-col lg:flex-row items-center gap-4 md:gap-8"
             variants={tabContentVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
           >
             <div className="lg:w-1/2">
-              <h3 className="text-2xl font-bold mb-4">Upload Your Documents</h3>
-              <p className="text-lg text-muted-foreground mb-6">
+              <h3 className="text-xl md:text-2xl font-bold mb-4">
+                Upload Your Documents
+              </h3>
+              <p className="text-base md:text-lg text-muted-foreground mb-6">
                 Simply drag and drop your study materials in PDF format. Our AI
                 will analyze your content and extract key concepts to generate
                 relevant questions.
@@ -114,8 +116,8 @@ const PlatformDemo = ({
                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
                   </div>
                 </div>
-                <div className="pt-10 p-6">
-                  <div className="border-2 border-dashed border-primary/20 rounded-lg p-8 flex flex-col items-center justify-center">
+                <div className="pt-10 p-3 md:p-6">
+                  <div className="border-2 border-dashed border-primary/20 rounded-lg p-4 md:p-8 flex flex-col items-center justify-center">
                     <motion.div
                       animate={{
                         y: [0, -10, 0],
@@ -129,7 +131,7 @@ const PlatformDemo = ({
                     >
                       <FileText className="h-12 w-12 text-primary/50 mb-4" />
                     </motion.div>
-                    <p className="text-center text-muted-foreground mb-4">
+                    <p className="text-center text-sm md:text-base text-muted-foreground mb-4">
                       Drag and drop your files here, or click to browse
                     </p>
                     <Button size="sm" variant="outline">
@@ -146,15 +148,17 @@ const PlatformDemo = ({
         return (
           <motion.div
             key="generate"
-            className="flex flex-col lg:flex-row items-center gap-8"
+            className="flex flex-col lg:flex-row items-center gap-4 md:gap-8"
             variants={tabContentVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
           >
             <div className="lg:w-1/2">
-              <h3 className="text-2xl font-bold mb-4">Generate Questions</h3>
-              <p className="text-lg text-muted-foreground mb-6">
+              <h3 className="text-xl md:text-2xl font-bold mb-4">
+                Generate Questions
+              </h3>
+              <p className="text-base md:text-lg text-muted-foreground mb-6">
                 Our advanced AI analyzes your content and generates relevant
                 questions across different formats including multiple choice,
                 theory, and yes/no questions.
@@ -183,7 +187,7 @@ const PlatformDemo = ({
                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
                   </div>
                 </div>
-                <div className="pt-10 p-6">
+                <div className="pt-10 p-3 md:p-6">
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="font-medium">Question Type</span>
@@ -246,15 +250,17 @@ const PlatformDemo = ({
         return (
           <motion.div
             key="practice"
-            className="flex flex-col lg:flex-row items-center gap-8"
+            className="flex flex-col lg:flex-row items-center gap-4 md:gap-8"
             variants={tabContentVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
           >
             <div className="lg:w-1/2">
-              <h3 className="text-2xl font-bold mb-4">Practice & Learn</h3>
-              <p className="text-lg text-muted-foreground mb-6">
+              <h3 className="text-xl md:text-2xl font-bold mb-4">
+                Practice & Learn
+              </h3>
+              <p className="text-base md:text-lg text-muted-foreground mb-6">
                 Take the generated quiz, review your answers, and get instant
                 feedback. Save quizzes for later or share them with others for
                 collaborative learning.
@@ -283,17 +289,17 @@ const PlatformDemo = ({
                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
                   </div>
                 </div>
-                <div className="pt-10 p-6">
-                  <div className="space-y-6">
+                <div className="pt-10 p-3 md:p-6">
+                  <div className="space-y-4 md:space-y-6">
                     <div>
                       <motion.span
-                        className="text-sm text-muted-foreground"
+                        className="text-xs md:text-sm text-muted-foreground"
                         animate={{ opacity: [0.7, 1, 0.7] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
                         Question 3 of 10
                       </motion.span>
-                      <h4 className="font-medium mt-1">
+                      <h4 className="text-sm md:text-base font-medium mt-1">
                         What is the primary function of mitochondria in a cell?
                       </h4>
                     </div>
@@ -310,28 +316,38 @@ const PlatformDemo = ({
                             transition={{ duration: 2, repeat: Infinity }}
                           />
                         </div>
-                        <span>Energy production</span>
+                        <span className="text-sm md:text-base">
+                          Energy production
+                        </span>
                       </motion.div>
                       <div className="flex items-center gap-2 p-2 rounded border border-muted">
                         <div className="w-4 h-4 rounded-full border-2 border-muted"></div>
-                        <span>Protein synthesis</span>
+                        <span className="text-sm md:text-base">
+                          Protein synthesis
+                        </span>
                       </div>
                       <div className="flex items-center gap-2 p-2 rounded border border-muted">
                         <div className="w-4 h-4 rounded-full border-2 border-muted"></div>
-                        <span>Cell division</span>
+                        <span className="text-sm md:text-base">
+                          Cell division
+                        </span>
                       </div>
                       <div className="flex items-center gap-2 p-2 rounded border border-muted">
                         <div className="w-4 h-4 rounded-full border-2 border-muted"></div>
-                        <span>Waste removal</span>
+                        <span className="text-sm md:text-base">
+                          Waste removal
+                        </span>
                       </div>
                     </div>
                     <div className="flex justify-between">
-                      <Button variant="outline">Previous</Button>
+                      <Button variant="outline" size="sm">
+                        Previous
+                      </Button>
                       <motion.div
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        <Button>Next</Button>
+                        <Button size="sm">Next</Button>
                       </motion.div>
                     </div>
                   </div>
@@ -387,7 +403,7 @@ const PlatformDemo = ({
           </TabsTrigger>
         </TabsList>
 
-        <div className="relative min-h-[400px]">
+        <div className="relative min-h-[300px] md:min-h-[400px]">
           <AnimatePresence mode="wait">{renderTabContent()}</AnimatePresence>
         </div>
       </Tabs>

@@ -317,9 +317,9 @@ function HomeComponent() {
       </div>
 
       {/* Header */}
-      <header className="flex items-center justify-between px-10 py-3 bg-sidebar/60 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow">
+      <header className="flex items-center justify-between px-4 md:px-10 py-3 bg-sidebar/60 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow">
         <div className="flex items-center gap-2">
-          <Link to="/" className="text-2xl font-bold">
+          <Link to="/" className="text-xl md:text-2xl font-bold">
             Xyen AI
           </Link>
           <nav className="md:flex items-center justify-center gap-2 hidden">
@@ -337,15 +337,16 @@ function HomeComponent() {
             </Button>
           </nav>
         </div>
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-center gap-1 md:gap-2">
           <div className="md:flex items-center justify-center gap-2 hidden">
-            <Button asChild aria-label="Sign in" variant="outline">
+            <Button asChild aria-label="Sign in" variant="outline" size="sm">
               <Link to="/sign-in">Sign in</Link>
             </Button>
             <Button
               type="button"
               aria-label="Continue with Google"
               variant="outline"
+              size="sm"
               onClick={handleGoogleSignIn}
             >
               <svg
@@ -444,8 +445,8 @@ function HomeComponent() {
 
       {/* Stats Section */}
       <ScrollReveal>
-        <section className="py-16 bg-muted/30">
-          <div className="container max-w-6xl mx-auto px-6">
+        <section className="py-8 md:py-16 bg-muted/30">
+          <div className="container max-w-6xl mx-auto px-4 md:px-6">
             <motion.div
               className="grid grid-cols-2 md:grid-cols-4 gap-8"
               variants={staggerContainer}
@@ -459,10 +460,12 @@ function HomeComponent() {
                   className="text-center"
                   variants={scaleIn}
                 >
-                  <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
+                  <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-primary mb-2">
                     {stat.number}
                   </div>
-                  <div className="text-muted-foreground">{stat.label}</div>
+                  <div className="text-sm md:text-base text-muted-foreground">
+                    {stat.label}
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
@@ -472,8 +475,8 @@ function HomeComponent() {
 
       {/* Features Section */}
       <ScrollReveal>
-        <section id="features" className="py-24">
-          <div className="container max-w-6xl mx-auto px-6">
+        <section id="features" className="py-12 md:py-24">
+          <div className="container max-w-6xl mx-auto px-4 md:px-6">
             <motion.div
               className="text-center mb-16"
               variants={fadeInUp}
@@ -481,10 +484,10 @@ function HomeComponent() {
               whileInView="visible"
               viewport={{ once: true, margin: "-10%" }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
                 Powerful Features for Modern Learning
               </h2>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
                 Everything you need to create engaging, effective quizzes from
                 any document
               </p>
@@ -521,8 +524,8 @@ function HomeComponent() {
 
       {/* Pricing Section */}
       <ScrollReveal>
-        <section id="pricing" className="py-24 bg-muted/30">
-          <div className="container max-w-6xl mx-auto px-6">
+        <section id="pricing" className="py-12 md:py-24 bg-muted/30">
+          <div className="container max-w-6xl mx-auto px-4 md:px-6">
             <motion.div
               className="text-center mb-16"
               variants={fadeInUp}
@@ -530,17 +533,17 @@ function HomeComponent() {
               whileInView="visible"
               viewport={{ once: true, margin: "-10%" }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
                 Choose Your Plan
               </h2>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
                 Start free and upgrade as you grow. All plans include our core
                 AI features.
               </p>
             </motion.div>
 
             <motion.div
-              className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto"
+              className="grid md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto"
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
