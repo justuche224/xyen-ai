@@ -272,88 +272,6 @@ const QuizList = ({ userId }: { userId: string }) => {
                 </div>
               </CardContent>
             </Card>
-
-            <Card className="bg-card">
-              <CardHeader className="pb-2">
-                <CardTitle>Recommended</CardTitle>
-                <CardDescription>Quizzes you might like</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {recommendedQuizzes.map((quiz) => (
-                    <div
-                      key={quiz.id}
-                      className="flex items-center gap-3 rounded-lg border p-3"
-                    >
-                      <div className="rounded-full bg-blue-100 p-2 text-blue-700">
-                        <Brain className="h-4 w-4" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium line-clamp-1">{quiz.title}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {quiz.type}
-                        </p>
-                      </div>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8"
-                            >
-                              <Sparkles className="h-4 w-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Add to My Quizzes</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button variant="link" className="w-full">
-                  View All Recommendations
-                </Button>
-              </CardFooter>
-            </Card>
-
-            <Card className="bg-card">
-              <CardHeader className="pb-2">
-                <CardTitle>Study Progress</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium">Completed</p>
-                      {/* Todo: stats study progress */}
-                      <p className="text-sm text-muted-foreground">9/23</p>
-                    </div>
-                    <Progress value={8 * 100} className="h-2" />
-                  </div>
-
-                  <div className="flex justify-between items-center text-sm">
-                    <div className="flex items-center">
-                      <GraduationCap className="mr-2 h-4 w-4 text-muted-foreground" />
-                      <span>Learning streak:</span>
-                    </div>
-                    <span className="font-semibold">8 days</span>
-                  </div>
-
-                  <div className="flex justify-between items-center text-sm">
-                    <div className="flex items-center">
-                      <Users className="mr-2 h-4 w-4 text-muted-foreground" />
-                      <span>People learning:</span>
-                    </div>
-                    <span className="font-semibold">1,203</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
 
@@ -588,19 +506,6 @@ const QuizList = ({ userId }: { userId: string }) => {
                   </span>
                 </div>
 
-                {quiz.status === "COMPLETED" && (
-                  <div className="mt-3 grid grid-cols-2 gap-2">
-                    <div className="rounded-md bg-purple-50 p-2 dark:bg-purple-950">
-                      <p className="text-xs font-medium text-purple-600 dark:text-purple-400">
-                        Time Spent
-                      </p>
-                      <p className="text-sm font-medium">
-                        {formatTime(quiz.totalTimeSpent)}
-                      </p>
-                    </div>
-                  </div>
-                )}
-
                 {quiz.tags && quiz.tags.length > 0 && (
                   <div className="flex flex-wrap gap-1 mt-2">
                     {quiz.tags.map((tag, index) => (
@@ -635,9 +540,7 @@ const QuizList = ({ userId }: { userId: string }) => {
                   params={{ quizId: quiz.id }}
                 >
                   <span>
-                    {quiz.status === "COMPLETED"
-                      ? "Review Results"
-                      : "View Quiz"}
+                    Quiz Info
                   </span>
                 </Link>
               </Button>

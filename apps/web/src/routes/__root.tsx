@@ -184,8 +184,8 @@ function RootComponent() {
           <InstallPWA />
         </ThemeProvider>
       </ORPCContext.Provider>
-      <TanStackRouterDevtools position="bottom-right" />
-      <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
+      {/* <TanStackRouterDevtools position="bottom-right" />
+      <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" /> */}
     </>
   );
 }

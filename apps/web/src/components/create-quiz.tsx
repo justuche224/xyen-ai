@@ -45,6 +45,7 @@ import { Progress } from "@/components/ui/progress";
 import { useFeatureLimits, useFeatureUsage } from "@/hooks/useFeatureLimits";
 import { useCanCreateQuiz } from "@/hooks/useFeatureCheck";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "@tanstack/react-router";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 type QuestionType = "multiple-choice" | "yes-no" | "theory";
@@ -67,6 +68,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
   const [prompt, setPrompt] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
+  const navigate = useNavigate();
 
   // Feature limiting hooks
   const { data: limitsData, isLoading: limitsLoading } =
@@ -227,6 +229,7 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
           setUploadProgress(0);
         }, 3000);
 
+        navigate({ to: "/dashboard/quizzes/$quizId", params: { quizId } });
         return;
       }
     }

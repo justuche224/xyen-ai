@@ -35,117 +35,84 @@ const QuizListHero = ({ userId }: { userId: string }) => {
     return `${hours}h ${remainingMinutes}m`;
   };
 
-  // const {
-  //   totalQuizzes,
-  //   totalAttempts,
-  //   completedAttempts,
-  //   averageScore,
-  //   totalTimeSpent,
-  //   byDifficulty,
-  //   byQuizType,
-  // } = data;
   return (
-    <div className="mb-8 rounded-xl bg-gradient-to-r from-blue-900/20 to-violet-900/20 backdrop-blur-md p-6 text-white shadow-lg">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            Your Quiz Dashboard
+    <div className="mb-4 rounded-xl bg-gradient-to-r from-blue-900/20 to-violet-900/20 backdrop-blur-md p-3 md:p-6 text-white shadow-lg">
+      {/* Header - Horizontal on mobile */}
+      <div className="flex items-center justify-between mb-3 md:mb-4">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xl md:text-3xl font-bold tracking-tight">
+            Your Quizzes
           </h1>
-          <p className="mt-1 opacity-90">
+          <p className="text-xs md:text-base opacity-90 hidden md:block">
             Track progress, analyze performance, and create new quizzes
           </p>
         </div>
         <Button
           asChild
-          className="gap-2 bg-white text-blue-600 hover:bg-white/90"
+          size="sm"
+          className="gap-1 bg-white text-blue-600 hover:bg-white/90 flex-shrink-0 ml-2"
         >
           <Link to="/dashboard/quizzes/new">
             <Plus className="h-4 w-4" />
-            <span>Create Quiz</span>
+            <span className="hidden sm:inline">Create Quiz</span>
           </Link>
         </Button>
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <Card className="bg-white/10 border-none shadow-none text-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-wider opacity-90">
-                  Total Quizzes
-                </p>
-                {stats.isLoading ? (
-                  <Loader className="animate-spin" />
-                ) : (
-                  <h3 className="text-2xl font-bold">
-                    {stats.data?.totalQuizzes}
-                  </h3>
-                )}
-              </div>
-              <BookMarked className="h-8 w-8 opacity-80" />
+      <div className="flex gap-2 overflow-x-auto pb-1 md:pb-0 md:grid md:grid-cols-3 md:gap-4">
+        <div className="bg-white/10 rounded-lg p-2 md:p-4 flex-shrink-0 w-28 md:w-auto">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div className="text-center md:text-left">
+              <p className="text-[10px] md:text-xs uppercase tracking-wider opacity-90">
+                Quizzes
+              </p>
+              {stats.isLoading ? (
+                <Loader className="animate-spin h-4 w-4 mx-auto md:mx-0" />
+              ) : (
+                <h3 className="text-lg md:text-2xl font-bold">
+                  {stats.data?.totalQuizzes}
+                </h3>
+              )}
             </div>
-          </CardContent>
-        </Card>
+            <BookMarked className="h-4 w-4 md:h-8 md:w-8 opacity-80 hidden md:block" />
+          </div>
+        </div>
 
-        <Card className="bg-white/10 border-none shadow-none text-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-wider opacity-90">
-                  Avg. Score
-                </p>
-                {stats.isLoading ? (
-                  <Loader className="animate-spin" />
-                ) : (
-                  <h3 className="text-2xl font-bold">
-                    {formatScore(stats.data?.averageScore)}%
-                  </h3>
-                )}
-              </div>
-              <Award className="h-8 w-8 opacity-80" />
+        <div className="bg-white/10 rounded-lg p-2 md:p-4 flex-shrink-0 w-28 md:w-auto">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div className="text-center md:text-left">
+              <p className="text-[10px] md:text-xs uppercase tracking-wider opacity-90">
+                Score
+              </p>
+              {stats.isLoading ? (
+                <Loader className="animate-spin h-4 w-4 mx-auto md:mx-0" />
+              ) : (
+                <h3 className="text-lg md:text-2xl font-bold">
+                  {formatScore(stats.data?.averageScore)}%
+                </h3>
+              )}
             </div>
-          </CardContent>
-        </Card>
+            <Award className="h-4 w-4 md:h-8 md:w-8 opacity-80 hidden md:block" />
+          </div>
+        </div>
 
-        <Card className="bg-white/10 border-none shadow-none text-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-wider opacity-90">
-                  Time Spent
-                </p>
-                {stats.isLoading ? (
-                  <Loader className="animate-spin" />
-                ) : (
-                  <h3 className="text-2xl font-bold">
-                    {formatTime(stats.data?.totalTimeSpent)}
-                  </h3>
-                )}
-              </div>
-              <Clock3 className="h-8 w-8 opacity-80" />
+        <div className="bg-white/10 rounded-lg p-2 md:p-4 flex-shrink-0 w-28 md:w-auto">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div className="text-center md:text-left">
+              <p className="text-[10px] md:text-xs uppercase tracking-wider opacity-90">
+                Time
+              </p>
+              {stats.isLoading ? (
+                <Loader className="animate-spin h-4 w-4 mx-auto md:mx-0" />
+              ) : (
+                <h3 className="text-lg md:text-2xl font-bold">
+                  {formatTime(stats.data?.totalTimeSpent)}
+                </h3>
+              )}
             </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white/10 border-none shadow-none text-white">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-wider opacity-90">
-                  Recent Activity
-                </p>
-                {stats.isLoading ? (
-                  <Loader className="animate-spin" />
-                ) : (
-                  <h3 className="text-sm font-medium line-clamp-1">
-                    Completed 'Database design' quiz
-                  </h3>
-                )}
-              </div>
-              <CalendarClock className="h-8 w-8 opacity-80" />
-            </div>
-          </CardContent>
-        </Card>
+            <Clock3 className="h-4 w-4 md:h-8 md:w-8 opacity-80 hidden md:block" />
+          </div>
+        </div>
       </div>
     </div>
   );

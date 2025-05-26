@@ -467,7 +467,7 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
                       <BookOpen className="h-6 w-6 text-blue-400" />
-                      <CardTitle className="text-xl text-white">
+                      <CardTitle className="text-sm md:text-xl text-white">
                         {quizDetails.title}
                       </CardTitle>
                     </div>
@@ -558,9 +558,9 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <button className="p-2 text-slate-400 hover:text-white transition-colors">
+                      {/* <button className="p-2 text-slate-400 hover:text-white transition-colors">
                         <Bookmark className="h-4 w-4" />
-                      </button>
+                      </button> */}
                       <button className="p-2 text-slate-400 hover:text-white transition-colors">
                         <Heart className="h-4 w-4" />
                       </button>
@@ -581,7 +581,7 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                       {getTypeIcon(queryResult?.quizType)}
                     </div>
                     <div>
-                      <h1 className="text-3xl font-bold text-white mb-1">
+                      <h1 className="text-xl md:text-3xl font-bold text-white mb-1">
                         {queryResult?.title}
                       </h1>
                       <p className="text-slate-300">
@@ -640,14 +640,14 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleStartQuiz("practice")}
-                      className="bg-slate-700/50 hover:bg-slate-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                      className="bg-slate-700/50 hover:bg-slate-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors w-1/2"
                     >
                       <Shuffle className="h-4 w-4" />
                       Practice
                     </button>
                     <button
                       onClick={() => handleStartQuiz("review")}
-                      className="bg-slate-700/50 hover:bg-slate-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                      className="bg-slate-700/50 hover:bg-slate-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors w-1/2"
                     >
                       <RefreshCw className="h-4 w-4" />
                       Review
