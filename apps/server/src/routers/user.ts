@@ -7,6 +7,7 @@ import {
   featureUsage,
   userPlans,
 } from "@/db/schema/subscription";
+import { user } from "@/db/schema/auth";
 import { FeatureLimitService } from "@/services/feature-limit.service";
 
 export const userRouter = {
@@ -14,19 +15,31 @@ export const userRouter = {
   getFeatureLimits: protectedProcedure
     .input(z.object({ userId: z.string() }))
     .handler(async ({ input }) => {
-      // Get user's plan
-      const userPlan = await db
-        .select()
-        .from(userPlans)
-        .where(
-          and(
-            eq(userPlans.userId, input.userId),
-            eq(userPlans.status, "active")
-          )
-        )
+      // Get user's role
+      const userData = await db
+        .select({ role: user.role })
+        .from(user)
+        .where(eq(user.id, input.userId))
         .limit(1);
 
-      const planType = userPlan[0]?.planType || "free";
+      let planType: "free" | "pro" | "enterprise" = "free";
+
+      if (userData[0]?.role === "admin" || userData[0]?.role === "tester") {
+        planType = "pro"; // Admins/testers are treated as Pro for limits
+      } else {
+        // Get user's actual plan
+        const userPlan = await db
+          .select()
+          .from(userPlans)
+          .where(
+            and(
+              eq(userPlans.userId, input.userId),
+              eq(userPlans.status, "active")
+            )
+          )
+          .limit(1);
+        planType = userPlan[0]?.planType || "free";
+      }
 
       // Get feature limits for this plan
       const limits = await db
