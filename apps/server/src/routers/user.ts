@@ -9,6 +9,7 @@ import {
 } from "@/db/schema/subscription";
 import { user } from "@/db/schema/auth";
 import { FeatureLimitService } from "@/services/feature-limit.service";
+import { ORPCError } from "@orpc/server";
 
 export const userRouter = {
   // Get feature limits for user's current plan
@@ -177,4 +178,40 @@ export const userRouter = {
         }
       );
     }),
+  // Get current user's own profile
+  getCurrentUser: protectedProcedure.handler(async ({ context }) => {
+    const foundUser = await db
+      .select()
+      .from(user)
+      .where(eq(user.id, context.session.user.id))
+      .limit(1);
+
+    if (foundUser.length === 0) {
+      throw new ORPCError("NOT_FOUND", {
+        message: "User not found",
+      });
+    }
+
+    return foundUser[0];
+  }),
+  // Update current user's own profile (limited fields)
+  updateCurrentUser: protectedProcedure
+    .input(
+      z.object({
+        name: z.string().min(1).optional(),
+        image: z.string().url().nullable().optional(),
+      })
+    )
+  .handler(async ({ input,context }) => {
+    const updatedUser = await db
+      .update(user)
+      .set({
+        ...input,
+        updatedAt: new Date(),
+      })
+      .where(eq(user.id, context.session.user.id))
+      .returning();
+
+    return updatedUser[0];
+  }),
 };

@@ -58,4 +58,13 @@ export const auth = betterAuth({
       await mailService.sendVerificationEmail(user.email, url);
     },
   },
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        default: "user",
+        enum: ["user", "admin", "tester"],
+      },
+    },
+  },
 });

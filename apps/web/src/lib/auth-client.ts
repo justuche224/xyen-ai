@@ -1,6 +1,17 @@
 import { createAuthClient } from "better-auth/react";
+import { inferAdditionalFields } from "better-auth/client/plugins";
 import { toast } from "sonner";
 export const authClient = createAuthClient({
+  plugins: [
+    inferAdditionalFields({
+      user: {
+        role: {
+          type: "string",
+              enum: ["user", "admin", "tester"],
+        },
+      },
+    }),
+  ],
   fetchOptions: {
     onError: async (context) => {
       const { response } = context;

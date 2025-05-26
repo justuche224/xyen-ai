@@ -60,3 +60,28 @@ export const TheoryQuizDataSchema = z
   .min(1, "A theory quiz must have at least one question.");
 
 export type Status = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
+
+export const userRoleSchema = z.enum(["user", "admin", "tester"]);
+
+export const paginationSchema = z.object({
+  page: z.number().min(1).default(1),
+  limit: z.number().min(1).max(100).default(10),
+});
+
+export const userSearchSchema = z
+  .object({
+    search: z.string().optional(),
+    role: userRoleSchema.optional(),
+    emailVerified: z.boolean().optional(),
+    sortBy: z
+      .enum(["createdAt", "updatedAt", "name", "email"])
+      .default("createdAt"),
+    sortOrder: z.enum(["asc", "desc"]).default("desc"),
+  })
+  .merge(paginationSchema);
+
+ export type UserSearchSchema = z.infer<typeof userSearchSchema>;
+
+export const userIdSchema = z.object({
+  id: z.string().min(1),
+});

@@ -1,12 +1,20 @@
 import { z } from "zod";
-import { protectedProcedure } from "@/lib/orpc";
+import { adminProcedure } from "@/lib/orpc";
 import { eq, and } from "drizzle-orm";
 import { db } from "@/db";
 import { featureLimits, userPlans } from "@/db/schema/subscription";
-
+import {
+  getAllUsersHandler,
+  getUserHandler,
+  updateUserHandler,
+  deleteUserHandler,
+  getUserStatsHandler,
+  changeUserRoleHandler,
+  bulkUpdateUsersHandler,
+} from "@/handlers/admin.users";
 export const adminRouter = {
   // Update feature limits
-  updateFeatureLimit: protectedProcedure
+  updateFeatureLimit: adminProcedure
     .input(
       z.object({
         planType: z.enum(["free", "pro", "enterprise"]),
@@ -34,12 +42,12 @@ export const adminRouter = {
     }),
 
   // Get all feature limits
-  getFeatureLimits: protectedProcedure.handler(async () => {
+  getFeatureLimits: adminProcedure.handler(async () => {
     return await db.select().from(featureLimits);
   }),
 
   // Upgrade user plan
-  upgradeUserPlan: protectedProcedure
+  upgradeUserPlan: adminProcedure
     .input(
       z.object({
         userId: z.string(),
@@ -76,4 +84,12 @@ export const adminRouter = {
 
       return { success: true };
     }),
+
+  getAllUsers: getAllUsersHandler,
+  getUser: getUserHandler,
+  updateUser: updateUserHandler,
+  deleteUser: deleteUserHandler,
+  getUserStats: getUserStatsHandler,
+  changeUserRole: changeUserRoleHandler,
+  bulkUpdateUsers: bulkUpdateUsersHandler,
 };
