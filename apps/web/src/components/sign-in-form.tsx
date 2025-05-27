@@ -40,6 +40,9 @@ export default function SignInForm({
         {
           email: value.email,
           password: value.password,
+          callbackURL: callbackURL
+            ? `${window.location.origin}${callbackURL}`
+            : `${window.location.origin}${defaultRedirect}`,
         },
         {
           onSuccess: () => {

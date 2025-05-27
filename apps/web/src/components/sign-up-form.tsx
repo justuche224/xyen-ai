@@ -44,6 +44,10 @@ export default function SignUpForm({
           email: value.email,
           password: value.password,
           name: value.name,
+          role: "user",
+          callbackURL: callbackURL
+            ? `${window.location.origin}${callbackURL}`
+            : `${window.location.origin}${defaultRedirect}`,
         },
         {
           onSuccess: () => {
