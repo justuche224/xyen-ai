@@ -51,10 +51,10 @@ export default function SignUpForm({
         },
         {
           onSuccess: () => {
+            toast.success("Sign up successful, Check your email for verification link");
             navigate({
               to: callbackURL || defaultRedirect,
             });
-            toast.success("Sign up successful");
           },
           onError: (error) => {
             toast.error(error.error.message);
