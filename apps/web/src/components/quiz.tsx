@@ -67,6 +67,8 @@ export function Quiz({
     const startQuizAttempt = async () => {
       try {
         setIsLoading(true);
+        console.log("starting quiz attempt");
+        console.log("mode", mode);
         const result = await startMutation.mutateAsync({
           quizId,
           userId,
@@ -99,7 +101,7 @@ export function Quiz({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [quizId, userId, mode, showResults]);
+  }, [quizId, userId, mode]);
 
   // Add warning when user tries to close or refresh the page
   useEffect(() => {

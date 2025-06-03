@@ -86,10 +86,11 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
     return (Math.round(score * 10) / 10).toString();
   };
 
-  const formatTime = (minutes: number | undefined | null): string => {
-    if (!minutes && minutes !== 0) return "0m";
+  const formatTime = (seconds: number | undefined | null): string => {
+    console.log("seconds", seconds);
+    if (!seconds && seconds !== 0) return "0";
 
-    const totalMinutes = Math.round(minutes);
+    const totalMinutes = Math.round(seconds / 60);
 
     if (totalMinutes < 60) {
       return `${totalMinutes}m`;
@@ -518,6 +519,7 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                       allQuestions={validatedQuestions as Question[]}
                       quizId={quizDetails.id}
                       userId={userId}
+                      mode={quizType}
                     />
                   )}
                 </CardContent>
