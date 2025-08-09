@@ -17,14 +17,18 @@
   --card-foreground: oklch(0 0 0);
   --popover: oklch(0.99 0 0);
   --popover-foreground: oklch(0 0 0);
-  --primary: #ddffb3;
-  --primary-foreground: oklch(1 0 0);
+  --primary: oklch(
+    0.55 0.15 120
+  ); /* Darker green for better contrast on light backgrounds */
+  --primary-foreground: oklch(1 0 0); /* White text on darker primary */
   --secondary: oklch(0.94 0 0);
   --secondary-foreground: oklch(0 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.44 0 0);
-  --accent: #ddffb3;
-  --accent-foreground: oklch(0 0 0);
+  --accent: oklch(
+    0.55 0.15 120
+  ); /* Darker green for better contrast on light backgrounds */
+  --accent-foreground: oklch(1 0 0); /* White text on darker accent */
   --destructive: oklch(0.63 0.19 23.03);
   --border: oklch(0.92 0 0);
   --input: oklch(0.94 0 0);
@@ -84,7 +88,9 @@
   --muted: oklch(0.23 0 0);
   --muted-foreground: oklch(0.72 0 0);
   --accent: #ddffb3;
-  --accent-foreground: oklch(1 0 0);
+  --accent-foreground: oklch(
+    0 0 0
+  ); /* Changed from white to black for better contrast on light green */
   --destructive: oklch(0.69 0.2 23.91);
   --border: oklch(0.26 0 0);
   --input: oklch(0.32 0 0);
