@@ -1,10 +1,10 @@
-import SignUpForm from "@/components/sign-up-form";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Brain } from "lucide-react";
+import SignInForm from "@/components/sign-in-form";
 import { PlatformDemo } from "@/components/platform-demo";
 import { z } from "zod";
 
-export const Route = createFileRoute("/(auth)/sign-up")({
+export const Route = createFileRoute("/_pathlessLayout/(auth)/sign-in")({
   component: RouteComponent,
   validateSearch: (Search) => {
     return z
@@ -30,7 +30,7 @@ function RouteComponent() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <SignUpForm callbackURL={callbackURL} />
+            <SignInForm callbackURL={callbackURL} />
           </div>
         </div>
       </div>
@@ -44,7 +44,9 @@ function RouteComponent() {
                 simple steps
               </p>
             </div>
-            <PlatformDemo autoplay={true} interval={3000} />
+            <PlatformDemo
+            //  autoplay={true} interval={3000}
+            />
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { Brain } from "lucide-react";
 import { PlatformDemo } from "@/components/platform-demo";
 import { z } from "zod";
 
-export const Route = createFileRoute("/(auth)/reset-password")({
+export const Route = createFileRoute("/_pathlessLayout/(auth)/reset-password")({
   component: RouteComponent,
   validateSearch: (Search) => {
     return z

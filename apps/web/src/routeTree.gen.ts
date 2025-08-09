@@ -18,18 +18,19 @@ import { Route as ContactImport } from './routes/contact'
 import { Route as AboutImport } from './routes/about'
 import { Route as DashboardRouteImport } from './routes/dashboard/route'
 import { Route as AdminRouteImport } from './routes/admin/route'
-import { Route as IndexImport } from './routes/index'
+import { Route as PathlessLayoutRouteImport } from './routes/_pathlessLayout/route'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as AdminIndexImport } from './routes/admin/index'
+import { Route as PathlessLayoutIndexImport } from './routes/_pathlessLayout/index'
 import { Route as DashboardSettingsImport } from './routes/dashboard/settings'
 import { Route as DashboardAccountImport } from './routes/dashboard/account'
-import { Route as authSignUpImport } from './routes/(auth)/sign-up'
-import { Route as authSignInImport } from './routes/(auth)/sign-in'
-import { Route as authResetPasswordImport } from './routes/(auth)/reset-password'
-import { Route as authForgotPasswordImport } from './routes/(auth)/forgot-password'
 import { Route as DashboardQuizzesIndexImport } from './routes/dashboard/quizzes/index'
 import { Route as DashboardQuizzesNewImport } from './routes/dashboard/quizzes/new'
 import { Route as DashboardQuizzesQuizIdImport } from './routes/dashboard/quizzes/$quizId'
+import { Route as PathlessLayoutauthSignUpImport } from './routes/_pathlessLayout/(auth)/sign-up'
+import { Route as PathlessLayoutauthSignInImport } from './routes/_pathlessLayout/(auth)/sign-in'
+import { Route as PathlessLayoutauthResetPasswordImport } from './routes/_pathlessLayout/(auth)/reset-password'
+import { Route as PathlessLayoutauthForgotPasswordImport } from './routes/_pathlessLayout/(auth)/forgot-password'
 
 // Create/Update Routes
 
@@ -75,9 +76,8 @@ const AdminRouteRoute = AdminRouteImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
+const PathlessLayoutRouteRoute = PathlessLayoutRouteImport.update({
+  id: '/_pathlessLayout',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -93,6 +93,12 @@ const AdminIndexRoute = AdminIndexImport.update({
   getParentRoute: () => AdminRouteRoute,
 } as any)
 
+const PathlessLayoutIndexRoute = PathlessLayoutIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PathlessLayoutRouteRoute,
+} as any)
+
 const DashboardSettingsRoute = DashboardSettingsImport.update({
   id: '/settings',
   path: '/settings',
@@ -103,30 +109,6 @@ const DashboardAccountRoute = DashboardAccountImport.update({
   id: '/account',
   path: '/account',
   getParentRoute: () => DashboardRouteRoute,
-} as any)
-
-const authSignUpRoute = authSignUpImport.update({
-  id: '/(auth)/sign-up',
-  path: '/sign-up',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const authSignInRoute = authSignInImport.update({
-  id: '/(auth)/sign-in',
-  path: '/sign-in',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const authResetPasswordRoute = authResetPasswordImport.update({
-  id: '/(auth)/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const authForgotPasswordRoute = authForgotPasswordImport.update({
-  id: '/(auth)/forgot-password',
-  path: '/forgot-password',
-  getParentRoute: () => rootRoute,
 } as any)
 
 const DashboardQuizzesIndexRoute = DashboardQuizzesIndexImport.update({
@@ -147,15 +129,41 @@ const DashboardQuizzesQuizIdRoute = DashboardQuizzesQuizIdImport.update({
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 
+const PathlessLayoutauthSignUpRoute = PathlessLayoutauthSignUpImport.update({
+  id: '/(auth)/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => PathlessLayoutRouteRoute,
+} as any)
+
+const PathlessLayoutauthSignInRoute = PathlessLayoutauthSignInImport.update({
+  id: '/(auth)/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => PathlessLayoutRouteRoute,
+} as any)
+
+const PathlessLayoutauthResetPasswordRoute =
+  PathlessLayoutauthResetPasswordImport.update({
+    id: '/(auth)/reset-password',
+    path: '/reset-password',
+    getParentRoute: () => PathlessLayoutRouteRoute,
+  } as any)
+
+const PathlessLayoutauthForgotPasswordRoute =
+  PathlessLayoutauthForgotPasswordImport.update({
+    id: '/(auth)/forgot-password',
+    path: '/forgot-password',
+    getParentRoute: () => PathlessLayoutRouteRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
+    '/_pathlessLayout': {
+      id: '/_pathlessLayout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof PathlessLayoutRouteImport
       parentRoute: typeof rootRoute
     }
     '/admin': {
@@ -207,34 +215,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TodosImport
       parentRoute: typeof rootRoute
     }
-    '/(auth)/forgot-password': {
-      id: '/(auth)/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof authForgotPasswordImport
-      parentRoute: typeof rootRoute
-    }
-    '/(auth)/reset-password': {
-      id: '/(auth)/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof authResetPasswordImport
-      parentRoute: typeof rootRoute
-    }
-    '/(auth)/sign-in': {
-      id: '/(auth)/sign-in'
-      path: '/sign-in'
-      fullPath: '/sign-in'
-      preLoaderRoute: typeof authSignInImport
-      parentRoute: typeof rootRoute
-    }
-    '/(auth)/sign-up': {
-      id: '/(auth)/sign-up'
-      path: '/sign-up'
-      fullPath: '/sign-up'
-      preLoaderRoute: typeof authSignUpImport
-      parentRoute: typeof rootRoute
-    }
     '/dashboard/account': {
       id: '/dashboard/account'
       path: '/account'
@@ -249,6 +229,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardSettingsImport
       parentRoute: typeof DashboardRouteImport
     }
+    '/_pathlessLayout/': {
+      id: '/_pathlessLayout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof PathlessLayoutIndexImport
+      parentRoute: typeof PathlessLayoutRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
@@ -262,6 +249,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof DashboardRouteImport
+    }
+    '/_pathlessLayout/(auth)/forgot-password': {
+      id: '/_pathlessLayout/(auth)/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof PathlessLayoutauthForgotPasswordImport
+      parentRoute: typeof PathlessLayoutRouteImport
+    }
+    '/_pathlessLayout/(auth)/reset-password': {
+      id: '/_pathlessLayout/(auth)/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof PathlessLayoutauthResetPasswordImport
+      parentRoute: typeof PathlessLayoutRouteImport
+    }
+    '/_pathlessLayout/(auth)/sign-in': {
+      id: '/_pathlessLayout/(auth)/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof PathlessLayoutauthSignInImport
+      parentRoute: typeof PathlessLayoutRouteImport
+    }
+    '/_pathlessLayout/(auth)/sign-up': {
+      id: '/_pathlessLayout/(auth)/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof PathlessLayoutauthSignUpImport
+      parentRoute: typeof PathlessLayoutRouteImport
     }
     '/dashboard/quizzes/$quizId': {
       id: '/dashboard/quizzes/$quizId'
@@ -288,6 +303,25 @@ declare module '@tanstack/react-router' {
 }
 
 // Create and export the route tree
+
+interface PathlessLayoutRouteRouteChildren {
+  PathlessLayoutIndexRoute: typeof PathlessLayoutIndexRoute
+  PathlessLayoutauthForgotPasswordRoute: typeof PathlessLayoutauthForgotPasswordRoute
+  PathlessLayoutauthResetPasswordRoute: typeof PathlessLayoutauthResetPasswordRoute
+  PathlessLayoutauthSignInRoute: typeof PathlessLayoutauthSignInRoute
+  PathlessLayoutauthSignUpRoute: typeof PathlessLayoutauthSignUpRoute
+}
+
+const PathlessLayoutRouteRouteChildren: PathlessLayoutRouteRouteChildren = {
+  PathlessLayoutIndexRoute: PathlessLayoutIndexRoute,
+  PathlessLayoutauthForgotPasswordRoute: PathlessLayoutauthForgotPasswordRoute,
+  PathlessLayoutauthResetPasswordRoute: PathlessLayoutauthResetPasswordRoute,
+  PathlessLayoutauthSignInRoute: PathlessLayoutauthSignInRoute,
+  PathlessLayoutauthSignUpRoute: PathlessLayoutauthSignUpRoute,
+}
+
+const PathlessLayoutRouteRouteWithChildren =
+  PathlessLayoutRouteRoute._addFileChildren(PathlessLayoutRouteRouteChildren)
 
 interface AdminRouteRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
@@ -324,7 +358,7 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
 )
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '': typeof PathlessLayoutRouteRouteWithChildren
   '/admin': typeof AdminRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/about': typeof AboutRoute
@@ -332,34 +366,35 @@ export interface FileRoutesByFullPath {
   '/demo': typeof DemoRoute
   '/error': typeof ErrorRoute
   '/todos': typeof TodosRoute
-  '/forgot-password': typeof authForgotPasswordRoute
-  '/reset-password': typeof authResetPasswordRoute
-  '/sign-in': typeof authSignInRoute
-  '/sign-up': typeof authSignUpRoute
   '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
+  '/': typeof PathlessLayoutIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/forgot-password': typeof PathlessLayoutauthForgotPasswordRoute
+  '/reset-password': typeof PathlessLayoutauthResetPasswordRoute
+  '/sign-in': typeof PathlessLayoutauthSignInRoute
+  '/sign-up': typeof PathlessLayoutauthSignUpRoute
   '/dashboard/quizzes/$quizId': typeof DashboardQuizzesQuizIdRoute
   '/dashboard/quizzes/new': typeof DashboardQuizzesNewRoute
   '/dashboard/quizzes': typeof DashboardQuizzesIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/demo': typeof DemoRoute
   '/error': typeof ErrorRoute
   '/todos': typeof TodosRoute
-  '/forgot-password': typeof authForgotPasswordRoute
-  '/reset-password': typeof authResetPasswordRoute
-  '/sign-in': typeof authSignInRoute
-  '/sign-up': typeof authSignUpRoute
   '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
+  '/': typeof PathlessLayoutIndexRoute
   '/admin': typeof AdminIndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/forgot-password': typeof PathlessLayoutauthForgotPasswordRoute
+  '/reset-password': typeof PathlessLayoutauthResetPasswordRoute
+  '/sign-in': typeof PathlessLayoutauthSignInRoute
+  '/sign-up': typeof PathlessLayoutauthSignUpRoute
   '/dashboard/quizzes/$quizId': typeof DashboardQuizzesQuizIdRoute
   '/dashboard/quizzes/new': typeof DashboardQuizzesNewRoute
   '/dashboard/quizzes': typeof DashboardQuizzesIndexRoute
@@ -367,7 +402,7 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
+  '/_pathlessLayout': typeof PathlessLayoutRouteRouteWithChildren
   '/admin': typeof AdminRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/about': typeof AboutRoute
@@ -375,14 +410,15 @@ export interface FileRoutesById {
   '/demo': typeof DemoRoute
   '/error': typeof ErrorRoute
   '/todos': typeof TodosRoute
-  '/(auth)/forgot-password': typeof authForgotPasswordRoute
-  '/(auth)/reset-password': typeof authResetPasswordRoute
-  '/(auth)/sign-in': typeof authSignInRoute
-  '/(auth)/sign-up': typeof authSignUpRoute
   '/dashboard/account': typeof DashboardAccountRoute
   '/dashboard/settings': typeof DashboardSettingsRoute
+  '/_pathlessLayout/': typeof PathlessLayoutIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/_pathlessLayout/(auth)/forgot-password': typeof PathlessLayoutauthForgotPasswordRoute
+  '/_pathlessLayout/(auth)/reset-password': typeof PathlessLayoutauthResetPasswordRoute
+  '/_pathlessLayout/(auth)/sign-in': typeof PathlessLayoutauthSignInRoute
+  '/_pathlessLayout/(auth)/sign-up': typeof PathlessLayoutauthSignUpRoute
   '/dashboard/quizzes/$quizId': typeof DashboardQuizzesQuizIdRoute
   '/dashboard/quizzes/new': typeof DashboardQuizzesNewRoute
   '/dashboard/quizzes/': typeof DashboardQuizzesIndexRoute
@@ -391,7 +427,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
+    | ''
     | '/admin'
     | '/dashboard'
     | '/about'
@@ -399,39 +435,40 @@ export interface FileRouteTypes {
     | '/demo'
     | '/error'
     | '/todos'
+    | '/dashboard/account'
+    | '/dashboard/settings'
+    | '/'
+    | '/admin/'
+    | '/dashboard/'
     | '/forgot-password'
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
-    | '/dashboard/account'
-    | '/dashboard/settings'
-    | '/admin/'
-    | '/dashboard/'
     | '/dashboard/quizzes/$quizId'
     | '/dashboard/quizzes/new'
     | '/dashboard/quizzes'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/about'
     | '/contact'
     | '/demo'
     | '/error'
     | '/todos'
+    | '/dashboard/account'
+    | '/dashboard/settings'
+    | '/'
+    | '/admin'
+    | '/dashboard'
     | '/forgot-password'
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
-    | '/dashboard/account'
-    | '/dashboard/settings'
-    | '/admin'
-    | '/dashboard'
     | '/dashboard/quizzes/$quizId'
     | '/dashboard/quizzes/new'
     | '/dashboard/quizzes'
   id:
     | '__root__'
-    | '/'
+    | '/_pathlessLayout'
     | '/admin'
     | '/dashboard'
     | '/about'
@@ -439,14 +476,15 @@ export interface FileRouteTypes {
     | '/demo'
     | '/error'
     | '/todos'
-    | '/(auth)/forgot-password'
-    | '/(auth)/reset-password'
-    | '/(auth)/sign-in'
-    | '/(auth)/sign-up'
     | '/dashboard/account'
     | '/dashboard/settings'
+    | '/_pathlessLayout/'
     | '/admin/'
     | '/dashboard/'
+    | '/_pathlessLayout/(auth)/forgot-password'
+    | '/_pathlessLayout/(auth)/reset-password'
+    | '/_pathlessLayout/(auth)/sign-in'
+    | '/_pathlessLayout/(auth)/sign-up'
     | '/dashboard/quizzes/$quizId'
     | '/dashboard/quizzes/new'
     | '/dashboard/quizzes/'
@@ -454,7 +492,7 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  PathlessLayoutRouteRoute: typeof PathlessLayoutRouteRouteWithChildren
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
@@ -462,14 +500,10 @@ export interface RootRouteChildren {
   DemoRoute: typeof DemoRoute
   ErrorRoute: typeof ErrorRoute
   TodosRoute: typeof TodosRoute
-  authForgotPasswordRoute: typeof authForgotPasswordRoute
-  authResetPasswordRoute: typeof authResetPasswordRoute
-  authSignInRoute: typeof authSignInRoute
-  authSignUpRoute: typeof authSignUpRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  PathlessLayoutRouteRoute: PathlessLayoutRouteRouteWithChildren,
   AdminRouteRoute: AdminRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   AboutRoute: AboutRoute,
@@ -477,10 +511,6 @@ const rootRouteChildren: RootRouteChildren = {
   DemoRoute: DemoRoute,
   ErrorRoute: ErrorRoute,
   TodosRoute: TodosRoute,
-  authForgotPasswordRoute: authForgotPasswordRoute,
-  authResetPasswordRoute: authResetPasswordRoute,
-  authSignInRoute: authSignInRoute,
-  authSignUpRoute: authSignUpRoute,
 }
 
 export const routeTree = rootRoute
@@ -493,22 +523,25 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
+        "/_pathlessLayout",
         "/admin",
         "/dashboard",
         "/about",
         "/contact",
         "/demo",
         "/error",
-        "/todos",
-        "/(auth)/forgot-password",
-        "/(auth)/reset-password",
-        "/(auth)/sign-in",
-        "/(auth)/sign-up"
+        "/todos"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
+    "/_pathlessLayout": {
+      "filePath": "_pathlessLayout/route.tsx",
+      "children": [
+        "/_pathlessLayout/",
+        "/_pathlessLayout/(auth)/forgot-password",
+        "/_pathlessLayout/(auth)/reset-password",
+        "/_pathlessLayout/(auth)/sign-in",
+        "/_pathlessLayout/(auth)/sign-up"
+      ]
     },
     "/admin": {
       "filePath": "admin/route.tsx",
@@ -542,18 +575,6 @@ export const routeTree = rootRoute
     "/todos": {
       "filePath": "todos.tsx"
     },
-    "/(auth)/forgot-password": {
-      "filePath": "(auth)/forgot-password.tsx"
-    },
-    "/(auth)/reset-password": {
-      "filePath": "(auth)/reset-password.tsx"
-    },
-    "/(auth)/sign-in": {
-      "filePath": "(auth)/sign-in.tsx"
-    },
-    "/(auth)/sign-up": {
-      "filePath": "(auth)/sign-up.tsx"
-    },
     "/dashboard/account": {
       "filePath": "dashboard/account.tsx",
       "parent": "/dashboard"
@@ -562,6 +583,10 @@ export const routeTree = rootRoute
       "filePath": "dashboard/settings.tsx",
       "parent": "/dashboard"
     },
+    "/_pathlessLayout/": {
+      "filePath": "_pathlessLayout/index.tsx",
+      "parent": "/_pathlessLayout"
+    },
     "/admin/": {
       "filePath": "admin/index.tsx",
       "parent": "/admin"
@@ -569,6 +594,22 @@ export const routeTree = rootRoute
     "/dashboard/": {
       "filePath": "dashboard/index.tsx",
       "parent": "/dashboard"
+    },
+    "/_pathlessLayout/(auth)/forgot-password": {
+      "filePath": "_pathlessLayout/(auth)/forgot-password.tsx",
+      "parent": "/_pathlessLayout"
+    },
+    "/_pathlessLayout/(auth)/reset-password": {
+      "filePath": "_pathlessLayout/(auth)/reset-password.tsx",
+      "parent": "/_pathlessLayout"
+    },
+    "/_pathlessLayout/(auth)/sign-in": {
+      "filePath": "_pathlessLayout/(auth)/sign-in.tsx",
+      "parent": "/_pathlessLayout"
+    },
+    "/_pathlessLayout/(auth)/sign-up": {
+      "filePath": "_pathlessLayout/(auth)/sign-up.tsx",
+      "parent": "/_pathlessLayout"
     },
     "/dashboard/quizzes/$quizId": {
       "filePath": "dashboard/quizzes/$quizId.tsx",

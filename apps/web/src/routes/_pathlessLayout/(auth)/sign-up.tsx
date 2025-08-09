@@ -1,11 +1,10 @@
-import ForgotPasswordForm from "@/components/forgot-password-form";
-import { createFileRoute } from "@tanstack/react-router";
+import SignUpForm from "@/components/sign-up-form";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Brain } from "lucide-react";
-import { Link } from "@tanstack/react-router";
 import { PlatformDemo } from "@/components/platform-demo";
 import { z } from "zod";
 
-export const Route = createFileRoute("/(auth)/forgot-password")({
+export const Route = createFileRoute("/_pathlessLayout/(auth)/sign-up")({
   component: RouteComponent,
   validateSearch: (Search) => {
     return z
@@ -17,6 +16,7 @@ export const Route = createFileRoute("/(auth)/forgot-password")({
 });
 
 function RouteComponent() {
+  const { callbackURL } = Route.useSearch();
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -30,7 +30,7 @@ function RouteComponent() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <ForgotPasswordForm />
+            <SignUpForm callbackURL={callbackURL} />
           </div>
         </div>
       </div>
@@ -44,7 +44,9 @@ function RouteComponent() {
                 simple steps
               </p>
             </div>
-            <PlatformDemo autoplay={true} interval={3000} />
+            <PlatformDemo
+            // autoplay={true} interval={3000}
+            />
           </div>
         </div>
       </div>
