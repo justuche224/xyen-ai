@@ -11,7 +11,7 @@ function PathlessLayoutComponent() {
     <>
       <div className="min-h-screen w-full relative">
         <div
-          className="absolute inset-0 z-0 dark:hidden"
+          className="absolute inset-0 z-[-1] dark:hidden"
           style={{
             backgroundImage: `
         linear-gradient(to right, #e2e8f0 1px, transparent 1px),
@@ -25,7 +25,7 @@ function PathlessLayoutComponent() {
           }}
         />
         <div
-          className="absolute inset-0 z-0 hidden dark:block"
+          className="absolute inset-0 z-[-1] hidden dark:block"
           style={{
             backgroundImage: `
         linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),

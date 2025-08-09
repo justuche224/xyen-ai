@@ -5,9 +5,7 @@ import { motion } from "framer-motion";
 
 export function PlatformDemo() {
   return (
-    <div className="container mx-auto py-16 px-6 lg:px-10">
-      <h1 className="text-3xl font-bold mb-8 text-center">Platform Demo</h1>
-
+    <div className="container mx-auto py-4 px-6 lg:px-10">
       <div className="max-w-4xl mx-auto">
         <Tabs defaultValue="upload" className="w-full max-w-4xl mx-auto">
           <TabsList className="grid w-full grid-cols-3 mb-12">

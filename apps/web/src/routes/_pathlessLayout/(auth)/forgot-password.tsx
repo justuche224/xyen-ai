@@ -5,29 +5,23 @@ import { Link } from "@tanstack/react-router";
 import { PlatformDemo } from "@/components/platform-demo";
 import { z } from "zod";
 
-export const Route = createFileRoute("/_pathlessLayout/(auth)/forgot-password")({
-  component: RouteComponent,
-  validateSearch: (Search) => {
-    return z
-      .object({
-        callbackURL: z.string().optional(),
-      })
-      .parse(Search);
-  },
-});
+export const Route = createFileRoute("/_pathlessLayout/(auth)/forgot-password")(
+  {
+    component: RouteComponent,
+    validateSearch: (Search) => {
+      return z
+        .object({
+          callbackURL: z.string().optional(),
+        })
+        .parse(Search);
+    },
+  }
+);
 
 function RouteComponent() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
-        <div className="flex justify-center gap-2 md:justify-start">
-          <Link to="/" className="flex items-center gap-2 font-medium">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <Brain className="size-4" />
-            </div>
-            Xyen AI
-          </Link>
-        </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
             <ForgotPasswordForm />
@@ -44,7 +38,9 @@ function RouteComponent() {
                 simple steps
               </p>
             </div>
-            <PlatformDemo autoplay={true} interval={3000} />
+            <PlatformDemo
+            //  autoplay={true} interval={3000}
+            />
           </div>
         </div>
       </div>
