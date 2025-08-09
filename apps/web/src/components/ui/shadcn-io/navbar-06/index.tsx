@@ -12,6 +12,9 @@ import {
   MoonIcon,
   UserIcon,
   ChevronDownIcon,
+  Info,
+  DollarSign,
+  Play,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -240,10 +243,10 @@ export interface Navbar06Props extends React.HTMLAttributes<HTMLElement> {
 
 // Default navigation links with icons
 const defaultNavigationLinks: Navbar06NavItem[] = [
-  { href: "#", label: "Dashboard", icon: HomeIcon, active: true },
-  { href: "#", label: "Projects", icon: LayersIcon },
-  { href: "#", label: "Documentation", icon: FileTextIcon },
-  { href: "#", label: "Team", icon: UsersIcon },
+  { href: "/", label: "Home", icon: HomeIcon, active: true },
+  { href: "/about", label: "About", icon: Info },
+  { href: "/#pricing", label: "Pricing", icon: DollarSign },
+  { href: "/demo", label: "Demo", icon: Play },
 ];
 
 // Default language options
@@ -316,7 +319,7 @@ export const Navbar06 = React.forwardRef<HTMLElement, Navbar06Props>(
       <header
         ref={combinedRef}
         className={cn(
-          "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 md:px-6 [&_*]:no-underline",
+          "fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 md:px-6 [&_*]:no-underline",
           className
         )}
         {...props}

@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { Outlet, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Navbar06 } from "@/components/ui/shadcn-io/navbar-06";
 
 export const Route = createFileRoute("/_pathlessLayout")({
@@ -6,6 +6,7 @@ export const Route = createFileRoute("/_pathlessLayout")({
 });
 
 function PathlessLayoutComponent() {
+  const navigate = useNavigate();
   return (
     <>
       <div className="min-h-screen w-full relative">
@@ -37,7 +38,12 @@ function PathlessLayoutComponent() {
               "radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
           }}
         />
-        <Navbar06 />
+        <Navbar06
+          onNavItemClick={(link) => {
+            // @ts-expect-error
+            navigate(link);
+          }}
+        />
         <Outlet />
       </div>
     </>
