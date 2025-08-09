@@ -40,8 +40,9 @@ function PathlessLayoutComponent() {
         />
         <Navbar06
           onNavItemClick={(link) => {
-            // @ts-expect-error
-            navigate(link);
+            navigate({
+              to: link,
+            });
           }}
         />
         <Outlet />
