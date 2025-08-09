@@ -63,3 +63,21 @@ export const quizRelations = relations(quiz, ({ one,many }) => ({
   }),
   attempts: many(quizAttempts),
 }));
+
+export const quizAttemptsRelations = relations(quizAttempts, ({ one }) => ({
+  quiz: one(quiz, {
+    fields: [quizAttempts.quizId],
+    references: [quiz.id],
+  }),
+  user: one(user, {
+    fields: [quizAttempts.userId],
+    references: [user.id],
+  }),
+}));
+
+export const quizMetaRelations = relations(quizMeta, ({ one }) => ({
+  quiz: one(quiz, {
+    fields: [quizMeta.quizId],
+    references: [quiz.id],
+  }),
+}));
