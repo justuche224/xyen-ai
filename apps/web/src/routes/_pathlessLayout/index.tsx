@@ -46,7 +46,7 @@ function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Background decoration */}
