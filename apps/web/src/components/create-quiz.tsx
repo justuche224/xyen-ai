@@ -31,7 +31,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "./ui/button";
-import { uploadFile } from "@/utils/upload-file";
 import { orpc } from "@/utils/orpc";
 import {
   Card,
@@ -52,6 +51,19 @@ type QuestionType = "multiple-choice" | "yes-no" | "theory";
 type Difficulty = "easy" | "medium" | "hard" | "extreme";
 type QuestionCount = 5 | 10 | 20 | 30;
 const ALLOWED_FILE_TYPES = ["application/pdf"];
+
+const readFileAsBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      const base64 = result.split(",")[1] || "";
+      resolve(base64);
+    };
+    reader.onerror = () => reject(new Error("Failed to read file"));
+    reader.readAsDataURL(file);
+  });
+};
 
 const CreateQuiz = ({ userId }: { userId: string }) => {
   const [file, setFile] = useState<File | null>(null);
@@ -173,17 +185,27 @@ const CreateQuiz = ({ userId }: { userId: string }) => {
       });
     }, 500);
 
-    const { url, error } = await uploadFile(file, userId, title);
+    let url: string | undefined;
+    try {
+      const base64 = await readFileAsBase64(file);
+      const response = await orpc.quiz.uploadDocument.call({
+        fileName: file.name,
+        mimeType: "application/pdf",
+        size: file.size,
+        contentBase64: base64,
+        uploadType: "quiz",
+      });
+      url = response.url;
+    } catch (e: any) {
+      clearInterval(progressInterval);
+      setUploadProgress(0);
+      setError(e?.message || "File upload failed");
+      setUploading(false);
+      return;
+    }
 
     clearInterval(progressInterval);
     setUploadProgress(95);
-
-    if (error) {
-      setError(error);
-      setUploading(false);
-      setUploadProgress(0);
-      return;
-    }
 
     if (url) {
       setUploadProgress(100);

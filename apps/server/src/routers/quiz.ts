@@ -6,30 +6,69 @@ import { protectedProcedure } from "@/lib/orpc";
 import { jobs } from "@/db/schema/jobs";
 import { quizAttempts, quizMeta } from "@/db/schema/quiz";
 import { generateQuizPDFHandler } from "@/scripts/utils/generate-pdf";
-import {  getAllUserQuizHandler } from "@/handlers/get-all-user-quiz";
+import { getAllUserQuizHandler } from "@/handlers/get-all-user-quiz";
 import { createQuizHandler } from "@/handlers/create-quiz";
+import { uploadFile } from "@/lib/upload-file";
+import { ORPCError } from "@orpc/server";
 
 export const quizRouter = {
+  uploadDocument: protectedProcedure
+    .input(
+      z.object({
+        fileName: z.string(),
+        mimeType: z.literal("application/pdf"),
+        size: z.number(),
+        contentBase64: z.string(),
+        uploadType: z.enum(["quiz", "note"]),
+      })
+    )
+    .handler(async ({ input }) => {
+      const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+      if (input.size > MAX_FILE_SIZE) {
+        throw new ORPCError("BAD_REQUEST", {
+          message: "File size exceeds the 5MB limit",
+        });
+      }
+
+      try {
+        const buffer = Buffer.from(input.contentBase64, "base64");
+        const file = new File([buffer], input.fileName, {
+          type: input.mimeType,
+        });
+
+        const url = await uploadFile(file, input.uploadType);
+        return { url };
+      } catch (error) {
+        console.error("Error uploading document:", error);
+        throw new ORPCError("INTERNAL_SERVER_ERROR", {
+          message: "File upload failed",
+        });
+      }
+    }),
   generateQuizPDF: generateQuizPDFHandler,
   getAll: getAllUserQuizHandler,
   getOnlyQuizTitle: protectedProcedure
     .input(
-      z.object(
-        {
-          userId: z.string(),
-          limit: z.number(),
-          offset: z.number(),
-        }
-      )
+      z.object({
+        userId: z.string(),
+        limit: z.number(),
+        offset: z.number(),
+      })
     )
     .handler(async ({ input }) => {
-    const {userId,limit,offset} = input;
-    const quizList = await db.select({
-      id:quiz.id,
-      title:quiz.title,
-    }).from(quiz).where(eq(quiz.userId,userId)).limit(limit).offset(offset);
-    return quizList;
-  }),
+      const { userId, limit, offset } = input;
+      const quizList = await db
+        .select({
+          id: quiz.id,
+          title: quiz.title,
+        })
+        .from(quiz)
+        .where(eq(quiz.userId, userId))
+        .limit(limit)
+        .offset(offset);
+      return quizList;
+    }),
   create: createQuizHandler,
   getQuizById: protectedProcedure
     .input(z.object({ quizId: z.string(), userId: z.string() }))
