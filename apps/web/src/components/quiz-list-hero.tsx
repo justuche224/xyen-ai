@@ -37,7 +37,7 @@ const QuizListHero = ({ userId }: { userId: string }) => {
   };
 
   return (
-    <div className="mb-4 rounded-xl bg-gradient-to-r from-blue-900/20 to-violet-900/20 backdrop-blur-md p-3 md:p-6 text-white shadow-lg">
+    <div className="mb-4 rounded-xl bg-primary p-3 md:p-6 text-white dark:text-black shadow-lg">
       {/* Header - Horizontal on mobile */}
       <div className="flex items-center justify-between mb-3 md:mb-4">
         <div className="min-w-0 flex-1">
@@ -61,7 +61,7 @@ const QuizListHero = ({ userId }: { userId: string }) => {
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-1 md:pb-0 md:grid md:grid-cols-3 md:gap-4">
-        <div className="bg-white/10 rounded-lg p-2 md:p-4 flex-shrink-0 w-28 md:w-auto">
+        <div className="bg-white/10 dark:bg-black/10 rounded-lg p-2 md:p-4 flex-shrink-0 w-28 md:w-auto">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="text-center md:text-left">
               <p className="text-[10px] md:text-xs uppercase tracking-wider opacity-90">
@@ -79,7 +79,7 @@ const QuizListHero = ({ userId }: { userId: string }) => {
           </div>
         </div>
 
-        <div className="bg-white/10 rounded-lg p-2 md:p-4 flex-shrink-0 w-28 md:w-auto">
+        <div className="bg-white/10 dark:bg-black/10 rounded-lg p-2 md:p-4 flex-shrink-0 w-28 md:w-auto">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="text-center md:text-left">
               <p className="text-[10px] md:text-xs uppercase tracking-wider opacity-90">
@@ -97,7 +97,7 @@ const QuizListHero = ({ userId }: { userId: string }) => {
           </div>
         </div>
 
-        <div className="bg-white/10 rounded-lg p-2 md:p-4 flex-shrink-0 w-28 md:w-auto">
+        <div className="bg-white/10 dark:bg-black/10 rounded-lg p-2 md:p-4 flex-shrink-0 w-28 md:w-auto">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="text-center md:text-left">
               <p className="text-[10px] md:text-xs uppercase tracking-wider opacity-90">

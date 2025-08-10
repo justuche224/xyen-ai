@@ -199,15 +199,134 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
     }
   };
 
+  const SimpleHeader = ({
+    statusLabel,
+    statusDotClass,
+  }: {
+    statusLabel: string;
+    statusDotClass: string;
+  }) => {
+    return (
+      <div className="bg-primary rounded-2xl p-8 mb-6 border shadow-lg text-white dark:text-black">
+        <div className="bg-white/40 dark:bg-black/40 rounded-2xl mb-2">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Button
+                  asChild
+                  variant="default"
+                  className="flex items-center gap-2 transition-colors"
+                >
+                  <Link to="/dashboard/quizzes">
+                    <ArrowLeft className="h-4 w-4" />
+                    <span className="hidden sm:inline">Back to Quiz List</span>
+                  </Link>
+                </Button>
+                <div className="h-6 w-px bg-slate-700"></div>
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`w-2 h-2 rounded-full animate-pulse ${statusDotClass}`}
+                  ></div>
+                  <span className="text-sm font-medium">{statusLabel}</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button className="p-2 text-white dark:text-black">
+                  <Heart className="h-4 w-4" />
+                </Button>
+                <Button className="p-2 text-white dark:text-black">
+                  <Share2 className="h-4 w-4" />
+                </Button>
+                <Button className="p-2 text-white dark:text-black">
+                  <MoreVertical className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-6">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
+              {getTypeIcon(queryResult?.quizType ?? "")}
+            </div>
+            <div>
+              <h1 className="text-xl md:text-3xl font-bold text-white dark:text-black mb-1">
+                {queryResult?.title ?? "Loading quiz..."}
+              </h1>
+              <p className="text-slate-300">
+                {queryResult?.description ??
+                  "Please wait while we prepare the details."}
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-4">
+            {queryResult?.difficulty && (
+              <div className="flex items-center gap-2 bg-slate-800/50 rounded-lg px-3 py-1">
+                <div
+                  className={`w-3 h-3 rounded-full ${getDifficultyColor(
+                    queryResult.difficulty
+                  )}`}
+                ></div>
+                <span className="text-white text-sm font-medium capitalize">
+                  {queryResult.difficulty}
+                </span>
+              </div>
+            )}
+            {typeof queryResult?.questionCount === "number" && (
+              <div className="flex items-center gap-2 text-slate-300 dark:text-slate-900 text-sm">
+                <FileText className="h-4 w-4" />
+                {queryResult.questionCount} Questions
+              </div>
+            )}
+            {typeof queryResult?.totalTimeSpent === "number" && (
+              <div className="flex items-center gap-2 text-slate-300 dark:text-slate-900 text-sm">
+                <Clock className="h-4 w-4" />
+                {formatTime(queryResult.totalTimeSpent)}
+              </div>
+            )}
+            {typeof queryResult?.totalAttempts === "number" && (
+              <div className="flex items-center gap-2 text-slate-300 dark:text-slate-900 text-sm">
+                <Users className="h-4 w-4" />
+                {queryResult.totalAttempts} Attempts
+              </div>
+            )}
+          </div>
+          {queryResult?.tags && (
+            <div className="flex flex-wrap gap-2">
+              {queryResult.tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className="bg-slate-700/50 border border-slate-600 text-slate-300 px-3 py-1 rounded-full text-xs"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   const renderContent = () => {
     if (isLoading) {
-      return <Loader />;
+      return (
+        <div className="min-h-screen ">
+          <div className="container mx-auto px-4 py-8 max-w-7xl bg-background rounded">
+            <SimpleHeader statusLabel="Loading" statusDotClass="bg-blue-300" />
+            <div className="flex items-center justify-center py-20">
+              <Loader />
+            </div>
+          </div>
+        </div>
+      );
     }
 
     if (isQueryError) {
       return (
         <div className="min-h-screen ">
-          <div className="container mx-auto px-4 py-8">
+          <div className="container mx-auto px-4 py-8 max-w-7xl bg-background rounded">
+            <SimpleHeader statusLabel="Error" statusDotClass="bg-red-300" />
             <div className="max-w-2xl mx-auto">
               <Card className="border-red-500/20 bg-card">
                 <CardHeader className="text-center">
@@ -253,7 +372,11 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
     if (!queryResult) {
       return (
         <div className="min-h-screen">
-          <div className="container mx-auto px-4 py-8">
+          <div className="container mx-auto px-4 py-8 max-w-7xl bg-background rounded">
+            <SimpleHeader
+              statusLabel="Not Found"
+              statusDotClass="bg-yellow-300"
+            />
             <div className="max-w-2xl mx-auto">
               <Card className="bg-card border-slate-700">
                 <CardHeader className="text-center">
@@ -291,7 +414,11 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
     ) {
       return (
         <div className="min-h-screen">
-          <div className="container mx-auto px-4 py-8">
+          <div className="container mx-auto px-4 py-8 max-w-7xl bg-background rounded">
+            <SimpleHeader
+              statusLabel="Processing"
+              statusDotClass="bg-blue-300"
+            />
             <div className="max-w-4xl mx-auto">
               <Card className="bg-card border-slate-700">
                 <CardContent className="p-8">
@@ -353,7 +480,8 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
     if (quizDetails.status === "FAILED") {
       return (
         <div className="min-h-screen">
-          <div className="container mx-auto px-4 py-8">
+          <div className="container mx-auto px-4 py-8 max-w-7xl bg-background rounded">
+            <SimpleHeader statusLabel="Failed" statusDotClass="bg-red-300" />
             <div className="max-w-4xl mx-auto">
               <Card className="bg-card border-red-500/20">
                 <CardContent className="p-8">
@@ -406,7 +534,11 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
       if (!quizDetails.quizData) {
         return (
           <div className="min-h-screen">
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-4 py-8 max-w-7xl bg-background rounded">
+              <SimpleHeader
+                statusLabel="Data Issue"
+                statusDotClass="bg-amber-300"
+              />
               <div className="max-w-2xl mx-auto">
                 <Card className="bg-card border-amber-500/20">
                   <CardHeader className="text-center">
@@ -435,7 +567,11 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
       if (!parsedQuizData.success) {
         return (
           <div className="min-h-screen">
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-4 py-8 max-w-7xl bg-background rounded">
+              <SimpleHeader
+                statusLabel="Data Issue"
+                statusDotClass="bg-orange-300"
+              />
               <div className="max-w-2xl mx-auto">
                 <Card className="bg-card border-orange-500/20">
                   <CardHeader className="text-center">
@@ -533,15 +669,15 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
         <div className="min-h-screen ">
           <div className="container mx-auto px-4 py-8 max-w-7xl bg-background rounded">
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-2xl p-8 mb-6 border border-blue-500/20 backdrop-blur-md">
-              <div className="border-b border-slate-900/50 bg-slate-900/50 backdrop-blur-sm rounded-2xl mb-2">
+            <div className="bg-primary rounded-2xl p-8 mb-6 border shadow-lg text-white dark:text-black">
+              <div className="bg-white/40 dark:bg-black/40 rounded-2xl mb-2">
                 <div className="container mx-auto px-4 py-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <Button
                         asChild
-                        variant="ghost"
-                        className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
+                        variant="default"
+                        className="flex items-center gap-2 transition-colors"
                       >
                         <Link to="/dashboard/quizzes">
                           <ArrowLeft className="h-4 w-4" />
@@ -552,8 +688,8 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                       </Button>
                       <div className="h-6 w-px bg-slate-700"></div>
                       <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                        <span className="text-green-400 text-sm font-medium">
+                        <div className="w-2 h-2 bg-green-300 rounded-full animate-pulse"></div>
+                        <span className="text-green-300 text-sm font-medium">
                           Ready
                         </span>
                       </div>
@@ -563,15 +699,15 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                       {/* <button className="p-2 text-slate-400 hover:text-white transition-colors">
                         <Bookmark className="h-4 w-4" />
                       </button> */}
-                      <button className="p-2 text-slate-400 hover:text-white transition-colors">
+                      <Button className="p-2 text-white dark:text-black">
                         <Heart className="h-4 w-4" />
-                      </button>
-                      <button className="p-2 text-slate-400 hover:text-white transition-colors">
+                      </Button>
+                      <Button className="p-2 text-white dark:text-black">
                         <Share2 className="h-4 w-4" />
-                      </button>
-                      <button className="p-2 text-slate-400 hover:text-white transition-colors">
+                      </Button>
+                      <Button className="p-2 text-white dark:text-black">
                         <MoreVertical className="h-4 w-4" />
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -583,7 +719,7 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                       {getTypeIcon(queryResult?.quizType)}
                     </div>
                     <div>
-                      <h1 className="text-xl md:text-3xl font-bold text-white mb-1">
+                      <h1 className="text-xl md:text-3xl font-bold text-white dark:text-black mb-1">
                         {queryResult?.title}
                       </h1>
                       <p className="text-slate-300">
@@ -603,15 +739,15 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                         {queryResult.difficulty}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 text-slate-300 text-sm">
+                    <div className="flex items-center gap-2 text-slate-300 dark:text-slate-900 text-sm">
                       <FileText className="h-4 w-4" />
                       {queryResult.questionCount} Questions
                     </div>
-                    <div className="flex items-center gap-2 text-slate-300 text-sm">
+                    <div className="flex items-center gap-2 text-slate-300 dark:text-slate-900 text-sm">
                       <Clock className="h-4 w-4" />
                       {formatTime(queryResult.totalTimeSpent)}
                     </div>
-                    <div className="flex items-center gap-2 text-slate-300 text-sm">
+                    <div className="flex items-center gap-2 text-slate-300 dark:text-slate-900 text-sm">
                       <Users className="h-4 w-4" />
                       {queryResult.totalAttempts} Attempts
                     </div>
@@ -630,14 +766,15 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                 </div>
 
                 <div className="flex flex-col gap-4">
-                  <button
+                  <Button
+                    variant="secondary"
                     onClick={() => handleStartQuiz("exam")}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold flex items-center gap-3 transition-all transform hover:scale-105"
+                    className="px-8 py-4 font-semibold flex items-center gap-3"
                   >
                     <PlayCircle className="h-5 w-5" />
                     Start Exam
                     <ChevronRight className="h-4 w-4" />
-                  </button>
+                  </Button>
 
                   <div className="flex gap-2">
                     <button
@@ -661,7 +798,7 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
 
             {/* Quick Stats Bar */}
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6">
-              <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50 ">
+              <div className="bg-primary backdrop-blur-md rounded-xl p-4 shadow-lg">
                 <div className="flex items-center justify-between mb-2">
                   <Trophy className="h-5 w-5 text-yellow-400" />
                   {stats.isLoading ? (
@@ -669,15 +806,17 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                   ) : stats.isError ? (
                     <span className="text-red-500">Error</span>
                   ) : (
-                    <span className="text-2xl font-bold text-white">
+                    <span className="text-2xl font-bold text-white dark:text-black">
                       {stats?.data?.highestScore ?? 0}
                     </span>
                   )}
                 </div>
-                <p className="text-slate-400 text-sm">Best Score</p>
+                <p className="text-slate-100 dark:text-slate-900 text-sm">
+                  Best Score
+                </p>
               </div>
 
-              <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50">
+              <div className="bg-primary backdrop-blur-md rounded-xl p-4 shadow-lg">
                 <div className="flex items-center justify-between mb-2">
                   <BarChart3 className="h-5 w-5 text-green-400" />
                   {stats.isLoading ? (
@@ -685,15 +824,17 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                   ) : stats.isError ? (
                     <span className="text-red-500">Error</span>
                   ) : (
-                    <span className="text-2xl font-bold text-white">
+                    <span className="text-2xl font-bold text-white dark:text-black">
                       {formatScore(stats?.data?.averageScore)}%
                     </span>
                   )}
                 </div>
-                <p className="text-slate-400 text-sm">Average Score</p>
+                <p className="text-slate-100 dark:text-slate-900 text-sm">
+                  Average Score
+                </p>
               </div>
 
-              <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50">
+              <div className="bg-primary backdrop-blur-md rounded-xl p-4 shadow-lg">
                 <div className="flex items-center justify-between mb-2">
                   <CheckCircle className="h-5 w-5 text-blue-400" />
                   {stats.isLoading ? (
@@ -701,32 +842,38 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
                   ) : stats.isError ? (
                     <span className="text-red-500">Error</span>
                   ) : (
-                    <span className="text-2xl font-bold text-white">
+                    <span className="text-2xl font-bold text-white dark:text-black">
                       {stats?.data?.completedAttempts ?? 0}
                     </span>
                   )}
                 </div>
-                <p className="text-slate-400 text-sm">Completed Attempts</p>
+                <p className="text-slate-100 dark:text-slate-900 text-sm">
+                  Completed Attempts
+                </p>
               </div>
 
-              <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50">
+              <div className="bg-primary backdrop-blur-md rounded-xl p-4 shadow-lg">
                 <div className="flex items-center justify-between mb-2">
                   <Repeat className="h-5 w-5 text-purple-400" />
-                  <span className="text-2xl font-bold text-white">
+                  <span className="text-2xl font-bold text-white dark:text-black">
                     {queryResult.totalAttempts ?? 0}
                   </span>
                 </div>
-                <p className="text-slate-400 text-sm">Attempts</p>
+                <p className="text-slate-100 dark:text-slate-900 text-sm">
+                  Attempts
+                </p>
               </div>
 
-              <div className="bg-card backdrop-blur-md rounded-xl p-4 border border-slate-700/50">
+              <div className="bg-primary backdrop-blur-md rounded-xl p-4 shadow-lg">
                 <div className="flex items-center justify-between mb-2">
                   <Timer className="h-5 w-5 text-orange-400" />
-                  <span className="text-2xl font-bold text-white">
+                  <span className="text-2xl font-bold text-white dark:text-black">
                     {formatTime(queryResult.totalTimeSpent)}
                   </span>
                 </div>
-                <p className="text-slate-400 text-sm">Avg Time</p>
+                <p className="text-slate-100 dark:text-slate-900 text-sm">
+                  Avg Time
+                </p>
               </div>
             </div>
             <div className="mt-8 flex flex-wrap gap-4 justify-center">
@@ -760,7 +907,8 @@ const QuizPage = ({ quizId, userId }: { quizId: string; userId: string }) => {
 
     return (
       <div className="min-h-screen">
-        <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="container mx-auto px-4 py-8 max-w-7xl bg-background rounded">
+          <SimpleHeader statusLabel="Unknown" statusDotClass="bg-slate-300" />
           <div className="max-w-2xl mx-auto">
             <Card className="bg-card border-slate-700">
               <CardHeader className="text-center">
