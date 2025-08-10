@@ -12,6 +12,24 @@ import { createQuizHandler } from "@/handlers/create-quiz";
 export const quizRouter = {
   generateQuizPDF: generateQuizPDFHandler,
   getAll: getAllUserQuizHandler,
+  getOnlyQuizTitle: protectedProcedure
+    .input(
+      z.object(
+        {
+          userId: z.string(),
+          limit: z.number(),
+          offset: z.number(),
+        }
+      )
+    )
+    .handler(async ({ input }) => {
+    const {userId,limit,offset} = input;
+    const quizList = await db.select({
+      id:quiz.id,
+      title:quiz.title,
+    }).from(quiz).where(eq(quiz.userId,userId)).limit(limit).offset(offset);
+    return quizList;
+  }),
   create: createQuizHandler,
   getQuizById: protectedProcedure
     .input(z.object({ quizId: z.string(), userId: z.string() }))
