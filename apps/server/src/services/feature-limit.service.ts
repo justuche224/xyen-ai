@@ -1,12 +1,12 @@
 import { eq, and, sql } from "drizzle-orm";
-import { db } from "@/db";
+import { db } from "@/db/index.js";
 import {
   userPlans,
   featureLimits,
   featureUsage,
-} from "@/db/schema/subscription";
-import { user } from "@/db/schema/auth";
-import { jobs } from "@/db/schema/jobs";
+} from "@/db/schema/subscription.js";
+import { user } from "@/db/schema/auth.js";
+import { jobs } from "@/db/schema/jobs.js";
 
 export type FeatureKey =
   | "concurrent_jobs"

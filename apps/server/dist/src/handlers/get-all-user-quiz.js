@@ -1,8 +1,8 @@
-import { jobs } from "@/db/schema/jobs";
-import { db } from "@/db";
-import { quizAttempts, quizMeta } from "@/db/schema/quiz";
-import { quiz } from "@/db/schema/quiz";
-import { protectedProcedure } from "@/lib/orpc";
+import { jobs } from "../db/schema/jobs.js";
+import { db } from "../db/index.js";
+import { quizAttempts, quizMeta } from "../db/schema/quiz.js";
+import { quiz } from "../db/schema/quiz.js";
+import { protectedProcedure } from "../lib/orpc.js";
 import { z } from "zod";
 import { eq, and, desc, sql } from "drizzle-orm";
 export const getAllUserQuizHandler = protectedProcedure

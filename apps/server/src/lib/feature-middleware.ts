@@ -2,8 +2,8 @@ import { ORPCError } from "@orpc/server";
 import {
   FeatureLimitService,
   type FeatureKey,
-} from "@/services/feature-limit.service";
-import { o } from "./orpc";
+} from "@/services/feature-limit.service.js";
+import { o } from "./orpc.js";
 
 export function requireFeature(
   featureKey: FeatureKey,

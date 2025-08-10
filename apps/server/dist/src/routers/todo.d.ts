@@ -48,12 +48,12 @@ export declare const todoRouter: {
         } | null;
     }, import("@orpc/server").Schema<unknown, unknown>, import("@orpc/server").Schema<{
         id: number;
-        completed: boolean;
         text: string;
+        completed: boolean;
     }[], {
         id: number;
-        completed: boolean;
         text: string;
+        completed: boolean;
     }[]>, Record<never, never>, Record<never, never>>;
     create: import("@orpc/server").DecoratedProcedure<{
         session: {
@@ -109,12 +109,12 @@ export declare const todoRouter: {
         text: string;
     }>, import("@orpc/server").Schema<{
         id: number;
-        completed: boolean;
         text: string;
+        completed: boolean;
     }, {
         id: number;
-        completed: boolean;
         text: string;
+        completed: boolean;
     }>, Record<never, never>, Record<never, never>>;
     toggle: import("@orpc/server").DecoratedProcedure<{
         session: {

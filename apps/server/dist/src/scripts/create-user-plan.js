@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 import "dotenv/config";
-import { db } from "../db";
-import { userPlans } from "../db/schema/subscription";
+import { db } from "../db/index.js";
+import { userPlans } from "../db/schema/subscription.js";
 import { eq } from "drizzle-orm";
 async function createUserPlan() {
     console.log("👤 Creating user plan for user without one...\n");

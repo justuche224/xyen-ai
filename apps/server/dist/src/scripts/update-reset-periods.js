@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 import "dotenv/config";
-import { db } from "../db";
-import { featureLimits } from "../db/schema/subscription";
+import { db } from "../db/index.js";
+import { featureLimits } from "../db/schema/subscription.js";
 import { eq, and } from "drizzle-orm";
 async function updateResetPeriods() {
     console.log("🔄 Updating reset periods for existing feature limits...");

@@ -443,7 +443,7 @@ export declare const adminRouter: {
         featureKey: string;
         limitType: "count" | "daily" | "monthly" | "concurrent";
         limitValue: number;
-        resetPeriod: "daily" | "monthly" | "never" | null;
+        resetPeriod: "never" | "daily" | "monthly" | null;
     }[], {
         enabled: boolean;
         id: string;
@@ -453,7 +453,7 @@ export declare const adminRouter: {
         featureKey: string;
         limitType: "count" | "daily" | "monthly" | "concurrent";
         limitValue: number;
-        resetPeriod: "daily" | "monthly" | "never" | null;
+        resetPeriod: "never" | "daily" | "monthly" | null;
     }[]>, Record<never, never>, Record<never, never>>;
     upgradeUserPlan: import("@orpc/server").DecoratedProcedure<import("@orpc/server").MergedInitialContext<import("@orpc/server").MergedInitialContext<{
         session: {

@@ -235,12 +235,12 @@ export declare const appRouter: {
             } | null;
         }, import("@orpc/server").Schema<unknown, unknown>, import("@orpc/server").Schema<{
             id: number;
-            completed: boolean;
             text: string;
+            completed: boolean;
         }[], {
             id: number;
-            completed: boolean;
             text: string;
+            completed: boolean;
         }[]>, Record<never, never>, Record<never, never>>;
         create: import("@orpc/server").DecoratedProcedure<{
             session: {
@@ -296,12 +296,12 @@ export declare const appRouter: {
             text: string;
         }>, import("@orpc/server").Schema<{
             id: number;
-            completed: boolean;
             text: string;
+            completed: boolean;
         }, {
             id: number;
-            completed: boolean;
             text: string;
+            completed: boolean;
         }>, Record<never, never>, Record<never, never>>;
         toggle: import("@orpc/server").DecoratedProcedure<{
             session: {
@@ -1904,9 +1904,9 @@ export declare const appRouter: {
             createdAt: Date;
             updatedAt: Date;
             userId: string | null;
+            status: "completed" | "in_progress";
             mode: "practice" | "exam" | "review";
             quizId: string | null;
-            status: "in_progress" | "completed";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;
@@ -1916,9 +1916,9 @@ export declare const appRouter: {
             createdAt: Date;
             updatedAt: Date;
             userId: string | null;
+            status: "completed" | "in_progress";
             mode: "practice" | "exam" | "review";
             quizId: string | null;
-            status: "in_progress" | "completed";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;
@@ -2049,14 +2049,14 @@ export declare const appRouter: {
         }, "strip", import("zod").ZodTypeAny, {
             userId: string;
             attemptId: string;
-            status?: "in_progress" | "completed" | undefined;
+            status?: "completed" | "in_progress" | undefined;
             endTime?: Date | undefined;
             answers?: any;
             score?: number | undefined;
         }, {
             userId: string;
             attemptId: string;
-            status?: "in_progress" | "completed" | undefined;
+            status?: "completed" | "in_progress" | undefined;
             endTime?: Date | undefined;
             answers?: any;
             score?: number | undefined;
@@ -2326,14 +2326,14 @@ export declare const appRouter: {
             userId: string;
             limit: number;
             offset: number;
+            status?: "completed" | "in_progress" | undefined;
             mode?: "practice" | "exam" | "review" | undefined;
             quizId?: string | undefined;
-            status?: "in_progress" | "completed" | undefined;
         }, {
             userId: string;
+            status?: "completed" | "in_progress" | undefined;
             mode?: "practice" | "exam" | "review" | undefined;
             quizId?: string | undefined;
-            status?: "in_progress" | "completed" | undefined;
             limit?: number | undefined;
             offset?: number | undefined;
         }>, import("@orpc/server").Schema<{
@@ -2343,7 +2343,7 @@ export declare const appRouter: {
             startTime: Date;
             endTime: Date | null;
             score: number | null;
-            status: "in_progress" | "completed";
+            status: "completed" | "in_progress";
             createdAt: Date;
             quizTitle: string | null;
             quizType: "multiple-choice" | "yes-no" | "theory" | null;
@@ -2355,7 +2355,7 @@ export declare const appRouter: {
             startTime: Date;
             endTime: Date | null;
             score: number | null;
-            status: "in_progress" | "completed";
+            status: "completed" | "in_progress";
             createdAt: Date;
             quizTitle: string | null;
             quizType: "multiple-choice" | "yes-no" | "theory" | null;
@@ -2491,9 +2491,9 @@ export declare const appRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 userId: string | null;
+                status: "completed" | "in_progress";
                 mode: "practice" | "exam" | "review";
                 quizId: string | null;
-                status: "in_progress" | "completed";
                 startTime: Date;
                 endTime: Date | null;
                 answers: unknown;
@@ -2509,8 +2509,8 @@ export declare const appRouter: {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                quizId: string | null;
                 description: string | null;
+                quizId: string | null;
                 questionCount: number;
                 questionsAsPdf: string | null;
                 difficulty: "easy" | "medium" | "hard" | "extreme";
@@ -2522,9 +2522,9 @@ export declare const appRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 userId: string | null;
+                status: "completed" | "in_progress";
                 mode: "practice" | "exam" | "review";
                 quizId: string | null;
-                status: "in_progress" | "completed";
                 startTime: Date;
                 endTime: Date | null;
                 answers: unknown;
@@ -2540,8 +2540,8 @@ export declare const appRouter: {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                quizId: string | null;
                 description: string | null;
+                quizId: string | null;
                 questionCount: number;
                 questionsAsPdf: string | null;
                 difficulty: "easy" | "medium" | "hard" | "extreme";
@@ -3099,7 +3099,7 @@ export declare const appRouter: {
             quizId: string | null;
             quizTitle: string | null;
             mode: "practice" | "exam" | "review";
-            status: "in_progress" | "completed";
+            status: "completed" | "in_progress";
             score: number | null;
             startTime: Date;
             endTime: Date | null;
@@ -3109,7 +3109,7 @@ export declare const appRouter: {
             quizId: string | null;
             quizTitle: string | null;
             mode: "practice" | "exam" | "review";
-            status: "in_progress" | "completed";
+            status: "completed" | "in_progress";
             score: number | null;
             startTime: Date;
             endTime: Date | null;
@@ -3388,8 +3388,8 @@ export declare const appRouter: {
                     id: string;
                     createdAt: Date;
                     updatedAt: Date;
-                    quizId: string | null;
                     description: string | null;
+                    quizId: string | null;
                     questionCount: number;
                     questionsAsPdf: string | null;
                     difficulty: "easy" | "medium" | "hard" | "extreme";
@@ -3401,9 +3401,9 @@ export declare const appRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 userId: string | null;
+                status: "completed" | "in_progress";
                 mode: "practice" | "exam" | "review";
                 quizId: string | null;
-                status: "in_progress" | "completed";
                 startTime: Date;
                 endTime: Date | null;
                 answers: unknown;
@@ -3428,8 +3428,8 @@ export declare const appRouter: {
                     id: string;
                     createdAt: Date;
                     updatedAt: Date;
-                    quizId: string | null;
                     description: string | null;
+                    quizId: string | null;
                     questionCount: number;
                     questionsAsPdf: string | null;
                     difficulty: "easy" | "medium" | "hard" | "extreme";
@@ -3441,9 +3441,9 @@ export declare const appRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 userId: string | null;
+                status: "completed" | "in_progress";
                 mode: "practice" | "exam" | "review";
                 quizId: string | null;
-                status: "in_progress" | "completed";
                 startTime: Date;
                 endTime: Date | null;
                 answers: unknown;
@@ -3717,16 +3717,16 @@ export declare const appRouter: {
             createdAt: Date;
             updatedAt: Date;
             userId: string;
-            quizId: string | null;
             status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
+            quizId: string | null;
         }[], {
             error: string | null;
             id: string;
             createdAt: Date;
             updatedAt: Date;
             userId: string;
-            quizId: string | null;
             status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
+            quizId: string | null;
         }[]>, Record<never, never>, Record<never, never>>;
     };
     user: {
@@ -3857,7 +3857,7 @@ export declare const appRouter: {
                 featureKey: string;
                 limitType: "count" | "daily" | "monthly" | "concurrent";
                 limitValue: number;
-                resetPeriod: "daily" | "monthly" | "never" | null;
+                resetPeriod: "never" | "daily" | "monthly" | null;
             }[];
         }, {
             planType: "free" | "pro" | "enterprise";
@@ -3865,7 +3865,7 @@ export declare const appRouter: {
                 featureKey: string;
                 limitType: "count" | "daily" | "monthly" | "concurrent";
                 limitValue: number;
-                resetPeriod: "daily" | "monthly" | "never" | null;
+                resetPeriod: "never" | "daily" | "monthly" | null;
             }[];
         }>, Record<never, never>, Record<never, never>>;
         getFeatureUsage: import("@orpc/server").DecoratedProcedure<import("@orpc/server").MergedInitialContext<{
@@ -5163,7 +5163,7 @@ export declare const appRouter: {
             featureKey: string;
             limitType: "count" | "daily" | "monthly" | "concurrent";
             limitValue: number;
-            resetPeriod: "daily" | "monthly" | "never" | null;
+            resetPeriod: "never" | "daily" | "monthly" | null;
         }[], {
             enabled: boolean;
             id: string;
@@ -5173,7 +5173,7 @@ export declare const appRouter: {
             featureKey: string;
             limitType: "count" | "daily" | "monthly" | "concurrent";
             limitValue: number;
-            resetPeriod: "daily" | "monthly" | "never" | null;
+            resetPeriod: "never" | "daily" | "monthly" | null;
         }[]>, Record<never, never>, Record<never, never>>;
         upgradeUserPlan: import("@orpc/server").DecoratedProcedure<import("@orpc/server").MergedInitialContext<import("@orpc/server").MergedInitialContext<{
             session: {

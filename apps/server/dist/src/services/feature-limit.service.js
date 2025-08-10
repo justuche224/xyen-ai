@@ -1,8 +1,8 @@
 import { eq, and, sql } from "drizzle-orm";
-import { db } from "@/db";
-import { userPlans, featureLimits, featureUsage, } from "@/db/schema/subscription";
-import { user } from "@/db/schema/auth";
-import { jobs } from "@/db/schema/jobs";
+import { db } from "../db/index.js";
+import { userPlans, featureLimits, featureUsage, } from "../db/schema/subscription.js";
+import { user } from "../db/schema/auth.js";
+import { jobs } from "../db/schema/jobs.js";
 export class FeatureLimitService {
     // Check if user can use a feature
     static async canUseFeature(userId, featureKey, requestedAmount = 1) {

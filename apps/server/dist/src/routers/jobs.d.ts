@@ -264,15 +264,15 @@ export declare const jobsRouter: {
         createdAt: Date;
         updatedAt: Date;
         userId: string;
-        quizId: string | null;
         status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
+        quizId: string | null;
     }[], {
         error: string | null;
         id: string;
         createdAt: Date;
         updatedAt: Date;
         userId: string;
-        quizId: string | null;
         status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
+        quizId: string | null;
     }[]>, Record<never, never>, Record<never, never>>;
 };

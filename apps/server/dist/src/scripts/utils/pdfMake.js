@@ -1,4 +1,4 @@
-import { QuizDataSchema, TheoryQuizDataSchema } from '@/types';
+import { QuizDataSchema, TheoryQuizDataSchema } from '../../types/index.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 // Get the directory name of the current module

@@ -1482,9 +1482,9 @@ export declare const quizRouter: {
         createdAt: Date;
         updatedAt: Date;
         userId: string | null;
+        status: "completed" | "in_progress";
         mode: "practice" | "exam" | "review";
         quizId: string | null;
-        status: "in_progress" | "completed";
         startTime: Date;
         endTime: Date | null;
         answers: unknown;
@@ -1494,9 +1494,9 @@ export declare const quizRouter: {
         createdAt: Date;
         updatedAt: Date;
         userId: string | null;
+        status: "completed" | "in_progress";
         mode: "practice" | "exam" | "review";
         quizId: string | null;
-        status: "in_progress" | "completed";
         startTime: Date;
         endTime: Date | null;
         answers: unknown;
@@ -1627,14 +1627,14 @@ export declare const quizRouter: {
     }, "strip", z.ZodTypeAny, {
         userId: string;
         attemptId: string;
-        status?: "in_progress" | "completed" | undefined;
+        status?: "completed" | "in_progress" | undefined;
         endTime?: Date | undefined;
         answers?: any;
         score?: number | undefined;
     }, {
         userId: string;
         attemptId: string;
-        status?: "in_progress" | "completed" | undefined;
+        status?: "completed" | "in_progress" | undefined;
         endTime?: Date | undefined;
         answers?: any;
         score?: number | undefined;
@@ -1904,14 +1904,14 @@ export declare const quizRouter: {
         userId: string;
         limit: number;
         offset: number;
+        status?: "completed" | "in_progress" | undefined;
         mode?: "practice" | "exam" | "review" | undefined;
         quizId?: string | undefined;
-        status?: "in_progress" | "completed" | undefined;
     }, {
         userId: string;
+        status?: "completed" | "in_progress" | undefined;
         mode?: "practice" | "exam" | "review" | undefined;
         quizId?: string | undefined;
-        status?: "in_progress" | "completed" | undefined;
         limit?: number | undefined;
         offset?: number | undefined;
     }>, import("@orpc/server").Schema<{
@@ -1921,7 +1921,7 @@ export declare const quizRouter: {
         startTime: Date;
         endTime: Date | null;
         score: number | null;
-        status: "in_progress" | "completed";
+        status: "completed" | "in_progress";
         createdAt: Date;
         quizTitle: string | null;
         quizType: "multiple-choice" | "yes-no" | "theory" | null;
@@ -1933,7 +1933,7 @@ export declare const quizRouter: {
         startTime: Date;
         endTime: Date | null;
         score: number | null;
-        status: "in_progress" | "completed";
+        status: "completed" | "in_progress";
         createdAt: Date;
         quizTitle: string | null;
         quizType: "multiple-choice" | "yes-no" | "theory" | null;
@@ -2069,9 +2069,9 @@ export declare const quizRouter: {
             createdAt: Date;
             updatedAt: Date;
             userId: string | null;
+            status: "completed" | "in_progress";
             mode: "practice" | "exam" | "review";
             quizId: string | null;
-            status: "in_progress" | "completed";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;
@@ -2087,8 +2087,8 @@ export declare const quizRouter: {
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            quizId: string | null;
             description: string | null;
+            quizId: string | null;
             questionCount: number;
             questionsAsPdf: string | null;
             difficulty: "easy" | "medium" | "hard" | "extreme";
@@ -2100,9 +2100,9 @@ export declare const quizRouter: {
             createdAt: Date;
             updatedAt: Date;
             userId: string | null;
+            status: "completed" | "in_progress";
             mode: "practice" | "exam" | "review";
             quizId: string | null;
-            status: "in_progress" | "completed";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;
@@ -2118,8 +2118,8 @@ export declare const quizRouter: {
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            quizId: string | null;
             description: string | null;
+            quizId: string | null;
             questionCount: number;
             questionsAsPdf: string | null;
             difficulty: "easy" | "medium" | "hard" | "extreme";
@@ -2677,7 +2677,7 @@ export declare const quizRouter: {
         quizId: string | null;
         quizTitle: string | null;
         mode: "practice" | "exam" | "review";
-        status: "in_progress" | "completed";
+        status: "completed" | "in_progress";
         score: number | null;
         startTime: Date;
         endTime: Date | null;
@@ -2687,7 +2687,7 @@ export declare const quizRouter: {
         quizId: string | null;
         quizTitle: string | null;
         mode: "practice" | "exam" | "review";
-        status: "in_progress" | "completed";
+        status: "completed" | "in_progress";
         score: number | null;
         startTime: Date;
         endTime: Date | null;
@@ -2966,8 +2966,8 @@ export declare const quizRouter: {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                quizId: string | null;
                 description: string | null;
+                quizId: string | null;
                 questionCount: number;
                 questionsAsPdf: string | null;
                 difficulty: "easy" | "medium" | "hard" | "extreme";
@@ -2979,9 +2979,9 @@ export declare const quizRouter: {
             createdAt: Date;
             updatedAt: Date;
             userId: string | null;
+            status: "completed" | "in_progress";
             mode: "practice" | "exam" | "review";
             quizId: string | null;
-            status: "in_progress" | "completed";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;
@@ -3006,8 +3006,8 @@ export declare const quizRouter: {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                quizId: string | null;
                 description: string | null;
+                quizId: string | null;
                 questionCount: number;
                 questionsAsPdf: string | null;
                 difficulty: "easy" | "medium" | "hard" | "extreme";
@@ -3019,9 +3019,9 @@ export declare const quizRouter: {
             createdAt: Date;
             updatedAt: Date;
             userId: string | null;
+            status: "completed" | "in_progress";
             mode: "practice" | "exam" | "review";
             quizId: string | null;
-            status: "in_progress" | "completed";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;

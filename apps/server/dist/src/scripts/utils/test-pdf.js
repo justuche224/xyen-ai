@@ -1,7 +1,7 @@
 "use strict";
-// import { generateQuizPDFWithPdfMake } from "./pdfMake";
+// import { generateQuizPDFWithPdfMake } from "./pdfMake.js";
 // import quiz from "./output-multiple-choice.json";
-// import type { Question } from "@/types";
+// import type { Question } from "../../types/index.js";
 // async function main() {
 //     console.log("testing pdf generation")
 //     try {

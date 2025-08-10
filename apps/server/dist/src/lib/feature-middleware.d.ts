@@ -1,4 +1,4 @@
-import { type FeatureKey } from "@/services/feature-limit.service";
+import { type FeatureKey } from "../services/feature-limit.service.js";
 export declare function requireFeature(featureKey: FeatureKey, requestedAmount?: number, trackUsage?: boolean): import("@orpc/server").DecoratedMiddleware<{
     session: {
         session: {

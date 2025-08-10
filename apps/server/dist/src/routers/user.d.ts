@@ -127,7 +127,7 @@ export declare const userRouter: {
             featureKey: string;
             limitType: "count" | "daily" | "monthly" | "concurrent";
             limitValue: number;
-            resetPeriod: "daily" | "monthly" | "never" | null;
+            resetPeriod: "never" | "daily" | "monthly" | null;
         }[];
     }, {
         planType: "free" | "pro" | "enterprise";
@@ -135,7 +135,7 @@ export declare const userRouter: {
             featureKey: string;
             limitType: "count" | "daily" | "monthly" | "concurrent";
             limitValue: number;
-            resetPeriod: "daily" | "monthly" | "never" | null;
+            resetPeriod: "never" | "daily" | "monthly" | null;
         }[];
     }>, Record<never, never>, Record<never, never>>;
     getFeatureUsage: import("@orpc/server").DecoratedProcedure<import("@orpc/server").MergedInitialContext<{

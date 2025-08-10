@@ -1,7 +1,7 @@
-import { db } from "@/db";
-import { user } from "@/db/schema/auth";
-import { userPlans } from "@/db/schema/subscription";
-import { adminProcedure } from "@/lib/orpc";
+import { db } from "../db/index.js";
+import { user } from "../db/schema/auth.js";
+import { userPlans } from "../db/schema/subscription.js";
+import { adminProcedure } from "../lib/orpc.js";
 import { z } from "zod";
 import { eq, like, or, desc, asc, count, sql, and, isNull } from "drizzle-orm";
 import { ORPCError } from "@orpc/server";

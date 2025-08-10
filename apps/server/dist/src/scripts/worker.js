@@ -1,10 +1,10 @@
 #!/usr/bin/env ts-node
 import "dotenv/config";
-import { db } from "../db";
-import { jobs } from "../db/schema/jobs";
-import { quiz, quizMeta } from "../db/schema/quiz";
+import { db } from "../db/index.js";
+import { jobs } from "../db/schema/jobs.js";
+import { quiz, quizMeta } from "../db/schema/quiz.js";
 import { eq } from "drizzle-orm";
-import { generateQuiz } from "./utils/generate-quiz";
+import { generateQuiz } from "./utils/generate-quiz.js";
 async function fetchOneJob() {
     return db.transaction(async (tx) => {
         const [jobRow] = await tx

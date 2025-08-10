@@ -1,14 +1,14 @@
 import { z } from "zod";
-import { protectedProcedure } from "@/lib/orpc";
+import { protectedProcedure } from "@/lib/orpc.js";
 import { eq, and } from "drizzle-orm";
-import { db } from "@/db";
+import { db } from "@/db/index.js";
 import {
   featureLimits,
   featureUsage,
   userPlans,
-} from "@/db/schema/subscription";
-import { user } from "@/db/schema/auth";
-import { FeatureLimitService } from "@/services/feature-limit.service";
+} from "@/db/schema/subscription.js";
+import { user } from "@/db/schema/auth.js";
+import { FeatureLimitService } from "@/services/feature-limit.service.js";
 import { ORPCError } from "@orpc/server";
 
 export const userRouter = {
@@ -202,16 +202,16 @@ export const userRouter = {
         image: z.string().url().nullable().optional(),
       })
     )
-  .handler(async ({ input,context }) => {
-    const updatedUser = await db
-      .update(user)
-      .set({
-        ...input,
-        updatedAt: new Date(),
-      })
-      .where(eq(user.id, context.session.user.id))
-      .returning();
+    .handler(async ({ input, context }) => {
+      const updatedUser = await db
+        .update(user)
+        .set({
+          ...input,
+          updatedAt: new Date(),
+        })
+        .where(eq(user.id, context.session.user.id))
+        .returning();
 
-    return updatedUser[0];
-  }),
+      return updatedUser[0];
+    }),
 };

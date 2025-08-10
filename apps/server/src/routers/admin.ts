@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { adminProcedure } from "@/lib/orpc";
 import { eq, and } from "drizzle-orm";
-import { db } from "@/db";
-import { featureLimits, userPlans } from "@/db/schema/subscription";
+import { db } from "@/db/index.js";
+import { featureLimits, userPlans } from "@/db/schema/subscription.js";
 import {
   getAllUsersHandler,
   getUserHandler,
@@ -11,7 +11,7 @@ import {
   getUserStatsHandler,
   changeUserRoleHandler,
   bulkUpdateUsersHandler,
-} from "@/handlers/admin.users";
+} from "@/handlers/admin.users.js";
 export const adminRouter = {
   // Update feature limits
   updateFeatureLimit: adminProcedure

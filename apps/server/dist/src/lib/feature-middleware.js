@@ -1,6 +1,6 @@
 import { ORPCError } from "@orpc/server";
-import { FeatureLimitService, } from "@/services/feature-limit.service";
-import { o } from "./orpc";
+import { FeatureLimitService, } from "../services/feature-limit.service.js";
+import { o } from "./orpc.js";
 export function requireFeature(featureKey, requestedAmount = 1, trackUsage = true) {
     return o.middleware(async ({ context, next }) => {
         if (!context.session?.user) {
