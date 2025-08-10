@@ -5,10 +5,11 @@
   "scripts": {
     "build": "tsc && tsc-alias",
     "check-types": "tsc --noEmit",
-    "compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server",
+    "compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile ./dist/server",
+    "compile:worker": "bun build --compile --minify --sourcemap --bytecode ./src/scripts/worker.ts --outfile ./dist/worker",
     "dev": "tsx watch src/index.ts",
     "start": "node dist/src/index.js",
-    "worker": "node dist/src/scripts/worker.js",
+    "worker": "bun dist/src/scripts/worker.js",
     "worker:dev": "bun run --watch src/scripts/worker.ts",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
