@@ -164,7 +164,7 @@ function RouteComponent() {
   };
 
   return (
-    <div className={`min-h-screen ${themeClasses.bg} mt-12`}>
+    <div className={`min-h-screen mt-12`}>
       {/* Header */}
       <div className={`${themeClasses.cardBg} shadow-sm border-b ${themeClasses.border}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
