@@ -18,7 +18,7 @@ function RouteComponent() {
         } as React.CSSProperties
       }
     >
-      <AppSidebar variant="floating" />
+      <AppSidebar variant="sidebar" />
       <SidebarInset>
         <SiteHeader />
         <div className="flex flex-1 flex-col">
