@@ -17,7 +17,7 @@ interface SitemapUrl {
 }
 
 function generateSitemap(urls: SitemapUrl[]): string {
-  const baseUrl = "https://xyen-ai.vercel.app";
+  const baseUrl = "https://xyen.pro";
 
   const urlElements = urls
     .map((url) => {

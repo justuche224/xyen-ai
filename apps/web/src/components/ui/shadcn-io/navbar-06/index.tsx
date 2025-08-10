@@ -53,6 +53,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 // import type { ComponentProps } from "react";
 import { ModeToggle } from "@/components/mode-toggle";
+import SVGLogo from "@/components/logo";
 
 // Simple logo component for the navbar
 const Logo = (props: React.SVGAttributes<SVGElement>) => {
@@ -228,6 +229,7 @@ export interface Navbar06Language {
 
 export interface Navbar06Props extends React.HTMLAttributes<HTMLElement> {
   logo?: React.ReactNode;
+  siteName?: string;
   logoHref?: string;
   navigationLinks?: Navbar06NavItem[];
   languages?: Navbar06Language[];
@@ -262,7 +264,8 @@ export const Navbar06 = React.forwardRef<HTMLElement, Navbar06Props>(
   (
     {
       className,
-      logo = <Logo />,
+      logo = <SVGLogo width={32} height={32} />,
+      siteName = "Xyen AI",
       logoHref = "#",
       navigationLinks = defaultNavigationLinks,
       languages = defaultLanguages,
@@ -381,7 +384,7 @@ export const Navbar06 = React.forwardRef<HTMLElement, Navbar06Props>(
               >
                 <div className="text-2xl">{logo}</div>
                 <span className="hidden font-bold text-xl sm:inline-block">
-                  shadcn.io
+                  {siteName}
                 </span>
               </button>
               {/* Desktop navigation - icon only */}

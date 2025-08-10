@@ -13,10 +13,10 @@ Allow: /screenshots/
 Allow: /_next/static/
 
 # Specify sitemap location
-Sitemap: https://xyen-ai.vercel.app/sitemap.xml
+Sitemap: https://xyen.pro/sitemap.xml
 
 # Crawl delay
 Crawl-delay: 1
 
 # Host
-Host: https://xyen-ai.vercel.app 
+Host: https://xyen.pro 

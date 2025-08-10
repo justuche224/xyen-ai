@@ -26,8 +26,8 @@ export default defineConfig({
         ],
       },
       manifest: {
-        name: "Xyen AI Quizzer",
-        short_name: "Xyen Quizzer",
+        name: "Xyen AI",
+        short_name: "Xyen AI",
         description:
           "Generate and Practice Exam questions from PDF, TXT, DOC, DOCX, CSV, RTF documents or Prompts",
         start_url: "/dashboard/quizzes",
@@ -35,34 +35,12 @@ export default defineConfig({
         display_override: ["window-controls-overlay", "standalone"],
         theme_color: "#ddffb3",
         background_color: "#ddffb3",
-        icons: [
-          {
-            src: "/icons/web/favicon.ico",
-            type: "image/x-icon",
-            sizes: "32x32",
-          },
-          {
-            src: "/icons/web/icon-192.png",
-            type: "image/png",
-            sizes: "192x192",
-          },
-          {
-            src: "/icons/web/icon-512.png",
-            type: "image/png",
-            sizes: "512x512",
-          },
-          {
-            src: "/icons/web/icon-192-maskable.png",
-            type: "image/png",
-            sizes: "192x192",
-            purpose: "maskable",
-          },
-          {
-            src: "/icons/web/icon-512-maskable.png",
-            type: "image/png",
-            sizes: "512x512",
-            purpose: "maskable",
-          },
+         icons: [
+            { "src": "/icons/web/favicon.ico", "type": "image/x-icon", "sizes": "16x16 32x32" },
+            { "src": "/icons/web/icon-192.png", "type": "image/png", "sizes": "192x192" },
+            { "src": "/icons/web/icon-512.png", "type": "image/png", "sizes": "512x512" },
+            { "src": "/icons/web/icon-192-maskable.png", "type": "image/png", "sizes": "192x192", "purpose": "maskable" },
+            { "src": "/icons/web/icon-512-maskable.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
         ],
         categories: [
           "education",

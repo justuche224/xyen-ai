@@ -70,7 +70,7 @@ export default function Header() {
 
   return (
     <div>
-      <div className="flex flex-row items-center justify-between px-5 py-1 bg-sidebar/20 fixed top-0 left-0 right-0 z-50 shadow backdrop-blur-md">
+      <div className="flex flex-row items-center justify-between px-5 py-1 bg-sidebar/80 fixed top-0 left-0 right-0 z-50 shadow backdrop-blur-md">
         <div className="flex items-center gap-2">
           <p className="text-lg font-bold">Xyen AI</p>
           <Separator orientation="vertical" className="mr-2 h-4" />
@@ -103,6 +103,7 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-2">
+          <ModeToggle />
           <UserMenu />
           {/* <ModeToggle /> */}
           <Drawer>

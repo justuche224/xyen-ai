@@ -29,8 +29,8 @@ const structuredData = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   name: "Xyen AI Quizzer",
-  url: "https://xyen-ai.vercel.app",
-  image: "https://xyen-ai.vercel.app/images/preview.png",
+  url: "https://xyen.pro",
+  image: "https://xyen.pro/images/preview.png",
   description:
     "An AI-powered quiz and exam generator that allows users to create and practice tests from documents and prompts.",
   applicationCategory: "Education",
@@ -82,7 +82,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         property: "og:url",
-        content: "https://xyen-ai.vercel.app",
+        content: "https://xyen.pro",
       },
       {
         property: "og:site_name",
@@ -94,7 +94,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         property: "og:image",
-        content: "https://xyen-ai.vercel.app/images/preview.png",
+        content: "https://xyen.pro/images/preview.png",
       },
       {
         property: "og:image:width",
@@ -124,7 +124,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         name: "twitter:site",
-        content: "https://xyen-ai.vercel.app",
+        content: "https://xyen.pro",
       },
       {
         name: "twitter:creator",
@@ -132,7 +132,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         name: "twitter:image",
-        content: "https://xyen-ai.vercel.app/images/preview.png",
+        content: "https://xyen.pro/images/preview.png",
       },
     ],
     links: [
@@ -142,7 +142,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         rel: "canonical",
-        href: "https://xyen-ai.vercel.app",
+        href: "https://xyen.pro",
       },
       {
         rel: "apple-touch-icon",
