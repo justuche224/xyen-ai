@@ -1,7 +1,7 @@
 import { pgTable, text, timestamp, json, integer } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { jobs } from "./jobs.js";
-import { user } from "./auth.js";
+import { jobs } from "./jobs";
+import { user } from "./auth";
 export const quiz = pgTable("quiz", {
     id: text("id").primaryKey(),
     title: text("title").notNull(),

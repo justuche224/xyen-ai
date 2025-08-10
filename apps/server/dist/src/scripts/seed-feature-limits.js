@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 import "dotenv/config";
-import { FeatureLimitService } from "../services/feature-limit.service.js";
+import { FeatureLimitService } from "../services/feature-limit.service";
 async function seedFeatureLimits() {
     console.log("🌱 Seeding default feature limits...");
     try {

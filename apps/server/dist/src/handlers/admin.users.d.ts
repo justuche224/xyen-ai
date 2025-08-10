@@ -86,6 +86,7 @@ export declare const getAllUsersHandler: import("@orpc/server").DecoratedProcedu
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -108,6 +109,7 @@ export declare const getAllUsersHandler: import("@orpc/server").DecoratedProcedu
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -130,6 +132,7 @@ export declare const getAllUsersHandler: import("@orpc/server").DecoratedProcedu
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }>, {
@@ -152,6 +155,7 @@ export declare const getAllUsersHandler: import("@orpc/server").DecoratedProcedu
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -174,6 +178,7 @@ export declare const getAllUsersHandler: import("@orpc/server").DecoratedProcedu
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -196,6 +201,7 @@ export declare const getAllUsersHandler: import("@orpc/server").DecoratedProcedu
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -218,6 +224,7 @@ export declare const getAllUsersHandler: import("@orpc/server").DecoratedProcedu
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -240,6 +247,7 @@ export declare const getAllUsersHandler: import("@orpc/server").DecoratedProcedu
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, {
@@ -262,6 +270,7 @@ export declare const getAllUsersHandler: import("@orpc/server").DecoratedProcedu
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, z.ZodObject<{
@@ -374,6 +383,7 @@ export declare const getUserHandler: import("@orpc/server").DecoratedProcedure<i
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -396,6 +406,7 @@ export declare const getUserHandler: import("@orpc/server").DecoratedProcedure<i
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -418,6 +429,7 @@ export declare const getUserHandler: import("@orpc/server").DecoratedProcedure<i
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }>, {
@@ -440,6 +452,7 @@ export declare const getUserHandler: import("@orpc/server").DecoratedProcedure<i
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -462,6 +475,7 @@ export declare const getUserHandler: import("@orpc/server").DecoratedProcedure<i
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -484,6 +498,7 @@ export declare const getUserHandler: import("@orpc/server").DecoratedProcedure<i
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -506,6 +521,7 @@ export declare const getUserHandler: import("@orpc/server").DecoratedProcedure<i
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -528,6 +544,7 @@ export declare const getUserHandler: import("@orpc/server").DecoratedProcedure<i
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, {
@@ -550,6 +567,7 @@ export declare const getUserHandler: import("@orpc/server").DecoratedProcedure<i
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, z.ZodObject<{
@@ -623,6 +641,7 @@ export declare const updateUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -645,6 +664,7 @@ export declare const updateUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -667,6 +687,7 @@ export declare const updateUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }>, {
@@ -689,6 +710,7 @@ export declare const updateUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -711,6 +733,7 @@ export declare const updateUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -733,6 +756,7 @@ export declare const updateUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -755,6 +779,7 @@ export declare const updateUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -777,6 +802,7 @@ export declare const updateUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, {
@@ -799,6 +825,7 @@ export declare const updateUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, z.ZodObject<{
@@ -861,6 +888,7 @@ export declare const changeUserRoleHandler: import("@orpc/server").DecoratedProc
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -883,6 +911,7 @@ export declare const changeUserRoleHandler: import("@orpc/server").DecoratedProc
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -905,6 +934,7 @@ export declare const changeUserRoleHandler: import("@orpc/server").DecoratedProc
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }>, {
@@ -927,6 +957,7 @@ export declare const changeUserRoleHandler: import("@orpc/server").DecoratedProc
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -949,6 +980,7 @@ export declare const changeUserRoleHandler: import("@orpc/server").DecoratedProc
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -971,6 +1003,7 @@ export declare const changeUserRoleHandler: import("@orpc/server").DecoratedProc
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -993,6 +1026,7 @@ export declare const changeUserRoleHandler: import("@orpc/server").DecoratedProc
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -1015,6 +1049,7 @@ export declare const changeUserRoleHandler: import("@orpc/server").DecoratedProc
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, {
@@ -1037,6 +1072,7 @@ export declare const changeUserRoleHandler: import("@orpc/server").DecoratedProc
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, z.ZodObject<{
@@ -1087,6 +1123,7 @@ export declare const deleteUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -1109,6 +1146,7 @@ export declare const deleteUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -1131,6 +1169,7 @@ export declare const deleteUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }>, {
@@ -1153,6 +1192,7 @@ export declare const deleteUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -1175,6 +1215,7 @@ export declare const deleteUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -1197,6 +1238,7 @@ export declare const deleteUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -1219,6 +1261,7 @@ export declare const deleteUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -1241,6 +1284,7 @@ export declare const deleteUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, {
@@ -1263,6 +1307,7 @@ export declare const deleteUserHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, z.ZodObject<{
@@ -1298,6 +1343,7 @@ export declare const getUserStatsHandler: import("@orpc/server").DecoratedProced
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -1320,6 +1366,7 @@ export declare const getUserStatsHandler: import("@orpc/server").DecoratedProced
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -1342,6 +1389,7 @@ export declare const getUserStatsHandler: import("@orpc/server").DecoratedProced
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }>, {
@@ -1364,6 +1412,7 @@ export declare const getUserStatsHandler: import("@orpc/server").DecoratedProced
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -1386,6 +1435,7 @@ export declare const getUserStatsHandler: import("@orpc/server").DecoratedProced
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -1408,6 +1458,7 @@ export declare const getUserStatsHandler: import("@orpc/server").DecoratedProced
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -1430,6 +1481,7 @@ export declare const getUserStatsHandler: import("@orpc/server").DecoratedProced
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -1452,6 +1504,7 @@ export declare const getUserStatsHandler: import("@orpc/server").DecoratedProced
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, {
@@ -1474,6 +1527,7 @@ export declare const getUserStatsHandler: import("@orpc/server").DecoratedProced
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, import("@orpc/server").Schema<unknown, unknown>, import("@orpc/server").Schema<{
@@ -1511,6 +1565,7 @@ export declare const bulkUpdateUsersHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -1533,6 +1588,7 @@ export declare const bulkUpdateUsersHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -1555,6 +1611,7 @@ export declare const bulkUpdateUsersHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }>, {
@@ -1577,6 +1634,7 @@ export declare const bulkUpdateUsersHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -1599,6 +1657,7 @@ export declare const bulkUpdateUsersHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -1621,6 +1680,7 @@ export declare const bulkUpdateUsersHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -1643,6 +1703,7 @@ export declare const bulkUpdateUsersHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -1665,6 +1726,7 @@ export declare const bulkUpdateUsersHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, {
@@ -1687,6 +1749,7 @@ export declare const bulkUpdateUsersHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, z.ZodObject<{

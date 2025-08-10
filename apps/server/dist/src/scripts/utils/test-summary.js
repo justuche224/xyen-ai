@@ -1,8 +1,8 @@
 "use strict";
 // #!/usr/bin/env ts-node
 // import "dotenv/config";
-// import { db } from "../../db/index.js";
-// import { generateSummary } from "./generate-summary.js";
+// import { db } from "../../db";
+// import { generateSummary } from "./generate-summary";
 // import { summary } from "../../db/schema/summary";
 // async function GenerateQuizTest() {
 //   console.log("starting test");

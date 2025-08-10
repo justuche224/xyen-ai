@@ -1,14 +1,14 @@
 import { eq, and, desc, sql } from "drizzle-orm";
 import { z } from "zod";
-import { db } from "../db/index.js";
-import { quiz } from "../db/schema/quiz.js";
-import { protectedProcedure } from "../lib/orpc.js";
-import { jobs } from "../db/schema/jobs.js";
-import { quizAttempts, quizMeta } from "../db/schema/quiz.js";
-import { generateQuizPDFHandler } from "../scripts/utils/generate-pdf.js";
-import { getAllUserQuizHandler } from "../handlers/get-all-user-quiz.js";
-import { createQuizHandler } from "../handlers/create-quiz.js";
-import { uploadFile } from "../lib/upload-file.js";
+import { db } from "@/db";
+import { quiz } from "@/db/schema/quiz";
+import { protectedProcedure } from "@/lib/orpc";
+import { jobs } from "@/db/schema/jobs";
+import { quizAttempts, quizMeta } from "@/db/schema/quiz";
+import { generateQuizPDFHandler } from "@/scripts/utils/generate-pdf";
+import { getAllUserQuizHandler } from "@/handlers/get-all-user-quiz";
+import { createQuizHandler } from "@/handlers/create-quiz";
+import { uploadFile } from "@/lib/upload-file";
 import { ORPCError } from "@orpc/server";
 export const quizRouter = {
     uploadDocument: protectedProcedure

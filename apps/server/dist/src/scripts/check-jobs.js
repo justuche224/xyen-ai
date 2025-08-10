@@ -1,9 +1,9 @@
 #!/usr/bin/env ts-node
 import "dotenv/config";
-import { db } from "../db/index.js";
-import { jobs } from "../db/schema/jobs.js";
-import { featureUsage, userPlans } from "../db/schema/subscription.js";
-import { FeatureLimitService } from "../services/feature-limit.service.js";
+import { db } from "../db";
+import { jobs } from "../db/schema/jobs";
+import { featureUsage, userPlans } from "../db/schema/subscription";
+import { FeatureLimitService } from "../services/feature-limit.service";
 async function checkJobsAndUsage() {
     console.log("🔍 Checking current jobs and feature usage...\n");
     try {

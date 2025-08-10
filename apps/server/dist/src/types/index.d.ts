@@ -37,54 +37,54 @@ export declare const QuestionSchema: z.ZodEffects<z.ZodEffects<z.ZodObject<{
         isCorrect: boolean;
     }>, "many">;
 }, "strip", z.ZodTypeAny, {
+    type: "multiple-choice" | "yes-no";
     id: string;
     text: string;
-    type: "multiple-choice" | "yes-no";
     choices: {
         id: string;
         text: string;
         isCorrect: boolean;
     }[];
 }, {
+    type: "multiple-choice" | "yes-no";
     id: string;
     text: string;
-    type: "multiple-choice" | "yes-no";
     choices: {
         id: string;
         text: string;
         isCorrect: boolean;
     }[];
 }>, {
+    type: "multiple-choice" | "yes-no";
     id: string;
     text: string;
-    type: "multiple-choice" | "yes-no";
     choices: {
         id: string;
         text: string;
         isCorrect: boolean;
     }[];
 }, {
+    type: "multiple-choice" | "yes-no";
     id: string;
     text: string;
-    type: "multiple-choice" | "yes-no";
     choices: {
         id: string;
         text: string;
         isCorrect: boolean;
     }[];
 }>, {
+    type: "multiple-choice" | "yes-no";
     id: string;
     text: string;
-    type: "multiple-choice" | "yes-no";
     choices: {
         id: string;
         text: string;
         isCorrect: boolean;
     }[];
 }, {
+    type: "multiple-choice" | "yes-no";
     id: string;
     text: string;
-    type: "multiple-choice" | "yes-no";
     choices: {
         id: string;
         text: string;
@@ -110,54 +110,54 @@ export declare const QuizDataSchema: z.ZodArray<z.ZodEffects<z.ZodEffects<z.ZodO
         isCorrect: boolean;
     }>, "many">;
 }, "strip", z.ZodTypeAny, {
+    type: "multiple-choice" | "yes-no";
     id: string;
     text: string;
-    type: "multiple-choice" | "yes-no";
     choices: {
         id: string;
         text: string;
         isCorrect: boolean;
     }[];
 }, {
+    type: "multiple-choice" | "yes-no";
     id: string;
     text: string;
-    type: "multiple-choice" | "yes-no";
     choices: {
         id: string;
         text: string;
         isCorrect: boolean;
     }[];
 }>, {
+    type: "multiple-choice" | "yes-no";
     id: string;
     text: string;
-    type: "multiple-choice" | "yes-no";
     choices: {
         id: string;
         text: string;
         isCorrect: boolean;
     }[];
 }, {
+    type: "multiple-choice" | "yes-no";
     id: string;
     text: string;
-    type: "multiple-choice" | "yes-no";
     choices: {
         id: string;
         text: string;
         isCorrect: boolean;
     }[];
 }>, {
+    type: "multiple-choice" | "yes-no";
     id: string;
     text: string;
-    type: "multiple-choice" | "yes-no";
     choices: {
         id: string;
         text: string;
         isCorrect: boolean;
     }[];
 }, {
+    type: "multiple-choice" | "yes-no";
     id: string;
     text: string;
-    type: "multiple-choice" | "yes-no";
     choices: {
         id: string;
         text: string;
@@ -170,14 +170,14 @@ export declare const TheoryQuestionSchema: z.ZodObject<{
     type: z.ZodLiteral<"theory">;
     answer: z.ZodString;
 }, "strip", z.ZodTypeAny, {
+    type: "theory";
     id: string;
     text: string;
-    type: "theory";
     answer: string;
 }, {
+    type: "theory";
     id: string;
     text: string;
-    type: "theory";
     answer: string;
 }>;
 export type TheoryQuestion = z.infer<typeof TheoryQuestionSchema>;
@@ -187,14 +187,14 @@ export declare const TheoryQuizDataSchema: z.ZodArray<z.ZodObject<{
     type: z.ZodLiteral<"theory">;
     answer: z.ZodString;
 }, "strip", z.ZodTypeAny, {
+    type: "theory";
     id: string;
     text: string;
-    type: "theory";
     answer: string;
 }, {
+    type: "theory";
     id: string;
     text: string;
-    type: "theory";
     answer: string;
 }>, "many">;
 export type Status = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";

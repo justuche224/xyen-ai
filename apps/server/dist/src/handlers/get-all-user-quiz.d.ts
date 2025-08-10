@@ -19,6 +19,7 @@ export declare const getAllUserQuizHandler: import("@orpc/server").DecoratedProc
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -41,6 +42,7 @@ export declare const getAllUserQuizHandler: import("@orpc/server").DecoratedProc
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -63,6 +65,7 @@ export declare const getAllUserQuizHandler: import("@orpc/server").DecoratedProc
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }>, import("@orpc/server").MergedCurrentContext<{
@@ -85,6 +88,7 @@ export declare const getAllUserQuizHandler: import("@orpc/server").DecoratedProc
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -107,6 +111,7 @@ export declare const getAllUserQuizHandler: import("@orpc/server").DecoratedProc
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     };
 }>, z.ZodObject<{

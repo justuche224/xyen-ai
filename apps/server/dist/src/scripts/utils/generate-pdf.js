@@ -2,11 +2,11 @@ import "dotenv/config";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { eq, and } from "drizzle-orm";
-import { db } from "../../db/index.js";
-import { quiz, quizMeta } from "../../db/schema/quiz.js";
-import { protectedProcedure } from "../../lib/orpc.js";
-import { requireFeature } from "../../lib/feature-middleware.js";
-import { generateQuizPDFWithPdfMake } from "./pdfMake.js";
+import { db } from "@/db";
+import { quiz, quizMeta } from "@/db/schema/quiz";
+import { protectedProcedure } from "@/lib/orpc";
+import { requireFeature } from "@/lib/feature-middleware";
+import { generateQuizPDFWithPdfMake } from "./pdfMake";
 function createServerSupabaseClient() {
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;

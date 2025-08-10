@@ -1,6 +1,6 @@
 import { pgTable, text, timestamp, integer, boolean, json } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { user } from "./auth.js";
+import { user } from "./auth";
 export const userPlans = pgTable("user_plans", {
     id: text("id").primaryKey(),
     userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),

@@ -20,6 +20,7 @@ export declare const jobsRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -42,6 +43,7 @@ export declare const jobsRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -64,6 +66,7 @@ export declare const jobsRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -86,6 +89,7 @@ export declare const jobsRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -108,6 +112,7 @@ export declare const jobsRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -149,6 +154,7 @@ export declare const jobsRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -171,6 +177,7 @@ export declare const jobsRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -193,6 +200,7 @@ export declare const jobsRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -215,6 +223,7 @@ export declare const jobsRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -237,6 +246,7 @@ export declare const jobsRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -254,15 +264,15 @@ export declare const jobsRouter: {
         createdAt: Date;
         updatedAt: Date;
         userId: string;
-        status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
         quizId: string | null;
+        status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
     }[], {
         error: string | null;
         id: string;
         createdAt: Date;
         updatedAt: Date;
         userId: string;
-        status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
         quizId: string | null;
+        status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
     }[]>, Record<never, never>, Record<never, never>>;
 };

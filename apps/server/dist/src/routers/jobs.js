@@ -1,8 +1,8 @@
 import { eq, and } from "drizzle-orm";
 import { z } from "zod";
-import { db } from "../db/index.js";
-import { protectedProcedure } from "../lib/orpc.js";
-import { jobs } from "../db/schema/jobs.js";
+import { db } from "../db";
+import { protectedProcedure } from "../lib/orpc";
+import { jobs } from "@/db/schema/jobs";
 export const jobsRouter = {
     getAll: protectedProcedure
         .input(z.object({ userId: z.string() }))

@@ -1,6 +1,6 @@
 import { pgTable, text, serial, timestamp } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { user } from "./auth.js";
+import { user } from "./auth";
 export const jobs = pgTable("jobs", {
     id: text("id")
         .primaryKey(),

@@ -1,4 +1,4 @@
-import { generateQuiz } from "./generate-quiz.js";
+import { generateQuiz } from "./generate-quiz";
 import { writeFileSync } from "fs";
 async function GenerateQuizTest() {
     console.log("starting test");

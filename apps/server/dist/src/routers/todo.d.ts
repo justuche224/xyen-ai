@@ -20,6 +20,7 @@ export declare const todoRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -42,16 +43,17 @@ export declare const todoRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, import("@orpc/server").Schema<unknown, unknown>, import("@orpc/server").Schema<{
         id: number;
-        text: string;
         completed: boolean;
+        text: string;
     }[], {
         id: number;
-        text: string;
         completed: boolean;
+        text: string;
     }[]>, Record<never, never>, Record<never, never>>;
     create: import("@orpc/server").DecoratedProcedure<{
         session: {
@@ -73,6 +75,7 @@ export declare const todoRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -95,6 +98,7 @@ export declare const todoRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, z.ZodObject<{
@@ -105,12 +109,12 @@ export declare const todoRouter: {
         text: string;
     }>, import("@orpc/server").Schema<{
         id: number;
-        text: string;
         completed: boolean;
+        text: string;
     }, {
         id: number;
-        text: string;
         completed: boolean;
+        text: string;
     }>, Record<never, never>, Record<never, never>>;
     toggle: import("@orpc/server").DecoratedProcedure<{
         session: {
@@ -132,6 +136,7 @@ export declare const todoRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -154,6 +159,7 @@ export declare const todoRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, z.ZodObject<{
@@ -190,6 +196,7 @@ export declare const todoRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -212,6 +219,7 @@ export declare const todoRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, z.ZodObject<{

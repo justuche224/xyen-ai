@@ -20,6 +20,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -42,6 +43,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -64,6 +66,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -86,6 +89,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -108,6 +112,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -153,6 +158,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -175,6 +181,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -197,6 +204,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, {
@@ -219,6 +227,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -241,6 +250,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -263,6 +273,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -285,6 +296,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -307,6 +319,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, {
@@ -335,6 +348,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         }>;
     }>, z.ZodObject<{
@@ -387,6 +401,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -409,6 +424,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -431,6 +447,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -453,6 +470,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -475,6 +493,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -538,6 +557,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -560,6 +580,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -582,6 +603,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -604,6 +626,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -626,6 +649,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -667,6 +691,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -689,6 +714,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -711,6 +737,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, {
@@ -733,6 +760,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -755,6 +783,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -777,6 +806,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -799,6 +829,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -821,6 +852,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, {
@@ -849,6 +881,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         }>;
     }>, z.ZodObject<{
@@ -918,6 +951,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -940,6 +974,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -962,6 +997,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -984,6 +1020,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -1006,6 +1043,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -1074,6 +1112,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1096,6 +1135,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1118,6 +1158,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -1140,6 +1181,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -1162,6 +1204,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -1198,6 +1241,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1220,6 +1264,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1242,6 +1287,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -1264,6 +1310,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -1286,6 +1333,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -1294,12 +1342,12 @@ export declare const quizRouter: {
         mode: z.ZodEnum<["practice", "exam", "review"]>;
     }, "strip", z.ZodTypeAny, {
         userId: string;
-        quizId: string;
         mode: "practice" | "exam" | "review";
+        quizId: string;
     }, {
         userId: string;
-        quizId: string;
         mode: "practice" | "exam" | "review";
+        quizId: string;
     }>, import("@orpc/server").Schema<{
         attemptId: `${string}-${string}-${string}-${string}-${string}`;
     }, {
@@ -1325,6 +1373,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1347,6 +1396,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1369,6 +1419,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -1391,6 +1442,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -1413,6 +1465,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -1429,9 +1482,9 @@ export declare const quizRouter: {
         createdAt: Date;
         updatedAt: Date;
         userId: string | null;
-        status: "completed" | "in_progress";
-        quizId: string | null;
         mode: "practice" | "exam" | "review";
+        quizId: string | null;
+        status: "in_progress" | "completed";
         startTime: Date;
         endTime: Date | null;
         answers: unknown;
@@ -1441,9 +1494,9 @@ export declare const quizRouter: {
         createdAt: Date;
         updatedAt: Date;
         userId: string | null;
-        status: "completed" | "in_progress";
-        quizId: string | null;
         mode: "practice" | "exam" | "review";
+        quizId: string | null;
+        status: "in_progress" | "completed";
         startTime: Date;
         endTime: Date | null;
         answers: unknown;
@@ -1469,6 +1522,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1491,6 +1545,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1513,6 +1568,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -1535,6 +1591,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -1557,6 +1614,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -1569,14 +1627,14 @@ export declare const quizRouter: {
     }, "strip", z.ZodTypeAny, {
         userId: string;
         attemptId: string;
-        status?: "completed" | "in_progress" | undefined;
+        status?: "in_progress" | "completed" | undefined;
         endTime?: Date | undefined;
         answers?: any;
         score?: number | undefined;
     }, {
         userId: string;
         attemptId: string;
-        status?: "completed" | "in_progress" | undefined;
+        status?: "in_progress" | "completed" | undefined;
         endTime?: Date | undefined;
         answers?: any;
         score?: number | undefined;
@@ -1605,6 +1663,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1627,6 +1686,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1649,6 +1709,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -1671,6 +1732,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -1693,6 +1755,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -1735,6 +1798,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1757,6 +1821,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1779,6 +1844,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -1801,6 +1867,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -1823,6 +1890,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -1836,14 +1904,14 @@ export declare const quizRouter: {
         userId: string;
         limit: number;
         offset: number;
-        status?: "completed" | "in_progress" | undefined;
-        quizId?: string | undefined;
         mode?: "practice" | "exam" | "review" | undefined;
+        quizId?: string | undefined;
+        status?: "in_progress" | "completed" | undefined;
     }, {
         userId: string;
-        status?: "completed" | "in_progress" | undefined;
-        quizId?: string | undefined;
         mode?: "practice" | "exam" | "review" | undefined;
+        quizId?: string | undefined;
+        status?: "in_progress" | "completed" | undefined;
         limit?: number | undefined;
         offset?: number | undefined;
     }>, import("@orpc/server").Schema<{
@@ -1853,7 +1921,7 @@ export declare const quizRouter: {
         startTime: Date;
         endTime: Date | null;
         score: number | null;
-        status: "completed" | "in_progress";
+        status: "in_progress" | "completed";
         createdAt: Date;
         quizTitle: string | null;
         quizType: "multiple-choice" | "yes-no" | "theory" | null;
@@ -1865,7 +1933,7 @@ export declare const quizRouter: {
         startTime: Date;
         endTime: Date | null;
         score: number | null;
-        status: "completed" | "in_progress";
+        status: "in_progress" | "completed";
         createdAt: Date;
         quizTitle: string | null;
         quizType: "multiple-choice" | "yes-no" | "theory" | null;
@@ -1891,6 +1959,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1913,6 +1982,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1935,6 +2005,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -1957,6 +2028,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -1979,6 +2051,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -1996,9 +2069,9 @@ export declare const quizRouter: {
             createdAt: Date;
             updatedAt: Date;
             userId: string | null;
-            status: "completed" | "in_progress";
-            quizId: string | null;
             mode: "practice" | "exam" | "review";
+            quizId: string | null;
+            status: "in_progress" | "completed";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;
@@ -2014,8 +2087,8 @@ export declare const quizRouter: {
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            description: string | null;
             quizId: string | null;
+            description: string | null;
             questionCount: number;
             questionsAsPdf: string | null;
             difficulty: "easy" | "medium" | "hard" | "extreme";
@@ -2027,9 +2100,9 @@ export declare const quizRouter: {
             createdAt: Date;
             updatedAt: Date;
             userId: string | null;
-            status: "completed" | "in_progress";
-            quizId: string | null;
             mode: "practice" | "exam" | "review";
+            quizId: string | null;
+            status: "in_progress" | "completed";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;
@@ -2045,8 +2118,8 @@ export declare const quizRouter: {
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            description: string | null;
             quizId: string | null;
+            description: string | null;
             questionCount: number;
             questionsAsPdf: string | null;
             difficulty: "easy" | "medium" | "hard" | "extreme";
@@ -2073,6 +2146,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -2095,6 +2169,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -2117,6 +2192,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -2139,6 +2215,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -2161,6 +2238,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -2197,6 +2275,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -2219,6 +2298,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -2241,6 +2321,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -2263,6 +2344,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -2285,6 +2367,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -2337,6 +2420,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -2359,6 +2443,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -2381,6 +2466,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -2403,6 +2489,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -2425,6 +2512,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -2480,6 +2568,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -2502,6 +2591,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -2524,6 +2614,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -2546,6 +2637,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -2568,6 +2660,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -2584,7 +2677,7 @@ export declare const quizRouter: {
         quizId: string | null;
         quizTitle: string | null;
         mode: "practice" | "exam" | "review";
-        status: "completed" | "in_progress";
+        status: "in_progress" | "completed";
         score: number | null;
         startTime: Date;
         endTime: Date | null;
@@ -2594,7 +2687,7 @@ export declare const quizRouter: {
         quizId: string | null;
         quizTitle: string | null;
         mode: "practice" | "exam" | "review";
-        status: "completed" | "in_progress";
+        status: "in_progress" | "completed";
         score: number | null;
         startTime: Date;
         endTime: Date | null;
@@ -2620,6 +2713,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -2642,6 +2736,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -2664,6 +2759,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -2686,6 +2782,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -2708,6 +2805,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -2746,6 +2844,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -2768,6 +2867,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -2790,6 +2890,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }>, import("@orpc/server").MergedCurrentContext<{
@@ -2812,6 +2913,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         } | null;
     }, {
@@ -2834,6 +2936,7 @@ export declare const quizRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
+                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -2863,8 +2966,8 @@ export declare const quizRouter: {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                description: string | null;
                 quizId: string | null;
+                description: string | null;
                 questionCount: number;
                 questionsAsPdf: string | null;
                 difficulty: "easy" | "medium" | "hard" | "extreme";
@@ -2876,9 +2979,9 @@ export declare const quizRouter: {
             createdAt: Date;
             updatedAt: Date;
             userId: string | null;
-            status: "completed" | "in_progress";
-            quizId: string | null;
             mode: "practice" | "exam" | "review";
+            quizId: string | null;
+            status: "in_progress" | "completed";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;
@@ -2903,8 +3006,8 @@ export declare const quizRouter: {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                description: string | null;
                 quizId: string | null;
+                description: string | null;
                 questionCount: number;
                 questionsAsPdf: string | null;
                 difficulty: "easy" | "medium" | "hard" | "extreme";
@@ -2916,9 +3019,9 @@ export declare const quizRouter: {
             createdAt: Date;
             updatedAt: Date;
             userId: string | null;
-            status: "completed" | "in_progress";
-            quizId: string | null;
             mode: "practice" | "exam" | "review";
+            quizId: string | null;
+            status: "in_progress" | "completed";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;

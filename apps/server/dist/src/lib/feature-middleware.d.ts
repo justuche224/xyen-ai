@@ -19,6 +19,7 @@ export declare function requireFeature(featureKey: FeatureKey, requestedAmount?:
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -47,6 +48,7 @@ export declare function requireFeature(featureKey: FeatureKey, requestedAmount?:
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     }>;
 }, unknown, any, any, Record<never, never>>;
@@ -70,6 +72,7 @@ export declare const protectedProcedureWithFeature: (featureKey: FeatureKey, amo
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -92,6 +95,7 @@ export declare const protectedProcedureWithFeature: (featureKey: FeatureKey, amo
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -114,6 +118,7 @@ export declare const protectedProcedureWithFeature: (featureKey: FeatureKey, amo
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }>, import("@orpc/server").MergedCurrentContext<{
@@ -136,6 +141,7 @@ export declare const protectedProcedureWithFeature: (featureKey: FeatureKey, amo
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     } | null;
 }, {
@@ -164,6 +170,7 @@ export declare const protectedProcedureWithFeature: (featureKey: FeatureKey, amo
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
+            role: string;
         };
     }>;
 }>, import("@orpc/server").Schema<unknown, unknown>, import("@orpc/server").Schema<unknown, unknown>, Record<never, never>, Record<never, never>>;

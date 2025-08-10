@@ -1,9 +1,9 @@
-import { protectedProcedure } from "../lib/orpc.js";
-import { FeatureLimitService } from "../services/feature-limit.service.js";
-import { db } from "../db/index.js";
-import { jobs } from "../db/schema/jobs.js";
-import { quiz, quizMeta } from "../db/schema/quiz.js";
-import { requireFeature } from "../lib/feature-middleware.js";
+import { protectedProcedure } from "@/lib/orpc";
+import { FeatureLimitService } from "@/services/feature-limit.service";
+import { db } from "@/db";
+import { jobs } from "@/db/schema/jobs";
+import { quiz, quizMeta } from "@/db/schema/quiz";
+import { requireFeature } from "@/lib/feature-middleware";
 import { z } from "zod";
 import { ORPCError } from "@orpc/server";
 export const createQuizHandler = protectedProcedure

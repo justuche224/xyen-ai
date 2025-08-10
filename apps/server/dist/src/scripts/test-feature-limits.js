@@ -1,9 +1,9 @@
 #!/usr/bin/env ts-node
 import "dotenv/config";
-import { FeatureLimitService } from "../services/feature-limit.service.js";
-import { db } from "../db/index.js";
-import { userPlans } from "../db/schema/subscription.js";
-import { user } from "../db/schema/auth.js";
+import { FeatureLimitService } from "../services/feature-limit.service";
+import { db } from "../db";
+import { userPlans } from "../db/schema/subscription";
+import { user } from "../db/schema/auth";
 import { eq } from "drizzle-orm";
 async function testFeatureLimits() {
     console.log("🧪 Testing feature limits system...\n");
