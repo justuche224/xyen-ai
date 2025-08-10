@@ -1,5 +1,4 @@
 # prod
-dist/
 /build
 /out/
 
@@ -49,3 +48,5 @@ lerna-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+*.exe

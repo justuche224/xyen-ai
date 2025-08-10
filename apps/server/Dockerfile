@@ -1,11 +1,12 @@
-FROM node:20-alpine
+FROM oven/bun:1.2-slim AS base
 WORKDIR /app
 
 COPY package.json ./
-RUN npm install
+RUN bun install
 
 COPY . .
 
-RUN npm run build
+# RUN bun run build
+# Prepbuilt local dist
 
-CMD ["npm", "run", "worker"]
+CMD ["bun", "run", "worker"]
