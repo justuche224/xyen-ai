@@ -18,7 +18,6 @@ export declare const o: import("@orpc/server").Builder<{
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -41,7 +40,6 @@ export declare const o: import("@orpc/server").Builder<{
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 }, import("@orpc/server").Schema<unknown, unknown>, import("@orpc/server").Schema<unknown, unknown>, Record<never, never>, Record<never, never>>;
@@ -65,7 +63,6 @@ export declare const publicProcedure: import("@orpc/server").Builder<{
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -88,7 +85,6 @@ export declare const publicProcedure: import("@orpc/server").Builder<{
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 }, import("@orpc/server").Schema<unknown, unknown>, import("@orpc/server").Schema<unknown, unknown>, Record<never, never>, Record<never, never>>;
@@ -112,7 +108,6 @@ export declare const protectedProcedure: import("@orpc/server").BuilderWithMiddl
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -135,7 +130,6 @@ export declare const protectedProcedure: import("@orpc/server").BuilderWithMiddl
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -158,7 +152,6 @@ export declare const protectedProcedure: import("@orpc/server").BuilderWithMiddl
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 }>, import("@orpc/server").MergedCurrentContext<{
@@ -181,7 +174,6 @@ export declare const protectedProcedure: import("@orpc/server").BuilderWithMiddl
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 }, {
@@ -204,7 +196,6 @@ export declare const protectedProcedure: import("@orpc/server").BuilderWithMiddl
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     };
 }>, import("@orpc/server").Schema<unknown, unknown>, import("@orpc/server").Schema<unknown, unknown>, Record<never, never>, Record<never, never>>;
@@ -228,7 +219,6 @@ export declare const adminProcedure: import("@orpc/server").BuilderWithMiddlewar
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -251,7 +241,6 @@ export declare const adminProcedure: import("@orpc/server").BuilderWithMiddlewar
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -274,7 +263,6 @@ export declare const adminProcedure: import("@orpc/server").BuilderWithMiddlewar
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 }>, {
@@ -297,7 +285,6 @@ export declare const adminProcedure: import("@orpc/server").BuilderWithMiddlewar
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -320,7 +307,6 @@ export declare const adminProcedure: import("@orpc/server").BuilderWithMiddlewar
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 }, {
@@ -343,7 +329,6 @@ export declare const adminProcedure: import("@orpc/server").BuilderWithMiddlewar
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     };
 }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -366,7 +351,6 @@ export declare const adminProcedure: import("@orpc/server").BuilderWithMiddlewar
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 }, {
@@ -389,7 +373,6 @@ export declare const adminProcedure: import("@orpc/server").BuilderWithMiddlewar
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     };
 }>, {
@@ -412,7 +395,6 @@ export declare const adminProcedure: import("@orpc/server").BuilderWithMiddlewar
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     };
 }>, import("@orpc/server").Schema<unknown, unknown>, import("@orpc/server").Schema<unknown, unknown>, Record<never, never>, Record<never, never>>;

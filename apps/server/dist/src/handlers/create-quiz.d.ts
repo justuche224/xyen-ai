@@ -19,7 +19,6 @@ export declare const createQuizHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -42,7 +41,6 @@ export declare const createQuizHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -65,7 +63,6 @@ export declare const createQuizHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 }>, {
@@ -88,7 +85,6 @@ export declare const createQuizHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -111,7 +107,6 @@ export declare const createQuizHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 }, {
@@ -134,7 +129,6 @@ export declare const createQuizHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     };
 }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -157,7 +151,6 @@ export declare const createQuizHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 }, {
@@ -180,7 +173,6 @@ export declare const createQuizHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     };
 }>, {
@@ -209,7 +201,6 @@ export declare const createQuizHandler: import("@orpc/server").DecoratedProcedur
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     }>;
 }>, z.ZodObject<{

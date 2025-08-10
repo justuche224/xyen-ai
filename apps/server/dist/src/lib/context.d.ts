@@ -22,7 +22,6 @@ export declare function createContext({ context }: CreateContextOptions): Promis
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 }>;

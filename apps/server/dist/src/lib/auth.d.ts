@@ -1,4 +1,4 @@
-export declare const auth: {
+export const auth: {
     handler: (request: Request) => Promise<Response>;
     api: import("better-auth").InferAPI<{
         ok: {
@@ -459,7 +459,6 @@ export declare const auth: {
                         createdAt: Date;
                         updatedAt: Date;
                         image?: string | null | undefined | undefined;
-                        role: string;
                     };
                 } | null;
             } : {
@@ -481,7 +480,6 @@ export declare const auth: {
                     createdAt: Date;
                     updatedAt: Date;
                     image?: string | null | undefined | undefined;
-                    role: string;
                 };
             } | null>;
             options: {
@@ -594,10 +592,6 @@ export declare const auth: {
                     email: string;
                     password: string;
                     callbackURL?: string;
-                } & {
-                    role: string;
-                } & {
-                    role?: string | null | undefined;
                 };
             } & {
                 method?: "POST" | undefined;
@@ -675,10 +669,6 @@ export declare const auth: {
                             email: string;
                             password: string;
                             callbackURL?: string;
-                        } & {
-                            role: string;
-                        } & {
-                            role?: string | null | undefined;
                         };
                     };
                     openapi: {
@@ -1665,71 +1655,7 @@ export declare const auth: {
         };
         updateUser: {
             <AsResponse extends boolean = false, ReturnHeaders extends boolean = false>(inputCtx_0: {
-                body: Partial<import("better-auth").AdditionalUserFieldsInput<{
-                    database: (options: import("better-auth").BetterAuthOptions) => import("better-auth").Adapter;
-                    socialProviders: {
-                        google: {
-                            clientId: string;
-                            clientSecret: string;
-                        };
-                    };
-                    rateLimit: {
-                        enabled: true;
-                        customRules: {
-                            "/forgot-password": {
-                                window: number;
-                                max: number;
-                            };
-                            "/reset-password": {
-                                window: number;
-                                max: number;
-                            };
-                            "/sign-in": {
-                                window: number;
-                                max: number;
-                            };
-                            "/sign-up": {
-                                window: number;
-                                max: number;
-                            };
-                        };
-                    };
-                    advanced: {
-                        defaultCookieAttributes: {
-                            secure: true;
-                            httpOnly: true;
-                            sameSite: "none";
-                        };
-                    };
-                    trustedOrigins: string[];
-                    emailAndPassword: {
-                        enabled: true;
-                        requireEmailVerification: true;
-                        sendResetPassword: ({ user, url, token }: {
-                            user: import("better-auth").User;
-                            url: string;
-                            token: string;
-                        }, request: Request | undefined) => Promise<void>;
-                    };
-                    emailVerification: {
-                        sendOnSignUp: true;
-                        autoSignInAfterVerification: true;
-                        sendVerificationEmail: ({ user, url, token }: {
-                            user: import("better-auth").User;
-                            url: string;
-                            token: string;
-                        }, request: Request | undefined) => Promise<void>;
-                    };
-                    user: {
-                        additionalFields: {
-                            role: {
-                                type: "string";
-                                default: string;
-                                enum: string[];
-                            };
-                        };
-                    };
-                }>> & {
+                body: Partial<{}> & {
                     name?: string;
                     image?: string;
                 };
@@ -1787,71 +1713,7 @@ export declare const auth: {
                 }>)[];
                 metadata: {
                     $Infer: {
-                        body: Partial<import("better-auth").AdditionalUserFieldsInput<{
-                            database: (options: import("better-auth").BetterAuthOptions) => import("better-auth").Adapter;
-                            socialProviders: {
-                                google: {
-                                    clientId: string;
-                                    clientSecret: string;
-                                };
-                            };
-                            rateLimit: {
-                                enabled: true;
-                                customRules: {
-                                    "/forgot-password": {
-                                        window: number;
-                                        max: number;
-                                    };
-                                    "/reset-password": {
-                                        window: number;
-                                        max: number;
-                                    };
-                                    "/sign-in": {
-                                        window: number;
-                                        max: number;
-                                    };
-                                    "/sign-up": {
-                                        window: number;
-                                        max: number;
-                                    };
-                                };
-                            };
-                            advanced: {
-                                defaultCookieAttributes: {
-                                    secure: true;
-                                    httpOnly: true;
-                                    sameSite: "none";
-                                };
-                            };
-                            trustedOrigins: string[];
-                            emailAndPassword: {
-                                enabled: true;
-                                requireEmailVerification: true;
-                                sendResetPassword: ({ user, url, token }: {
-                                    user: import("better-auth").User;
-                                    url: string;
-                                    token: string;
-                                }, request: Request | undefined) => Promise<void>;
-                            };
-                            emailVerification: {
-                                sendOnSignUp: true;
-                                autoSignInAfterVerification: true;
-                                sendVerificationEmail: ({ user, url, token }: {
-                                    user: import("better-auth").User;
-                                    url: string;
-                                    token: string;
-                                }, request: Request | undefined) => Promise<void>;
-                            };
-                            user: {
-                                additionalFields: {
-                                    role: {
-                                        type: "string";
-                                        default: string;
-                                        enum: string[];
-                                    };
-                                };
-                            };
-                        }>> & {
+                        body: Partial<{}> & {
                             name?: string;
                             image?: string;
                         };
@@ -3036,71 +2898,7 @@ export declare const auth: {
             path: "/get-access-token";
         };
     }>;
-    options: {
-        database: (options: import("better-auth").BetterAuthOptions) => import("better-auth").Adapter;
-        socialProviders: {
-            google: {
-                clientId: string;
-                clientSecret: string;
-            };
-        };
-        rateLimit: {
-            enabled: true;
-            customRules: {
-                "/forgot-password": {
-                    window: number;
-                    max: number;
-                };
-                "/reset-password": {
-                    window: number;
-                    max: number;
-                };
-                "/sign-in": {
-                    window: number;
-                    max: number;
-                };
-                "/sign-up": {
-                    window: number;
-                    max: number;
-                };
-            };
-        };
-        advanced: {
-            defaultCookieAttributes: {
-                secure: true;
-                httpOnly: true;
-                sameSite: "none";
-            };
-        };
-        trustedOrigins: string[];
-        emailAndPassword: {
-            enabled: true;
-            requireEmailVerification: true;
-            sendResetPassword: ({ user, url, token }: {
-                user: import("better-auth").User;
-                url: string;
-                token: string;
-            }, request: Request | undefined) => Promise<void>;
-        };
-        emailVerification: {
-            sendOnSignUp: true;
-            autoSignInAfterVerification: true;
-            sendVerificationEmail: ({ user, url, token }: {
-                user: import("better-auth").User;
-                url: string;
-                token: string;
-            }, request: Request | undefined) => Promise<void>;
-        };
-        user: {
-            additionalFields: {
-                role: {
-                    type: "string";
-                    default: string;
-                    enum: string[];
-                };
-            };
-        };
-    };
+    options: import("better-auth").BetterAuthOptions;
     $context: Promise<import("better-auth").AuthContext>;
     $Infer: {
         Session: {
@@ -3122,7 +2920,6 @@ export declare const auth: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     };

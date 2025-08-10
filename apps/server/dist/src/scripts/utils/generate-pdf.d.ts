@@ -20,7 +20,6 @@ export declare const generateQuizPDFHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -43,7 +42,6 @@ export declare const generateQuizPDFHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 } & Record<never, never>, {
@@ -66,7 +64,6 @@ export declare const generateQuizPDFHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 }>, {
@@ -89,7 +86,6 @@ export declare const generateQuizPDFHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -112,7 +108,6 @@ export declare const generateQuizPDFHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 }, {
@@ -135,7 +130,6 @@ export declare const generateQuizPDFHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     };
 }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -158,7 +152,6 @@ export declare const generateQuizPDFHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     } | null;
 }, {
@@ -181,7 +174,6 @@ export declare const generateQuizPDFHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     };
 }>, {
@@ -210,7 +202,6 @@ export declare const generateQuizPDFHandler: import("@orpc/server").DecoratedPro
             createdAt: Date;
             updatedAt: Date;
             image?: string | null | undefined | undefined;
-            role: string;
         };
     }>;
 }>, z.ZodObject<{

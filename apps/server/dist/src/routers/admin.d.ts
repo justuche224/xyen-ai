@@ -20,7 +20,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -43,7 +42,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -66,7 +64,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }>, {
@@ -89,7 +86,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -112,7 +108,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -135,7 +130,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -158,7 +152,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -181,7 +174,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, {
@@ -204,7 +196,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -247,7 +238,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -270,7 +260,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -293,7 +282,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }>, {
@@ -316,7 +304,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -339,7 +326,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -362,7 +348,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -385,7 +370,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -408,7 +392,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, {
@@ -431,10 +414,10 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, import("@orpc/server").Schema<unknown, unknown>, import("@orpc/server").Schema<{
+        enabled: boolean;
         id: string;
         createdAt: Date;
         updatedAt: Date;
@@ -442,9 +425,9 @@ export declare const adminRouter: {
         featureKey: string;
         limitType: "count" | "daily" | "monthly" | "concurrent";
         limitValue: number;
-        resetPeriod: "daily" | "monthly" | "never" | null;
-        enabled: boolean;
+        resetPeriod: "never" | "daily" | "monthly" | null;
     }[], {
+        enabled: boolean;
         id: string;
         createdAt: Date;
         updatedAt: Date;
@@ -452,8 +435,7 @@ export declare const adminRouter: {
         featureKey: string;
         limitType: "count" | "daily" | "monthly" | "concurrent";
         limitValue: number;
-        resetPeriod: "daily" | "monthly" | "never" | null;
-        enabled: boolean;
+        resetPeriod: "never" | "daily" | "monthly" | null;
     }[]>, Record<never, never>, Record<never, never>>;
     upgradeUserPlan: import("@orpc/server").DecoratedProcedure<import("@orpc/server").MergedInitialContext<import("@orpc/server").MergedInitialContext<{
         session: {
@@ -475,7 +457,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -498,7 +479,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -521,7 +501,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }>, {
@@ -544,7 +523,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -567,7 +545,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -590,7 +567,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -613,7 +589,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -636,7 +611,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, {
@@ -659,7 +633,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -696,7 +669,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -719,7 +691,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -742,7 +713,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }>, {
@@ -765,7 +735,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -788,7 +757,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -811,7 +779,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -834,7 +801,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -857,7 +823,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, {
@@ -880,7 +845,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -895,18 +859,18 @@ export declare const adminRouter: {
     }, "strip", z.ZodTypeAny, {
         limit: number;
         page: number;
-        sortBy: "name" | "email" | "createdAt" | "updatedAt";
+        sortBy: "email" | "createdAt" | "updatedAt" | "name";
         sortOrder: "asc" | "desc";
-        search?: string | undefined;
-        emailVerified?: boolean | undefined;
         role?: "user" | "admin" | "tester" | undefined;
+        emailVerified?: boolean | undefined;
+        search?: string | undefined;
     }, {
-        search?: string | undefined;
-        emailVerified?: boolean | undefined;
         role?: "user" | "admin" | "tester" | undefined;
+        emailVerified?: boolean | undefined;
+        search?: string | undefined;
         limit?: number | undefined;
         page?: number | undefined;
-        sortBy?: "name" | "email" | "createdAt" | "updatedAt" | undefined;
+        sortBy?: "email" | "createdAt" | "updatedAt" | "name" | undefined;
         sortOrder?: "asc" | "desc" | undefined;
     }>, import("@orpc/server").Schema<{
         users: {
@@ -993,7 +957,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1016,7 +979,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1039,7 +1001,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }>, {
@@ -1062,7 +1023,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -1085,7 +1045,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -1108,7 +1067,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -1131,7 +1089,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -1154,7 +1111,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, {
@@ -1177,7 +1133,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -1251,7 +1206,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1274,7 +1228,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1297,7 +1250,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }>, {
@@ -1320,7 +1272,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -1343,7 +1294,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -1366,7 +1316,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -1389,7 +1338,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -1412,7 +1360,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, {
@@ -1435,7 +1382,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -1447,18 +1393,18 @@ export declare const adminRouter: {
         image: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     }, "strip", z.ZodTypeAny, {
         id: string;
-        name?: string | undefined;
+        role?: "user" | "admin" | "tester" | undefined;
         email?: string | undefined;
+        name?: string | undefined;
         emailVerified?: boolean | undefined;
         image?: string | null | undefined;
-        role?: "user" | "admin" | "tester" | undefined;
     }, {
         id: string;
-        name?: string | undefined;
+        role?: "user" | "admin" | "tester" | undefined;
         email?: string | undefined;
+        name?: string | undefined;
         emailVerified?: boolean | undefined;
         image?: string | null | undefined;
-        role?: "user" | "admin" | "tester" | undefined;
     }>, import("@orpc/server").Schema<{
         id: string;
         name: string;
@@ -1498,7 +1444,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1521,7 +1466,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1544,7 +1488,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }>, {
@@ -1567,7 +1510,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -1590,7 +1532,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -1613,7 +1554,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -1636,7 +1576,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -1659,7 +1598,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, {
@@ -1682,7 +1620,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -1718,7 +1655,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1741,7 +1677,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1764,7 +1699,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }>, {
@@ -1787,7 +1721,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -1810,7 +1743,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -1833,7 +1765,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -1856,7 +1787,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -1879,7 +1809,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, {
@@ -1902,7 +1831,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, import("@orpc/server").Schema<unknown, unknown>, import("@orpc/server").Schema<{
@@ -1940,7 +1868,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1963,7 +1890,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -1986,7 +1912,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }>, {
@@ -2009,7 +1934,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -2032,7 +1956,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -2055,7 +1978,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -2078,7 +2000,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -2101,7 +2022,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, {
@@ -2124,18 +2044,17 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, z.ZodObject<{
         id: z.ZodString;
         role: z.ZodEnum<["user", "admin", "tester"]>;
     }, "strip", z.ZodTypeAny, {
-        id: string;
         role: "user" | "admin" | "tester";
+        id: string;
     }, {
-        id: string;
         role: "user" | "admin" | "tester";
+        id: string;
     }>, import("@orpc/server").Schema<{
         id: string;
         name: string;
@@ -2175,7 +2094,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -2198,7 +2116,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, {
@@ -2221,7 +2138,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }>, {
@@ -2244,7 +2160,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     } & Record<never, never>, import("@orpc/server").MergedCurrentContext<{
@@ -2267,7 +2182,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -2290,7 +2204,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>>, import("@orpc/server").MergedCurrentContext<import("@orpc/server").MergedCurrentContext<{
@@ -2313,7 +2226,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         } | null;
     }, {
@@ -2336,7 +2248,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, {
@@ -2359,7 +2270,6 @@ export declare const adminRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 image?: string | null | undefined | undefined;
-                role: string;
             };
         };
     }>, z.ZodObject<{
@@ -2368,23 +2278,23 @@ export declare const adminRouter: {
             role: z.ZodOptional<z.ZodEnum<["user", "admin", "tester"]>>;
             emailVerified: z.ZodOptional<z.ZodBoolean>;
         }, "strip", z.ZodTypeAny, {
-            emailVerified?: boolean | undefined;
             role?: "user" | "admin" | "tester" | undefined;
+            emailVerified?: boolean | undefined;
         }, {
-            emailVerified?: boolean | undefined;
             role?: "user" | "admin" | "tester" | undefined;
+            emailVerified?: boolean | undefined;
         }>;
     }, "strip", z.ZodTypeAny, {
         userIds: string[];
         updates: {
-            emailVerified?: boolean | undefined;
             role?: "user" | "admin" | "tester" | undefined;
+            emailVerified?: boolean | undefined;
         };
     }, {
         userIds: string[];
         updates: {
-            emailVerified?: boolean | undefined;
             role?: "user" | "admin" | "tester" | undefined;
+            emailVerified?: boolean | undefined;
         };
     }>, import("@orpc/server").Schema<{
         updatedCount: number;
