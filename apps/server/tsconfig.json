@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-	"noCheck": true,
+    "noCheck": true,
+    "noEmitOnError": false,
     "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,
     "strict": true,
