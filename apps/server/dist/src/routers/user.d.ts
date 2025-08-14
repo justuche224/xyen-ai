@@ -554,11 +554,11 @@ export declare const userRouter: {
         requestedAmount: z.ZodDefault<z.ZodNumber>;
     }, "strip", z.ZodTypeAny, {
         userId: string;
-        featureKey: "quiz_attempts" | "concurrent_jobs" | "daily_generations" | "pdf_exports" | "max_questions";
+        featureKey: "concurrent_jobs" | "daily_generations" | "pdf_exports" | "max_questions" | "quiz_attempts";
         requestedAmount: number;
     }, {
         userId: string;
-        featureKey: "quiz_attempts" | "concurrent_jobs" | "daily_generations" | "pdf_exports" | "max_questions";
+        featureKey: "concurrent_jobs" | "daily_generations" | "pdf_exports" | "max_questions" | "quiz_attempts";
         requestedAmount?: number | undefined;
     }>, import("@orpc/server").Schema<{
         allowed: boolean;

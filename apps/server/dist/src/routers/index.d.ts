@@ -544,15 +544,15 @@ export declare const appRouter: {
             contentBase64: import("zod").ZodString;
             uploadType: import("zod").ZodEnum<["quiz", "note"]>;
         }, "strip", import("zod").ZodTypeAny, {
-            size: number;
             fileName: string;
             mimeType: "application/pdf";
+            size: number;
             contentBase64: string;
             uploadType: "quiz" | "note";
         }, {
-            size: number;
             fileName: string;
             mimeType: "application/pdf";
+            size: number;
             contentBase64: string;
             uploadType: "quiz" | "note";
         }>, import("@orpc/server").Schema<{
@@ -1764,12 +1764,12 @@ export declare const appRouter: {
             mode: import("zod").ZodEnum<["practice", "exam", "review"]>;
         }, "strip", import("zod").ZodTypeAny, {
             userId: string;
-            mode: "practice" | "exam" | "review";
             quizId: string;
+            mode: "practice" | "exam" | "review";
         }, {
             userId: string;
-            mode: "practice" | "exam" | "review";
             quizId: string;
+            mode: "practice" | "exam" | "review";
         }>, import("@orpc/server").Schema<{
             attemptId: `${string}-${string}-${string}-${string}-${string}`;
         }, {
@@ -1905,8 +1905,8 @@ export declare const appRouter: {
             updatedAt: Date;
             userId: string | null;
             status: "completed" | "in_progress";
-            mode: "practice" | "exam" | "review";
             quizId: string | null;
+            mode: "practice" | "exam" | "review";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;
@@ -1917,8 +1917,8 @@ export declare const appRouter: {
             updatedAt: Date;
             userId: string | null;
             status: "completed" | "in_progress";
-            mode: "practice" | "exam" | "review";
             quizId: string | null;
+            mode: "practice" | "exam" | "review";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;
@@ -2327,13 +2327,13 @@ export declare const appRouter: {
             limit: number;
             offset: number;
             status?: "completed" | "in_progress" | undefined;
-            mode?: "practice" | "exam" | "review" | undefined;
             quizId?: string | undefined;
+            mode?: "practice" | "exam" | "review" | undefined;
         }, {
             userId: string;
             status?: "completed" | "in_progress" | undefined;
-            mode?: "practice" | "exam" | "review" | undefined;
             quizId?: string | undefined;
+            mode?: "practice" | "exam" | "review" | undefined;
             limit?: number | undefined;
             offset?: number | undefined;
         }>, import("@orpc/server").Schema<{
@@ -2492,8 +2492,8 @@ export declare const appRouter: {
                 updatedAt: Date;
                 userId: string | null;
                 status: "completed" | "in_progress";
-                mode: "practice" | "exam" | "review";
                 quizId: string | null;
+                mode: "practice" | "exam" | "review";
                 startTime: Date;
                 endTime: Date | null;
                 answers: unknown;
@@ -2523,8 +2523,8 @@ export declare const appRouter: {
                 updatedAt: Date;
                 userId: string | null;
                 status: "completed" | "in_progress";
-                mode: "practice" | "exam" | "review";
                 quizId: string | null;
+                mode: "practice" | "exam" | "review";
                 startTime: Date;
                 endTime: Date | null;
                 answers: unknown;
@@ -3402,8 +3402,8 @@ export declare const appRouter: {
                 updatedAt: Date;
                 userId: string | null;
                 status: "completed" | "in_progress";
-                mode: "practice" | "exam" | "review";
                 quizId: string | null;
+                mode: "practice" | "exam" | "review";
                 startTime: Date;
                 endTime: Date | null;
                 answers: unknown;
@@ -3442,8 +3442,8 @@ export declare const appRouter: {
                 updatedAt: Date;
                 userId: string | null;
                 status: "completed" | "in_progress";
-                mode: "practice" | "exam" | "review";
                 quizId: string | null;
+                mode: "practice" | "exam" | "review";
                 startTime: Date;
                 endTime: Date | null;
                 answers: unknown;
@@ -4284,11 +4284,11 @@ export declare const appRouter: {
             requestedAmount: import("zod").ZodDefault<import("zod").ZodNumber>;
         }, "strip", import("zod").ZodTypeAny, {
             userId: string;
-            featureKey: "quiz_attempts" | "concurrent_jobs" | "daily_generations" | "pdf_exports" | "max_questions";
+            featureKey: "concurrent_jobs" | "daily_generations" | "pdf_exports" | "max_questions" | "quiz_attempts";
             requestedAmount: number;
         }, {
             userId: string;
-            featureKey: "quiz_attempts" | "concurrent_jobs" | "daily_generations" | "pdf_exports" | "max_questions";
+            featureKey: "concurrent_jobs" | "daily_generations" | "pdf_exports" | "max_questions" | "quiz_attempts";
             requestedAmount?: number | undefined;
         }>, import("@orpc/server").Schema<{
             allowed: boolean;
@@ -5614,9 +5614,9 @@ export declare const appRouter: {
             limit: import("zod").ZodDefault<import("zod").ZodNumber>;
         }, "strip", import("zod").ZodTypeAny, {
             limit: number;
-            page: number;
             sortBy: "email" | "createdAt" | "updatedAt" | "name";
             sortOrder: "asc" | "desc";
+            page: number;
             role?: "user" | "admin" | "tester" | undefined;
             emailVerified?: boolean | undefined;
             search?: string | undefined;
@@ -5625,9 +5625,9 @@ export declare const appRouter: {
             emailVerified?: boolean | undefined;
             search?: string | undefined;
             limit?: number | undefined;
-            page?: number | undefined;
             sortBy?: "email" | "createdAt" | "updatedAt" | "name" | undefined;
             sortOrder?: "asc" | "desc" | undefined;
+            page?: number | undefined;
         }>, import("@orpc/server").Schema<{
             users: {
                 currentPlan: {

@@ -122,15 +122,15 @@ export declare const quizRouter: {
         contentBase64: z.ZodString;
         uploadType: z.ZodEnum<["quiz", "note"]>;
     }, "strip", z.ZodTypeAny, {
-        size: number;
         fileName: string;
         mimeType: "application/pdf";
+        size: number;
         contentBase64: string;
         uploadType: "quiz" | "note";
     }, {
-        size: number;
         fileName: string;
         mimeType: "application/pdf";
+        size: number;
         contentBase64: string;
         uploadType: "quiz" | "note";
     }>, import("@orpc/server").Schema<{
@@ -1342,12 +1342,12 @@ export declare const quizRouter: {
         mode: z.ZodEnum<["practice", "exam", "review"]>;
     }, "strip", z.ZodTypeAny, {
         userId: string;
-        mode: "practice" | "exam" | "review";
         quizId: string;
+        mode: "practice" | "exam" | "review";
     }, {
         userId: string;
-        mode: "practice" | "exam" | "review";
         quizId: string;
+        mode: "practice" | "exam" | "review";
     }>, import("@orpc/server").Schema<{
         attemptId: `${string}-${string}-${string}-${string}-${string}`;
     }, {
@@ -1483,8 +1483,8 @@ export declare const quizRouter: {
         updatedAt: Date;
         userId: string | null;
         status: "completed" | "in_progress";
-        mode: "practice" | "exam" | "review";
         quizId: string | null;
+        mode: "practice" | "exam" | "review";
         startTime: Date;
         endTime: Date | null;
         answers: unknown;
@@ -1495,8 +1495,8 @@ export declare const quizRouter: {
         updatedAt: Date;
         userId: string | null;
         status: "completed" | "in_progress";
-        mode: "practice" | "exam" | "review";
         quizId: string | null;
+        mode: "practice" | "exam" | "review";
         startTime: Date;
         endTime: Date | null;
         answers: unknown;
@@ -1905,13 +1905,13 @@ export declare const quizRouter: {
         limit: number;
         offset: number;
         status?: "completed" | "in_progress" | undefined;
-        mode?: "practice" | "exam" | "review" | undefined;
         quizId?: string | undefined;
+        mode?: "practice" | "exam" | "review" | undefined;
     }, {
         userId: string;
         status?: "completed" | "in_progress" | undefined;
-        mode?: "practice" | "exam" | "review" | undefined;
         quizId?: string | undefined;
+        mode?: "practice" | "exam" | "review" | undefined;
         limit?: number | undefined;
         offset?: number | undefined;
     }>, import("@orpc/server").Schema<{
@@ -2070,8 +2070,8 @@ export declare const quizRouter: {
             updatedAt: Date;
             userId: string | null;
             status: "completed" | "in_progress";
-            mode: "practice" | "exam" | "review";
             quizId: string | null;
+            mode: "practice" | "exam" | "review";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;
@@ -2101,8 +2101,8 @@ export declare const quizRouter: {
             updatedAt: Date;
             userId: string | null;
             status: "completed" | "in_progress";
-            mode: "practice" | "exam" | "review";
             quizId: string | null;
+            mode: "practice" | "exam" | "review";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;
@@ -2980,8 +2980,8 @@ export declare const quizRouter: {
             updatedAt: Date;
             userId: string | null;
             status: "completed" | "in_progress";
-            mode: "practice" | "exam" | "review";
             quizId: string | null;
+            mode: "practice" | "exam" | "review";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;
@@ -3020,8 +3020,8 @@ export declare const quizRouter: {
             updatedAt: Date;
             userId: string | null;
             status: "completed" | "in_progress";
-            mode: "practice" | "exam" | "review";
             quizId: string | null;
+            mode: "practice" | "exam" | "review";
             startTime: Date;
             endTime: Date | null;
             answers: unknown;

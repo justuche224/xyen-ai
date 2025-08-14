@@ -894,9 +894,9 @@ export declare const adminRouter: {
         limit: z.ZodDefault<z.ZodNumber>;
     }, "strip", z.ZodTypeAny, {
         limit: number;
-        page: number;
         sortBy: "email" | "createdAt" | "updatedAt" | "name";
         sortOrder: "asc" | "desc";
+        page: number;
         role?: "user" | "admin" | "tester" | undefined;
         emailVerified?: boolean | undefined;
         search?: string | undefined;
@@ -905,9 +905,9 @@ export declare const adminRouter: {
         emailVerified?: boolean | undefined;
         search?: string | undefined;
         limit?: number | undefined;
-        page?: number | undefined;
         sortBy?: "email" | "createdAt" | "updatedAt" | "name" | undefined;
         sortOrder?: "asc" | "desc" | undefined;
+        page?: number | undefined;
     }>, import("@orpc/server").Schema<{
         users: {
             currentPlan: {

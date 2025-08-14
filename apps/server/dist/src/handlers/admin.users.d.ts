@@ -21,9 +21,9 @@ export declare const userSearchSchema: z.ZodObject<{
     limit: z.ZodDefault<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
     limit: number;
-    page: number;
     sortBy: "email" | "createdAt" | "updatedAt" | "name";
     sortOrder: "asc" | "desc";
+    page: number;
     role?: "user" | "admin" | "tester" | undefined;
     emailVerified?: boolean | undefined;
     search?: string | undefined;
@@ -32,9 +32,9 @@ export declare const userSearchSchema: z.ZodObject<{
     emailVerified?: boolean | undefined;
     search?: string | undefined;
     limit?: number | undefined;
-    page?: number | undefined;
     sortBy?: "email" | "createdAt" | "updatedAt" | "name" | undefined;
     sortOrder?: "asc" | "desc" | undefined;
+    page?: number | undefined;
 }>;
 export type UserSearchSchema = z.infer<typeof userSearchSchema>;
 export declare const userIdSchema: z.ZodObject<{
@@ -284,9 +284,9 @@ export declare const getAllUsersHandler: import("@orpc/server").DecoratedProcedu
     limit: z.ZodDefault<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
     limit: number;
-    page: number;
     sortBy: "email" | "createdAt" | "updatedAt" | "name";
     sortOrder: "asc" | "desc";
+    page: number;
     role?: "user" | "admin" | "tester" | undefined;
     emailVerified?: boolean | undefined;
     search?: string | undefined;
@@ -295,9 +295,9 @@ export declare const getAllUsersHandler: import("@orpc/server").DecoratedProcedu
     emailVerified?: boolean | undefined;
     search?: string | undefined;
     limit?: number | undefined;
-    page?: number | undefined;
     sortBy?: "email" | "createdAt" | "updatedAt" | "name" | undefined;
     sortOrder?: "asc" | "desc" | undefined;
+    page?: number | undefined;
 }>, import("@orpc/server").Schema<{
     users: {
         currentPlan: {

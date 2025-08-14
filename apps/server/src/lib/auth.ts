@@ -45,7 +45,6 @@ export const auth = betterAuth({
       secure: true,
       httpOnly: true,
       sameSite: "none",
-      domain: ".xyen.pro"
     },
   },
   trustedOrigins: ["*.xyen.pro", "https://xyen.pro", "https://www.xyen.pro","https://*.xyen.pro"],
