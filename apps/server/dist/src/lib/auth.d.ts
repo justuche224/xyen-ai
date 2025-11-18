@@ -1699,7 +1699,6 @@ export declare const auth: {
                             secure: true;
                             httpOnly: true;
                             sameSite: "none";
-                            domain: string;
                         };
                     };
                     trustedOrigins: string[];
@@ -1822,7 +1821,6 @@ export declare const auth: {
                                     secure: true;
                                     httpOnly: true;
                                     sameSite: "none";
-                                    domain: string;
                                 };
                             };
                             trustedOrigins: string[];
@@ -3072,7 +3070,6 @@ export declare const auth: {
                 secure: true;
                 httpOnly: true;
                 sameSite: "none";
-                domain: string;
             };
         };
         trustedOrigins: string[];
