@@ -47,7 +47,7 @@ export const auth = betterAuth({
       sameSite: "none",
     },
   },
-  trustedOrigins: ["*.xyen.pro", "https://xyen.pro", "https://www.xyen.pro","https://*.xyen.pro"],
+  trustedOrigins: ["*.xyen.pro", "https://xyen.pro", "https://www.xyen.pro","https://*.xyen.pro", process.env.CORS_ORIGIN || ""],
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
