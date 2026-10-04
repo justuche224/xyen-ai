@@ -17,7 +17,7 @@
 
 1. The web app uploads the PDF to Supabase Storage and creates a quiz record and a `PENDING` job, all through type-safe oRPC calls.
 2. A **background worker** claims jobs from a Postgres-backed queue using `SELECT … FOR UPDATE SKIP LOCKED`. Several workers can run at once without claiming the same job, and no separate queue service is needed.
-3. The worker sends the PDF to **Gemini 2.0 Flash** with a strict JSON schema in the system prompt, validates the response, and saves the questions.
+3. The worker sends the PDF to **Gemini 2.0 Flash** with a strict JSON schema in the system prompt, parses the JSON it returns, and saves the questions.
 4. The app reads the job's status from the jobs API and shows the quiz when it's ready.
 
 ## Stack
